@@ -5,7 +5,7 @@ export const radios = [
   {
     name: 'NRF24L01+',
     image: nrfImage,
-    pros: 'Cheap.',
+    pros: 'So so cheap!',
     cons: 'Possible interference and range issues.'
   },
   {

@@ -7,7 +7,8 @@ export default connect(
     return {
       onRadioChange: radio => dispatch({ type: 'ON_RADIO_CHANGE', radio }),
       onChannelChange: channel => dispatch({ type: 'ON_CHANNEL_CHANGE', channel }),
-      onFrequencyChange: frequency => dispatch({ type: 'ON_FREQUENCY_CHANGE', frequency })
+      onFrequencyChange: frequency => dispatch({ type: 'ON_FREQUENCY_CHANGE', frequency }),
+      createNetwork: network => dispatch({ type: 'CREATE_NETWORK', network })
     }
   }
 )(CreateNetwork);

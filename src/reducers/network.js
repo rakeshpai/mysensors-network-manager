@@ -14,3 +14,10 @@ export const tempNetwork = (state = {
     default: return state;
   }
 }
+
+export const crossSliceReducer = (state, action) => {
+  switch(action.type) {
+    case 'CREATE_NETWORK': return { ...state, network: action.network };
+    default: return state;
+  }
+}

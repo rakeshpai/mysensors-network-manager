@@ -1,6 +1,10 @@
 import { css } from 'glamor';
 
-export const row = css({ display: 'table', width: '100%' });
+export const row = css({
+  display: 'table',
+  width: '100%',
+  padding: '5px 0'
+});
 
 export const leftCell = css({
   display: 'table-cell',
@@ -12,6 +16,7 @@ export const rightCell = css({
   display: 'table-cell',
   width: '20%',
   textAlign: 'right',
+  paddingLeft: 30,
 
   '& input': {
     width: '100%'
@@ -33,19 +38,20 @@ export const blockInput = css({
 });
 
 export const info = css({
-  color: '#999',
+  color: '#666',
   fontSize: 12
 });
 
 export const button = css({
   border: 0,
-  padding: '7px 20px',
-  fontSize: 18,
-  borderRadius: 5
+  padding: '10px 25px',
+  fontSize: 20,
+  borderRadius: 5,
+  cursor: 'pointer'
 });
 
-export const success = css({
-  background: 'rgba(52,117,237,1)',
+export const successButton = css({
+  background: '#0095dd',
   color: '#fff'
 });
 
