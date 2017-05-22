@@ -104,17 +104,17 @@ const styles = {
   })
 }
 
-export default ({ radio, network, onRadioChange }) => {
+export default ({ radio, isSelected, onRadioChange }) => {
   const id = generateId();
 
   return <div className={styles.radioItem}>
     <input type='radio' name='radio'
       value={radio.name} onChange={evt => onRadioChange(evt.target.value)}
-      checked={network.radio === radio.name}
+      checked={isSelected}
       className={styles.fauxRadio} id={id} />
 
     <label htmlFor={id} className={styles.fauxLabel}>
-      {network.radio === radio.name && <span className={styles.check}>
+      {isSelected && <span className={styles.check}>
         <Check />
       </span>}
 

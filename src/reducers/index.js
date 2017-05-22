@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import { network, tempNetwork, crossSliceReducer } from './network';
 
 const combined = combineReducers({
+  router: routerReducer,
+  
   network,
   tempNetwork,
 });

@@ -56,7 +56,7 @@ export const successButton = css({
 });
 
 export const footer = css({
-  padding: '20px 0',
-  margin: '20px 0',
+  padding: '20px 0 30px',
+  margin: '20px 0 30px',
   borderTop: '1px solid #ddd'
-})
+});

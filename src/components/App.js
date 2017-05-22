@@ -7,6 +7,8 @@ import { headingFontFamily } from '../styles/typography';
 import CreateNetwork from '../containers/CreateNetwork';
 import Network from './Network';
 
+import { Route } from 'react-router'
+
 const styles = {
   header: css({
     background: '#eaeff2',
@@ -28,5 +30,6 @@ export default ({ network }) => <div>
     <h1 className={styles.h1}>MySensors Network</h1>
   </header>
 
-  {network ? <Network network={network} /> : <CreateNetwork />}
+  <Route exact path='/' component={CreateNetwork} />
+  <Route path='/network' component={Network} />
 </div>;

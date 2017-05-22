@@ -6,12 +6,16 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import reducer from './reducers';
 
+import createHistory from 'history/createBrowserHistory';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
+
 import { css } from 'glamor';
 import { fontFamily } from './styles/typography';
 import 'glamor-reset';
 css.global('*', { boxSizing: 'border-box', fontFamily });
 
-const middleware = [];
+const history = createHistory();
+const middleware = [routerMiddleware(history)];
 
 if(process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').createLogger({diff: true}));
@@ -27,7 +31,9 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <App network={store.getState().network} />
+    <ConnectedRouter history={history}>
+      <App network={store.getState().network} />
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

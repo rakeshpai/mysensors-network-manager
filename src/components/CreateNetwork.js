@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 
 import { css } from 'glamor';
-import { pageHeading, heading, headingFontFamily } from '../styles/typography';
+import { pageHeading, heading, pageSubheading } from '../styles/typography';
 import { row, leftCell, rightCell, blockInput, info, successButton, button, footer } from '../styles/forms';
 
 import Radio from './Radio';
@@ -17,11 +17,6 @@ const styles = {
     margin: '0 auto',
     padding: '0 10px'
   }),
-  sectionDescription: css({
-    color: '#888',
-    fontSize: 16,
-    fontFamily: headingFontFamily
-  }),
   radioContainer: css({
     display: 'table',
     width: '100%',
@@ -33,72 +28,99 @@ const styles = {
   })
 }
 
-const frequencyId = generateId();
-
-export default (props) => {
+const FrequencyPicker = props => {
   const {
-    tempNetwork, onRadioChange, onChannelChange,
-    onFrequencyChange, createNetwork
-  } = props;
+    radio, nrfFrequency, rfmFrequency, id,
+    onNrfFreqChange, onRfmFreqChange } = props;
 
-  return <div className={styles.container}>
-    <h2 className={pageHeading}>Namaskar</h2>
-    <p className={styles.sectionDescription}>
-      Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank'>MySensors</a> network.
-    </p>
+  const onFrequencyChange = e => {
+    if(radio === 'NRF24L01+') onNrfFreqChange(e.target.value);
+    else onRfmFreqChange(e.target.value);
+  }
 
-    <h2 className={heading}>Create a network</h2>
-    <form onSubmit={e => { e.preventDefault(); createNetwork(tempNetwork); } }>
-      Which radio do you want to use for the network?
+  return (
+    <select className={blockInput} id={id}
+      value={radio==='NRF24L01+' ? nrfFrequency : rfmFrequency}
+      onChange={onFrequencyChange}>
+      {radios.find(r => r.name === radio).frequencies.map(f => (
+        <option value={f} key={f}>
+          {f} Mhz
+        </option>
+      ))}
+    </select>
+  )
+}
 
-      <div className={styles.radioContainer}>
-        {
-          radios.map(radio => <Radio radio={radio}
-            key={radio.name}
-            network={tempNetwork}
-            onRadioChange={onRadioChange} />
-          )
-        }
-      </div>
+export default class extends Component {
+  constructor(props) {
+    super(props);
 
-      <div className={row}>
-        <label className={leftCell} htmlFor={frequencyId}>
-          Which frequency do you want to use?
-        </label>
-        <div className={rightCell}>
-          {
-            tempNetwork.radio === 'NRF24L01+' &&
-            <select className={blockInput} id={frequencyId}
-              value={tempNetwork.channel}
-              onChange={e => onChannelChange(e.target.value)}>
-              {Array(126).fill(0).map((_, channel) => <option value={channel + 1} key={channel}>
-                {2400 + channel} Mhz
-              </option>)}
-            </select>
-          }
+    this.state = {
+      radio: 'NRF24L01+',
+      nrfFrequency: radios.find(r => r.name === 'NRF24L01+').defaultFrequency,
+      rfmFrequency: radios.find(r => r.name === 'RFM69').defaultFrequency
+    };
 
-          {
-            tempNetwork.radio === 'RFM69' &&
-            <select className={blockInput} id={frequencyId}
-              value={tempNetwork.frequency}
-              onChange={evt => onFrequencyChange(evt.target.value)}>
-              {[433,868,915].map(f => <option value={f} key={f}>
-                {f} MHz
-              </option>)}
-            </select>
-          }
-        </div>
-      </div>
+    this.frequencyId = generateId();
+  }
 
-      <p className={info}>
-        Not all frequencies are available for use in all regions. Please be sure
-        to check your local regulations before choosing a frequency.
+  onRadioChange(radio) { this.setState({ radio }); }
+  onNrfFreqChange(nrfFrequency) { this.setState({ nrfFrequency }) };
+  onRfmFreqChange(rfmFrequency) { this.setState({ rfmFrequency }) };
+
+  onSubmit(e) {
+    const { radio, nrfFrequency, rfmFrequency } = this.state;
+
+    e.preventDefault();
+
+    this.props.createNetwork({
+      radio,
+      frequency: radio === 'NRF24L01+' ? nrfFrequency : rfmFrequency
+    })
+  }
+
+  render() {
+    return <div className={styles.container}>
+      <h2 className={pageHeading}>Namaskar</h2>
+      <p className={pageSubheading}>
+        Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank'>MySensors</a> network.
       </p>
 
-      <div className={footer}>
-        <input type='submit' value='Create a network'
-          className={css(button, successButton)} />
-      </div>
-    </form>
-  </div>
+      <h2 className={heading}>Create a network</h2>
+      <form onSubmit={this.onSubmit.bind(this)}>
+        Which radio do you want to use for the network?
+
+        <div className={styles.radioContainer}>
+          {radios.map(radio => <Radio radio={radio}
+            key={radio.name}
+            isSelected={this.state.radio === radio.name}
+            onRadioChange={this.onRadioChange.bind(this)} />
+          )}
+        </div>
+
+        <div className={row}>
+          <label className={leftCell} htmlFor={this.frequencyId}>
+            Which frequency do you want to use?
+          </label>
+          <div className={rightCell}>
+            <FrequencyPicker
+              id={this.frequencyId}
+              {...this.state}
+              onNrfFreqChange={this.onNrfFreqChange.bind(this)}
+              onRfmFreqChange={this.onRfmFreqChange.bind(this)} />
+          </div>
+        </div>
+
+        <p className={info}>
+          Not all frequencies are available for use in all regions. Please be sure
+          to check your local regulations before choosing a frequency.
+        </p>
+
+        <div className={footer}>
+          <input type='submit' value='Create a network'
+            className={css(button, successButton)} />
+        </div>
+      </form>
+    </div>
+  }
 }

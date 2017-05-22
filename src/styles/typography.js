@@ -11,6 +11,12 @@ export const pageHeading = css({
   color: '#888'
 });
 
+export const pageSubheading = css({
+  color: '#888',
+  fontSize: 16,
+  fontFamily: headingFontFamily
+});
+
 export const heading = css({
   fontFamily: headingFontFamily,
   fontWeight: 300,
