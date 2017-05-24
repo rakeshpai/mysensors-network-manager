@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import { network, tempNetwork, crossSliceReducer } from './network';
+import { routerReducer as router } from 'react-router-redux';
+import networks from './networks';
 
-const combined = combineReducers({
-  router: routerReducer,
-  
-  network,
-  tempNetwork,
+export default combineReducers({
+  router,
+  networks
 });
 
+//export default (state, action) => combined(state, action);
+
+/*
 export default (state, action) => {
   const intermediate = combined(state, action);
   return crossSliceReducer(intermediate, action);
 };
+*/

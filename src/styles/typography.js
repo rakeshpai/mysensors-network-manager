@@ -24,3 +24,7 @@ export const heading = css({
   color: '#888',
   margin: '25px 0'
 });
+
+export const unimportant = css({
+  fontSize: 12
+})

@@ -3,30 +3,23 @@ import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 
 import { css } from 'glamor';
+import { fullPageContainer } from '../styles/layout';
 import { pageHeading, heading, pageSubheading } from '../styles/typography';
 import { row, leftCell, rightCell, blockInput, info, successButton, button, footer } from '../styles/forms';
 
-import Radio from './Radio';
+import { formatNumber } from '../lib/utils';
+import RadioPicker from './RadioPicker';
 
-const radioBreakpoint = '@media(max-width: 500px)';
+const Greeting = props => {
+  if(props.router.location.pathname !== '/') return null;
 
-const styles = {
-  container: css({
-    width: '100%',
-    maxWidth: 500,
-    margin: '0 auto',
-    padding: '0 10px'
-  }),
-  radioContainer: css({
-    display: 'table',
-    width: '100%',
-    verticalAlign: 'top',
-
-    [radioBreakpoint]: {
-      margin: '10px 0'
-    }
-  })
-}
+  return <div>
+    <h2 className={pageHeading}>Namaskar</h2>
+    <p className={pageSubheading}>
+      Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank'>MySensors</a> network.
+    </p>
+  </div>
+};
 
 const FrequencyPicker = props => {
   const {
@@ -34,8 +27,9 @@ const FrequencyPicker = props => {
     onNrfFreqChange, onRfmFreqChange } = props;
 
   const onFrequencyChange = e => {
-    if(radio === 'NRF24L01+') onNrfFreqChange(e.target.value);
-    else onRfmFreqChange(e.target.value);
+    (
+      (radio === 'NRF24L01+') ? onNrfFreqChange : onRfmFreqChange
+    )(e.target.value);
   }
 
   return (
@@ -44,7 +38,7 @@ const FrequencyPicker = props => {
       onChange={onFrequencyChange}>
       {radios.find(r => r.name === radio).frequencies.map(f => (
         <option value={f} key={f}>
-          {f} Mhz
+          {formatNumber(f)} Mhz
         </option>
       ))}
     </select>
@@ -80,23 +74,15 @@ export default class extends Component {
   }
 
   render() {
-    return <div className={styles.container}>
-      <h2 className={pageHeading}>Namaskar</h2>
-      <p className={pageSubheading}>
-        Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank'>MySensors</a> network.
-      </p>
+    return <div className={fullPageContainer}>
+      <Greeting {...this.props} />
 
       <h2 className={heading}>Create a network</h2>
       <form onSubmit={this.onSubmit.bind(this)}>
         Which radio do you want to use for the network?
 
-        <div className={styles.radioContainer}>
-          {radios.map(radio => <Radio radio={radio}
-            key={radio.name}
-            isSelected={this.state.radio === radio.name}
-            onRadioChange={this.onRadioChange.bind(this)} />
-          )}
-        </div>
+        <RadioPicker selectedRadio={this.state.radio}
+          onRadioChange={this.onRadioChange.bind(this)} />
 
         <div className={row}>
           <label className={leftCell} htmlFor={this.frequencyId}>

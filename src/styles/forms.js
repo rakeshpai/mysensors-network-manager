@@ -1,5 +1,7 @@
 import { css } from 'glamor';
 
+export const outlineStyle = { boxShadow: '0px 0px 10px rgba(52,117,237,1)' }
+
 export const row = css({
   display: 'table',
   width: '100%',
@@ -32,9 +34,7 @@ export const blockInput = css({
   background: '#fff',
   borderRadius: 5,
 
-  '&:focus': {
-    boxShadow: '0px 0px 10px rgba(52,117,237,1)'
-  }
+  '&:focus': { ...outlineStyle }
 });
 
 export const info = css({

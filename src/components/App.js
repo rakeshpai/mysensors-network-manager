@@ -5,9 +5,10 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 
 import CreateNetwork from '../containers/CreateNetwork';
+import Networks from '../containers/Networks';
 import Network from './Network';
 
-import { Route } from 'react-router'
+import { Route, Switch } from 'react-router-dom';
 
 const styles = {
   header: css({
@@ -25,11 +26,22 @@ const styles = {
   })
 };
 
+const NavPage = props => <div className={'nav'}>
+  NavPage
+  {props.children}
+</div>;
+
 export default ({ network }) => <div>
   <header className={styles.header}>
     <h1 className={styles.h1}>MySensors Network</h1>
   </header>
 
-  <Route exact path='/' component={CreateNetwork} />
-  <Route path='/network' component={Network} />
+  <Switch>
+    <Route exact path='/' component={CreateNetwork} />
+    <Route exact path='/networks' component={Networks} />
+    <Route exact path='/networks/create' component={CreateNetwork} />
+    <NavPage>
+      <Route path='/networks/:networkId' component={Network} />
+    </NavPage>
+  </Switch>
 </div>;

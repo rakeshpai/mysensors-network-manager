@@ -1,35 +1,43 @@
 import React from 'react';
+import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 import { css } from 'glamor';
+import { outlineStyle } from '../styles/forms';
 import Check from './Check';
 
-const radioBreakpoint = '@media(max-width: 500px)';
+const breakpoint = '@media(max-width: 500px)';
 
 const styles = {
-  radioItem: css({
+  container: css({
+    display: 'table',
+    width: '100%',
+    verticalAlign: 'top',
+
+    [breakpoint]: {
+      margin: '10px 0'
+    }
+  }),
+  radioContainer: css({
     display: 'table-cell',
     width: '50%',
 
-    [radioBreakpoint]: {
+    [breakpoint]: {
       display: 'block',
       width: '100%'
     }
   }),
-  fauxRadio: css({
+  hiddenRadio: css({
     marginLeft: '-2em',
     opacity: 0,
     position: 'absolute',
 
     '&:checked + label': {
-      borderColor: 'green',
-      boxShadow: '0px 0px 5px rgba(52,117,237,1)'
+      borderColor: 'green'
     },
 
-    '&:focus + label': {
-      boxShadow: '0px 0px 10px rgba(52,117,237,1)'
-    },
+    '&:focus + label': { ...outlineStyle },
   }),
-  fauxLabel: css({
+  label: css({
     display: 'block',
     position: 'relative',
     height: '100%',
@@ -47,29 +55,12 @@ const styles = {
       borderColor: '#666'
     },
 
-    [radioBreakpoint]: {
+    [breakpoint]: {
       margin: '10px'
     }
   }),
-  radioName: css({
-    marginBottom: 30,
-
-    [radioBreakpoint]: {
-      textAlign: 'left',
-      marginBottom: 5
-    }
-  }),
-  radioInfo: css({
-    textAlign: 'left',
-    fontSize: 12,
-
-    '& p': {
-      margin: 0,
-      color: '#888'
-    },
-  }),
-  radioImage: css({
-    [radioBreakpoint]: {
+  image: css({
+    [breakpoint]: {
       display: 'table-cell',
       verticalAlign: 'middle',
       width: '30%',
@@ -80,8 +71,20 @@ const styles = {
       }
     }
   }),
-  radioDescription: css({
-    [radioBreakpoint]: {
+  radioName: css({
+    marginBottom: 30,
+
+    [breakpoint]: {
+      textAlign: 'left',
+      marginBottom: 5
+    }
+  }),
+  radioInfo: css({
+    textAlign: 'left',
+    fontSize: 12
+  }),
+  description: css({
+    [breakpoint]: {
       display: 'table-cell',
       verticalAlign: 'middle'
     }
@@ -91,7 +94,7 @@ const styles = {
     top: -10,
     left: -10,
 
-    [radioBreakpoint]: {
+    [breakpoint]: {
       top: '50%',
       marginTop: -20
     }
@@ -104,27 +107,27 @@ const styles = {
   })
 }
 
-export default ({ radio, isSelected, onRadioChange }) => {
+const Radio = ({ radio, isSelected, onRadioChange }) => {
   const id = generateId();
 
-  return <div className={styles.radioItem}>
+  return <div className={styles.radioContainer}>
     <input type='radio' name='radio'
       value={radio.name} onChange={evt => onRadioChange(evt.target.value)}
       checked={isSelected}
-      className={styles.fauxRadio} id={id} />
+      className={styles.hiddenRadio} id={id} />
 
-    <label htmlFor={id} className={styles.fauxLabel}>
+    <label htmlFor={id} className={styles.label}>
       {isSelected && <span className={styles.check}>
         <Check />
       </span>}
 
-      <div className={styles.radioImage}>
+      <div className={styles.image}>
         <img src={radio.image} width='150' height='137'
           className={radio.name === 'RFM69' && css({padding: '12px 0'})}
           alt={`${radio.name} module`} />
       </div>
 
-      <div className={styles.radioDescription}>
+      <div className={styles.description}>
         <div className={styles.radioName}>
           {radio.name}
         </div>
@@ -143,4 +146,14 @@ export default ({ radio, isSelected, onRadioChange }) => {
       </div>
     </label>
   </div>
-}
+};
+
+export default ({ selectedRadio, onRadioChange }) => (
+  <div className={styles.container}>
+    {radios.map(radio => <Radio radio={radio}
+      key={radio.name}
+      isSelected={selectedRadio === radio.name}
+      onRadioChange={onRadioChange} />
+    )}
+  </div>
+);

@@ -4,6 +4,7 @@ import App from './components/App';
 
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
+import persistState from 'redux-localstorage';
 import reducer from './reducers';
 
 import createHistory from 'history/createBrowserHistory';
@@ -25,7 +26,7 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(...middleware),
-    //persistState('networks', {key: 'app-data'})
+    persistState('networks', {key: 'app-data'})
   )
 );
 
