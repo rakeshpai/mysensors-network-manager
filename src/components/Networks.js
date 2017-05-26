@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { css } from 'glamor';
-import { fullPageContainer } from '../styles/layout';
+import { FullPage } from './Layouts';
 import { heading, pageSubheading, unimportant } from '../styles/typography';
 import { outlineStyle } from '../styles/forms';
 import { Link } from 'react-router-dom';
@@ -49,7 +49,7 @@ const styles = {
   })
 }
 
-export default props => <div className={fullPageContainer}>
+export default props => <FullPage>
   <h2 className={heading}>Networks</h2>
 
   {props.networks.length === 0 && <div className={pageSubheading}>
@@ -72,4 +72,4 @@ export default props => <div className={fullPageContainer}>
     </ul>
     <Link to='/networks/create' className={unimportant}>Create a new network</Link>
   </div>}
-</div>;
+</FullPage>;

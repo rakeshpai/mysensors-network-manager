@@ -5,7 +5,6 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 
 import CreateNetwork from '../containers/CreateNetwork';
-import NavPage from '../containers/NavPage';
 import Networks from '../containers/Networks';
 import Network from '../containers/Network';
 
@@ -36,8 +35,7 @@ export default ({ network }) => <div>
     <Route exact path='/' component={CreateNetwork} />
     <Route exact path='/networks' component={Networks} />
     <Route exact path='/networks/create' component={CreateNetwork} />
-    <NavPage>
-      <Route path='/networks/:networkId' component={Network} />
-    </NavPage>
+    <Route exact path='/networks/:networkId' component={Network} />
+    <Route path='/networks/:networkId/gateway' component={Network} />
   </Switch>
 </div>;

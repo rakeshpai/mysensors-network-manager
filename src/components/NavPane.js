@@ -6,18 +6,8 @@ import { Link } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
 
 const styles = {
-  navPageContainer: css({
-    display: 'table',
-    width: '100%',
-    padding: 10
-  }),
-
   navPane: css({
-    display: 'table-cell',
-    width: '25%',
-    verticalAlign: 'top',
-
-    '& .collapsibleContainer a': {
+    '& .collapsibleContainer, & .collapsibleContainer a': {
       color: '#111',
       textDecoration: 'none',
       fontSize: 12,
@@ -40,11 +30,6 @@ const styles = {
     }
   }),
 
-  pageContent: css({
-    display: 'table-cell',
-    verticalAlign: 'top'
-  }),
-
   triggerNode: css({
     padding: 3,
     cursor: 'pointer',
@@ -61,29 +46,39 @@ const styles = {
   })
 };
 
-const Trigger = ({ network }) => <div className={styles.triggerNode}>
-  <span className='chevron'>›</span>
-  {' '}
-  <Link to={`/networks/${network.id}`}>
-    {network.radio}
-  </Link>
-</div>
+const LinkOrText = ({ to, matchUrl, children }) => {
+  if(to === matchUrl) return <span>{children}</span>;
 
-export default ({ networks, children, router }) => {
+  return <Link to={to}>{children}</Link>
+}
+
+const Trigger = ({ network, match }) => (
+  <div className={styles.triggerNode}>
+    <span className='chevron'>›</span>
+    {' '}
+    <LinkOrText to={`/networks/${network.id}`}
+      matchUrl={match.url}>
+      {network.radio}
+    </LinkOrText>
+  </div>
+);
+
+export default ({ networks, router, match }) => {
   if(!networks.length) return <div>No networks found</div>
 
-  return <div className={styles.navPageContainer}>
+  return (
     <nav className={styles.navPane}>
       <div className='collapsibleContainer'>
         {networks.map(network => (
           <Collapsible
             key={network.id}
             open={router.location.pathname.indexOf(`/networks/${network.id}`) === 0}
-            trigger={<Trigger network={network} />}
+            trigger={<Trigger {...{network, match}} />}
             transitionTime={300}>
             <ul className={styles.nodesList}>
               <li>
-                <Link to={`/networks/${network.id}/gateway`}>Gateway</Link>
+                <LinkOrText to={`/networks/${network.id}/gateway`}
+                  matchUrl={match.url}>Gateway</LinkOrText>
               </li>
             </ul>
           </Collapsible>
@@ -92,8 +87,5 @@ export default ({ networks, children, router }) => {
 
       <Link to='/networks/create' className={unimportant}>Create a new network</Link>
     </nav>
-    <div className={styles.pageContent}>
-      {children}
-    </div>
-  </div>
+  )
 }

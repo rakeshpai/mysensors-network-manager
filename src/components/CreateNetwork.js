@@ -3,12 +3,12 @@ import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 
 import { css } from 'glamor';
-import { fullPageContainer } from '../styles/layout';
+import { FullPage } from './Layouts';
 import { pageHeading, heading, pageSubheading } from '../styles/typography';
-import { row, leftCell, rightCell, blockInput, info, successButton, button, footer } from '../styles/forms';
+import { row, leftCell, rightCell, info, successButton, button, footer } from '../styles/forms';
 
-import { formatNumber } from '../lib/utils';
 import RadioPicker from './RadioPicker';
+import FrequencyPicker from './FrequencyPicker';
 
 const Greeting = props => {
   if(props.router.location.pathname !== '/') return null;
@@ -20,30 +20,6 @@ const Greeting = props => {
     </p>
   </div>
 };
-
-const FrequencyPicker = props => {
-  const {
-    radio, nrfFrequency, rfmFrequency, id,
-    onNrfFreqChange, onRfmFreqChange } = props;
-
-  const onFrequencyChange = e => {
-    (
-      (radio === 'NRF24L01+') ? onNrfFreqChange : onRfmFreqChange
-    )(e.target.value);
-  }
-
-  return (
-    <select className={blockInput} id={id}
-      value={radio==='NRF24L01+' ? nrfFrequency : rfmFrequency}
-      onChange={onFrequencyChange}>
-      {radios.find(r => r.name === radio).frequencies.map(f => (
-        <option value={f} key={f}>
-          {formatNumber(f)} Mhz
-        </option>
-      ))}
-    </select>
-  )
-}
 
 export default class extends Component {
   constructor(props) {
@@ -74,7 +50,7 @@ export default class extends Component {
   }
 
   render() {
-    return <div className={fullPageContainer}>
+    return <FullPage>
       <Greeting {...this.props} />
 
       <h2 className={heading}>Create a network</h2>
@@ -107,6 +83,6 @@ export default class extends Component {
             className={css(button, successButton)} />
         </div>
       </form>
-    </div>
+    </FullPage>
   }
 }
