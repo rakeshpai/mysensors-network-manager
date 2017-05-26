@@ -32,7 +32,8 @@ const styles = {
     position: 'absolute',
 
     '&:checked + label': {
-      borderColor: 'green'
+      borderColor: 'green',
+      opacity: 1
     },
 
     '&:focus + label': { ...outlineStyle },
@@ -49,10 +50,11 @@ const styles = {
     textAlign: 'center',
     color: '#999',
     transition: 'all 0.3s ease-in',
+    opacity: 0.8,
 
     '&:hover': {
-      color: '#111',
-      borderColor: '#666'
+      borderColor: '#666',
+      opacity: 0.9
     },
 
     [breakpoint]: {

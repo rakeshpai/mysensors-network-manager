@@ -23,7 +23,8 @@ const navPageStyles = {
   nav: css({
     display: 'table-cell',
     width: '25%',
-    verticalAlign: 'top'
+    verticalAlign: 'top',
+    paddingTop: 20
   }),
   content: css({
     display: 'table-cell',

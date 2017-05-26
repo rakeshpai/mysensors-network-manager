@@ -12,12 +12,12 @@ export default props => {
   const onFrequencyChange = e => {
     (
       (radio === 'NRF24L01+') ? onNrfFreqChange : onRfmFreqChange
-    )(e.target.value);
+    )(parseInt(e.target.value, 10));
   }
 
   return (
     <select className={blockInput} id={id}
-      value={radio==='NRF24L01+' ? nrfFrequency : rfmFrequency}
+      value={radio === 'NRF24L01+' ? nrfFrequency : rfmFrequency}
       onChange={onFrequencyChange}>
       {radios.find(r => r.name === radio).frequencies.map(f => (
         <option value={f} key={f}>
