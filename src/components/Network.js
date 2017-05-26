@@ -31,7 +31,7 @@ export default props => {
     </p>
 
     <div className={css({maxWidth: 500, paddingTop: 20})}>
-      Selected radio
+      Change the radio:
       <RadioPicker selectedRadio={network.radio}
         onRadioChange={radio => props.changeRadio(network.id, radio)} />
 
