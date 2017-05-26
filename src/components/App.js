@@ -5,8 +5,9 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 
 import CreateNetwork from '../containers/CreateNetwork';
+import NavPage from '../containers/NavPage';
 import Networks from '../containers/Networks';
-import Network from './Network';
+import Network from '../containers/Network';
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -25,11 +26,6 @@ const styles = {
     color: '#666'
   })
 };
-
-const NavPage = props => <div className={'nav'}>
-  NavPage
-  {props.children}
-</div>;
 
 export default ({ network }) => <div>
   <header className={styles.header}>

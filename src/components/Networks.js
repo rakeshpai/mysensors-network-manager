@@ -59,7 +59,7 @@ export default props => <div className={fullPageContainer}>
   {props.networks.length > 0 && <div>
     Your networks:
     <ul className={styles.networkList}>
-      {props.networks.map(network => <li>
+      {props.networks.map(network => <li key={network.id}>
         <Link to={`/networks/${network.id}`} className={styles.networkItem}>
           <h3 className={styles.heading}>{network.radio} based network</h3>
           <div className={styles.description}>

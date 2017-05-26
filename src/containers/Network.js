@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Navigation from '../components/Navigation';
+import Network from '../components/Network';
 
 export default connect(
   s => s
-)(Navigation);
+)(Network);

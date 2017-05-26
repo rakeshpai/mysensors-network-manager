@@ -26,5 +26,6 @@ export const heading = css({
 });
 
 export const unimportant = css({
-  fontSize: 12
-})
+  fontSize: 11,
+  color: '#999'
+});

@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from 'glamor';
-import { headingFontFamily } from '../styles/typography';
-import Navigation from '../containers/Navigation';
-import Tabs from '../containers/Tabs';
+import { headingFontFamily, pageSubheading } from '../styles/typography';
+
+import { formatNumber } from '../lib/utils';
 
 const styles = {
   h2: css({
@@ -12,32 +12,17 @@ const styles = {
     fontWeight: 'normal',
     padding: 10
   }),
-
-  pageContainer: css({
-    display: 'table',
-    width: '100%',
-    padding: 10
-  }),
-
-  column: css({
-    margin: 0,
-    display: 'table-cell',
-    verticalAlign: 'top'
-  })
 };
 
+export default props => {
+  const network = props.networks.find(n => n.id === props.match.params.networkId);
 
-export default props => <div>
-  <h2 className={styles.h2}>
-
-  </h2>
-
-  <div className={styles.pageContainer}>
-    <div className={css(styles.column, {width: '22%'})}>
-      <Navigation />
-    </div>
-    <div className={css(styles.column)}>
-      <Tabs />
-    </div>
+  return <div>
+    <h2 className={styles.h2}>
+      {network.radio} based network
+      <p className={pageSubheading}>
+        Operating at {formatNumber(network.frequency)} MHz.
+      </p>
+    </h2>
   </div>
-</div>;
+};
