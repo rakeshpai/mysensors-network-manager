@@ -5,10 +5,16 @@ const container = css({
   position: 'relative'
 });
 
+const breakpoint = '@media(max-width: 500px)';
+
 const menu = css({
   position: 'absolute',
   top: 20,
-  right: 0
+  right: 0,
+
+  [breakpoint]: {
+    top: 0
+  }
 });
 
 export default ({ children }) => (

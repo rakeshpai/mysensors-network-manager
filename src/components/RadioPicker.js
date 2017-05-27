@@ -3,6 +3,7 @@ import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 import { css } from 'glamor';
 import { outlineStyle } from '../styles/forms';
+import { success } from '../styles/colors';
 import Check from './Check';
 
 const breakpoint = '@media(max-width: 500px)';
@@ -32,7 +33,7 @@ const styles = {
     position: 'absolute',
 
     '&:checked + label': {
-      borderColor: 'green',
+      borderColor: success,
       opacity: 1
     },
 
@@ -102,7 +103,7 @@ const styles = {
     }
   }),
   pros: css({
-    color: 'green'
+    color: success
   }),
   cons: css({
     color: 'red'

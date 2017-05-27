@@ -11,8 +11,10 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import { css } from 'glamor';
-import { linkColor, fontFamily } from './styles/typography';
+import { fontFamily } from './styles/typography';
+import { linkColor } from './styles/colors';
 import 'glamor-reset';
+
 css.global('*', { boxSizing: 'border-box', fontFamily });
 css.global('a', { color: linkColor });
 

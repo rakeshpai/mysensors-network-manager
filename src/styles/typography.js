@@ -2,7 +2,6 @@ import { css } from 'glamor';
 
 export const headingFontFamily = `'Roboto', sans-serif`;
 export const fontFamily = `'Roboto', sans-serif`;
-export const linkColor = 'blue';
 
 export const pageHeading = css({
   fontFamily: headingFontFamily,

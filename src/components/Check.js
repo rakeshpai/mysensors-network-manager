@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { css } from 'glamor';
+import { success } from '../styles/colors';
 
 const styles = css({
-  background: 'green',
+  background: success,
   color: 'white',
   fontSize: 26,
   borderRadius: 20,

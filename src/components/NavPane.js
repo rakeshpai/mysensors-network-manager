@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'glamor';
 import { unimportant } from '../styles/typography';
+import { brandBackground } from '../styles/colors';
 
 import { Link } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
@@ -18,7 +19,7 @@ const styles = {
     '& .chevron': {
       display: 'inline-block',
       transform: 'rotate(0deg)',
-      transition: 'transform 0.3s linear',
+      transition: 'transform 0.3s ease-in-out',
       fontWeight: 'bold',
       fontSize: 16,
       marginRight: 5
@@ -26,7 +27,7 @@ const styles = {
 
     '& .is-open .chevron': {
       transform: 'rotate(90deg)',
-      transition: 'transform 0.3s linear'
+      transition: 'transform 0.3s ease-in-out'
     }
   }),
 
@@ -35,7 +36,7 @@ const styles = {
     cursor: 'pointer',
 
     '&:hover': {
-      background: '#f4f7f8'
+      background: brandBackground// '#f4f7f8'
     }
   }),
 
@@ -74,6 +75,7 @@ export default ({ networks, router, match }) => {
             key={network.id}
             open={router.location.pathname.indexOf(`/networks/${network.id}`) === 0}
             trigger={<Trigger {...{network, match}} />}
+            easing='ease-in-out'
             transitionTime={300}>
             <ul className={styles.nodesList}>
               <li>

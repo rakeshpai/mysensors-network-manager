@@ -1,6 +1,7 @@
 import { css } from 'glamor';
+import { outline, buttonColor } from './colors';
 
-export const outlineStyle = { boxShadow: '0px 0px 10px rgba(52,117,237,1)' }
+export const outlineStyle = { boxShadow: `0px 0px 10px ${outline}` }
 
 export const row = css({
   display: 'table',
@@ -47,11 +48,13 @@ export const button = css({
   padding: '10px 25px',
   fontSize: 20,
   borderRadius: 5,
-  cursor: 'pointer'
+  cursor: 'pointer',
+
+  '&:focus': { ...outlineStyle }
 });
 
 export const successButton = css({
-  background: '#0095dd',
+  background: buttonColor,
   color: '#fff'
 });
 

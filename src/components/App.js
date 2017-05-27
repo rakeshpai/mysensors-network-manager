@@ -3,6 +3,7 @@ import React from 'react';
 import '../index.css';
 import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
+import { brandBackground } from '../styles/colors';
 
 import CreateNetwork from '../containers/CreateNetwork';
 import AfterCreate from '../containers/AfterCreate';
@@ -13,7 +14,7 @@ import { Route, Switch } from 'react-router-dom';
 
 const styles = {
   header: css({
-    background: '#eaeff2',
+    background: brandBackground,
     boxShadow: '0 0 10px rgba(0,0,0,0.6)'
   }),
 
