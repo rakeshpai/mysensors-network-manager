@@ -1,10 +1,8 @@
 import React from 'react';
 import { radios } from '../lib/constants';
-import { generateId } from '../lib/utils';
 import { css } from 'glamor';
-import { outlineStyle } from '../styles/forms';
 import { success } from '../styles/colors';
-import Check from './Check';
+import RadioInput from './RadioInput';
 
 const breakpoint = '@media(max-width: 500px)';
 
@@ -27,36 +25,11 @@ const styles = {
       width: '100%'
     }
   }),
-  hiddenRadio: css({
-    marginLeft: '-2em',
-    opacity: 0,
-    position: 'absolute',
-
-    '&:checked + label': {
-      borderColor: success,
-      opacity: 1
-    },
-
-    '&:focus + label': { ...outlineStyle },
-  }),
   label: css({
-    display: 'block',
     position: 'relative',
-    height: '100%',
     margin: '30px 10px',
     padding: 10,
-    borderRadius: 5,
-    cursor: 'pointer',
-    border: '1px solid #ddd',
     textAlign: 'center',
-    color: '#999',
-    transition: 'all 0.3s ease-in',
-    opacity: 0.8,
-
-    '&:hover': {
-      borderColor: '#666',
-      opacity: 0.9
-    },
 
     [breakpoint]: {
       margin: '10px'
@@ -110,53 +83,40 @@ const styles = {
   })
 }
 
-const Radio = ({ radio, isSelected, onRadioChange }) => {
-  const id = generateId();
-
-  return <div className={styles.radioContainer}>
-    <input type='radio' name='radio'
-      value={radio.name} onChange={evt => onRadioChange(evt.target.value)}
-      checked={isSelected}
-      className={styles.hiddenRadio} id={id} />
-
-    <label htmlFor={id} className={styles.label}>
-      {isSelected && <span className={styles.check}>
-        <Check />
-      </span>}
-
-      <div className={styles.image}>
-        <img src={radio.image} width='150' height='137'
-          className={radio.name === 'RFM69' && css({padding: '12px 0'})}
-          alt={`${radio.name} module`} />
-      </div>
-
-      <div className={styles.description}>
-        <div className={styles.radioName}>
-          {radio.name}
-        </div>
-
-        <div className={styles.radioInfo}>
-          <div>
-            <span className={styles.pros}>Pros: </span>
-            {radio.pros}
-          </div>
-          {' '}
-          <div>
-            <span className={styles.cons}>Cons: </span>
-            {radio.cons}
-          </div>
-        </div>
-      </div>
-    </label>
-  </div>
-};
-
 export default ({ selectedRadio, onRadioChange }) => (
   <div className={styles.container}>
-    {radios.map(radio => <Radio radio={radio}
-      key={radio.name}
-      isSelected={selectedRadio === radio.name}
-      onRadioChange={onRadioChange} />
-    )}
+    {radios.map(radio => (
+      <div className={styles.radioContainer} key={radio.name}>
+        <RadioInput name='radio' value={radio.name}
+          checked={selectedRadio === radio.name}
+          onChange={e => onRadioChange(e.target.value)}
+          checkClassName={styles.check} className={styles.label}>
+
+          <div className={styles.image}>
+            <img src={radio.image} width='150' height='137'
+              className={radio.name === 'RFM69' && css({padding: '12px 0'})}
+              alt={`${radio.name} module`} />
+          </div>
+
+          <div className={styles.description}>
+            <div className={styles.radioName}>
+              {radio.name}
+            </div>
+
+            <div className={styles.radioInfo}>
+              <div>
+                <span className={styles.pros}>Pros: </span>
+                {radio.pros}
+              </div>
+              {' '}
+              <div>
+                <span className={styles.cons}>Cons: </span>
+                {radio.cons}
+              </div>
+            </div>
+          </div>
+        </RadioInput>
+      </div>
+    ))}
   </div>
 );

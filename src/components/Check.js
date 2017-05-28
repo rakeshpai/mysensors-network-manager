@@ -4,6 +4,7 @@ import { css } from 'glamor';
 import { success } from '../styles/colors';
 
 const styles = css({
+  display: 'inline-block',
   background: success,
   color: 'white',
   fontSize: 26,

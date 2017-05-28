@@ -1,5 +1,8 @@
 import { radios } from '../lib/constants';
+import { generateId } from '../lib/utils';
 import { generateHexNumber } from '../lib/utils';
+
+import networkReducer from './network';
 
 const radioByName = name => radios.find(r => r.name === name);
 
@@ -10,7 +13,14 @@ export default (state = [], action) => {
       {
         ...action.network,
         hmac: generateHexNumber(64),
-        aes: generateHexNumber(32)
+        aes: generateHexNumber(32),
+        nodes: [
+          {
+            id: generateId(),
+            type: 'gateway',
+            gatewayType: 'serial'
+          }
+        ]
       }
     ];
 
@@ -49,6 +59,15 @@ export default (state = [], action) => {
       return { ...network, aes: action.aes }
     });
 
-    default: return state;
+    default: break;
   }
+
+  if(action.type.indexOf('NETWORK/') === 0) {
+    return state.map(network => {
+      if(network.id !== action.networkId) return network;
+      return networkReducer(network, action);
+    })
+  }
+
+  return state;
 }

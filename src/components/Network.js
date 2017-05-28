@@ -69,7 +69,7 @@ export default props => {
 
     <div className={styles.colContainer}>
       <div className={styles.colLeft}>
-        <div className={css({maxWidth: 500, paddingTop: 20})}>
+        <div className={css({maxWidth: 500})}>
           Change the radio:
           <RadioPicker selectedRadio={network.radio}
             onRadioChange={radio => props.changeRadio(network.id, radio)} />

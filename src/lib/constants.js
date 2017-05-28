@@ -18,4 +18,23 @@ export const radios = [
     frequencies: [433,868,915],
     defaultFrequency: 868
   }
+];
+
+export const gatewayTypes = [
+  {
+    name: 'serial',
+    title: 'Serial gateway',
+    description: 'The gateway is directly connected to a computer\'s serial port, usually through a USB cable.'
+  },
+  {
+    name: 'esp8266-wifi',
+    title: 'ESP8266 WiFi based gateway',
+    description: 'The gateway is connected to your ethernet network using the ESP8266 module',
+    ethernet: true
+  },
+  {
+    name: 'ethernet',
+    title: 'Ethernet based gateway',
+    description: 'The gateway is connected to your ethernet network using an ethernet cable'
+  }
 ]
