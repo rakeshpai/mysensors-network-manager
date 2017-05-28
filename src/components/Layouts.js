@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { css } from 'glamor';
-import { brandBackground } from '../styles/colors';
 import NavPane from './NavPane';
 import MediaQuery from 'react-responsive';
-import Collapsible from 'react-collapsible';
+import Collapsible from './Collapsible';
 
 const fullPageContainer = css({
   width: '100%',
@@ -13,9 +12,9 @@ const fullPageContainer = css({
   padding: '0 10px'
 });
 
-export const FullPage = props => <div className={fullPageContainer}>
+export const FullPage = props => <main className={fullPageContainer}>
   {props.children}
-</div>;
+</main>;
 
 const breakpointWidth = 500;
 const breakpoint = `@media(max-width: ${breakpointWidth}px)`;
@@ -48,30 +47,14 @@ const navPageStyles = {
     [breakpoint]: {
       display: 'block'
     }
-  }),
-  trigger: css({
-    background: brandBackground,
-    display: 'block',
-    padding: '10px 5px 10px 10px'
-  }),
-  triggerOpened: css({
-    paddingBottom: 7
-  }),
-  collapsibleContent: css({
-    border: `3px solid ${brandBackground}`,
-    padding: 10
   })
-}
+};
 
 export const NavPage = props => (
   <div className={navPageStyles.container}>
     <div className={navPageStyles.nav}>
       <MediaQuery query={`(max-device-width: ${breakpointWidth}px)`}>
-        <Collapsible trigger='Navigation'
-          triggerClassName={navPageStyles.trigger.toString()}
-          triggerOpenedClassName={css(navPageStyles.trigger, navPageStyles.triggerOpened).toString()}
-          contentInnerClassName={css(navPageStyles.collapsibleContent).toString()}
-          easing='ease-in-out'>
+        <Collapsible trigger='Navigation' withBg={true}>
           <NavPane {...props} />
         </Collapsible>
       </MediaQuery>
@@ -79,8 +62,8 @@ export const NavPage = props => (
         <NavPane {...props} />
       </MediaQuery>
     </div>
-    <div className={navPageStyles.content}>
+    <main className={navPageStyles.content}>
       {props.children}
-    </div>
+    </main>
   </div>
 );

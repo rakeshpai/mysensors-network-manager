@@ -1,42 +1,18 @@
 import React from 'react';
+
 import { css } from 'glamor';
 import { unimportant } from '../styles/typography';
-import { brandBackground } from '../styles/colors';
 
 import { Link } from 'react-router-dom';
-import Collapsible from 'react-collapsible';
+import Collapsible from './Collapsible';
 
 const styles = {
   navPane: css({
     '& .collapsibleContainer, & .collapsibleContainer a': {
-      color: '#111',
+      color: '#666',
       textDecoration: 'none',
-      fontSize: 12,
-      fontWeight: 'bold'
-    },
-
-    //Collapsible chevron styles go here, sadly
-    '& .chevron': {
-      display: 'inline-block',
-      transform: 'rotate(0deg)',
-      transition: 'transform 0.3s ease-in-out',
-      fontWeight: 'bold',
-      fontSize: 16,
-      marginRight: 5
-    },
-
-    '& .is-open .chevron': {
-      transform: 'rotate(90deg)',
-      transition: 'transform 0.3s ease-in-out'
-    }
-  }),
-
-  triggerNode: css({
-    padding: 3,
-    cursor: 'pointer',
-
-    '&:hover': {
-      background: brandBackground// '#f4f7f8'
+      fontSize: 14,
+      //fontWeight: 'bold'
     }
   }),
 
@@ -54,14 +30,10 @@ const LinkOrText = ({ to, matchUrl, children }) => {
 }
 
 const Trigger = ({ network, match }) => (
-  <div className={styles.triggerNode}>
-    <span className='chevron'>›</span>
-    {' '}
-    <LinkOrText to={`/networks/${network.id}`}
-      matchUrl={match.url}>
-      {network.radio}
-    </LinkOrText>
-  </div>
+  <LinkOrText to={`/networks/${network.id}`}
+    matchUrl={match.url}>
+    {network.radio}
+  </LinkOrText>
 );
 
 export default ({ networks, router, match }) => {
@@ -73,10 +45,8 @@ export default ({ networks, router, match }) => {
         {networks.map(network => (
           <Collapsible
             key={network.id}
-            open={router.location.pathname.indexOf(`/networks/${network.id}`) === 0}
             trigger={<Trigger {...{network, match}} />}
-            easing='ease-in-out'
-            transitionTime={300}>
+            open={router.location.pathname.indexOf(`/networks/${network.id}`) === 0}>
             <ul className={styles.nodesList}>
               <li>
                 <LinkOrText to={`/networks/${network.id}/gateway`}

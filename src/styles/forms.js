@@ -38,6 +38,27 @@ export const blockInput = css({
   '&:focus': { ...outlineStyle }
 });
 
+export const fullWidthLabel = css({
+  padding: '10px 0',
+  display: 'block',
+
+  '& input, & select': {
+    display: 'block',
+    width: '100%',
+    marginTop: 10
+  }
+});
+
+export const invalid = css({
+  ':invalid': {
+    border: '1px solid red'
+  },
+
+  ':invalid:focus': {
+    boxShadow: '0px 0px 10px red'
+  }
+})
+
 export const info = css({
   color: '#666',
   fontSize: 12

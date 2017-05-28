@@ -12,6 +12,8 @@ export default connect(
       },
       changeRadio: (networkId, radio) => dispatch({ type: 'CHANGE_RADIO', networkId, radio }),
       onFrequencyChange: (networkId, frequency) => dispatch ({ type: 'CHANGE_FREQUENCY', networkId, frequency }),
+      onHmacChange: (networkId, hmac) => dispatch({ type: 'CHANGE_HMAC', networkId, hmac }),
+      onAesChange: (networkId, aes) => dispatch({ type: 'CHANGE_AES', networkId, aes })
     }
   }
 )(Network);
