@@ -5,10 +5,13 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 import { brandBackground } from '../styles/colors';
 
+import wrapInContainer from '../containers/wrapInContainer';
 import CreateNetwork from '../containers/CreateNetwork';
-import AfterCreate from '../containers/AfterCreate';
-import Networks from '../containers/Networks';
 import Network from '../containers/Network';
+
+import AfterCreate from '../components/AfterCreate';
+import Networks from '../components/Networks';
+import Gateway from '../components/Gateway';
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -35,10 +38,10 @@ export default ({ network }) => <div>
 
   <Switch>
     <Route exact path='/' component={CreateNetwork} />
-    <Route exact path='/networks' component={Networks} />
+    <Route exact path='/networks' component={wrapInContainer(Networks)} />
     <Route exact path='/networks/create' component={CreateNetwork} />
-    <Route exact path='/networks/:networkId/after-create' component={AfterCreate} />
+    <Route exact path='/networks/:networkId/after-create' component={wrapInContainer(AfterCreate)} />
     <Route exact path='/networks/:networkId' component={Network} />
-    <Route path='/networks/:networkId/gateway' component={Network} />
+    <Route path='/networks/:networkId/gateway' component={wrapInContainer(Gateway)} />
   </Switch>
 </div>;
