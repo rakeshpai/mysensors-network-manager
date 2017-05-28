@@ -29,8 +29,7 @@ export const gatewayTypes = [
   {
     name: 'esp8266-wifi',
     title: 'ESP8266 WiFi based gateway',
-    description: 'The gateway is connected to your ethernet network using the ESP8266 module',
-    ethernet: true
+    description: 'The gateway is connected to your ethernet network using the ESP8266 module'
   },
   {
     name: 'ethernet',

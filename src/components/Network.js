@@ -5,6 +5,7 @@ import { pageHeading, pageSubheading } from '../styles/typography';
 import { row, leftCell, rightCell, info, blockInput, fullWidthLabel, invalid } from '../styles/forms';
 
 import { NavPage } from './Layouts';
+import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu, {DeleteButton, AddButton} from './PageMenu';
 import RadioPicker from './RadioPicker';
 import FrequencyPicker from './FrequencyPicker';
@@ -67,8 +68,8 @@ export default props => {
       Operating at {formatNumber(network.frequency)} MHz.
     </p>
 
-    <div className={styles.colContainer}>
-      <div className={styles.colLeft}>
+    <ColumnContainer>
+      <LeftColumn>
         <div className={css({maxWidth: 500})}>
           Change the radio:
           <RadioPicker selectedRadio={network.radio}
@@ -93,9 +94,9 @@ export default props => {
             to check your local regulations before choosing a frequency.
           </p>
         </div>
-      </div>
-
-      <div className={styles.colRight}>
+      </LeftColumn>
+      
+      <RightColumn>
         Additional settings:
         <br /><br />
         <Collapsible trigger='Security settings' withBg={true}>
@@ -120,7 +121,7 @@ export default props => {
             <p className={info}>A 32 digit hex number used for encryption</p>
           </label>
         </Collapsible>
-      </div>
-    </div>
+      </RightColumn>
+    </ColumnContainer>
   </NavPage>
 };

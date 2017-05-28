@@ -8,6 +8,7 @@ import { pageHeading, pageSubheading } from '../styles/typography';
 import NotFound from './NotFound';
 import RadioInput from './RadioInput';
 import { NavPage } from './Layouts';
+import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 
 const styles = {
   gatewayList: css({
@@ -52,20 +53,27 @@ export default props => {
         The gateway acts as the bridge between the {network.radio} network, and the controller running on a computer.
       </p>
 
-      Which type of gateway are you using?
-      <ul className={styles.gatewayList}>
-        {gatewayTypes.map(gatewayType => (
-          <li key={gatewayType.name}>
-            <RadioInput name='gatewayType' value={gatewayType.name}
-              className={styles.radioLabel} checkClassName={styles.check}
-              onChange={e => props.onGatewayTypeChange(networkId, e.target.value)}
-              checked={gatewayType.name === gateway.gatewayType}>
-              {gatewayType.title}
-              <p className={styles.gatewayDescription}>{gatewayType.description}</p>
-            </RadioInput>
-          </li>
-        ))}
-      </ul>
+      <ColumnContainer>
+        <LeftColumn>
+          Which type of gateway are you using?
+          <ul className={styles.gatewayList}>
+            {gatewayTypes.map(gatewayType => (
+              <li key={gatewayType.name}>
+                <RadioInput name='gatewayType' value={gatewayType.name}
+                  className={styles.radioLabel} checkClassName={styles.check}
+                  onChange={e => props.onGatewayTypeChange(networkId, e.target.value)}
+                  checked={gatewayType.name === gateway.gatewayType}>
+                  {gatewayType.title}
+                  <p className={styles.gatewayDescription}>{gatewayType.description}</p>
+                </RadioInput>
+              </li>
+            ))}
+          </ul>
+        </LeftColumn>
+        <RightColumn>
+          test
+        </RightColumn>
+      </ColumnContainer>
     </NavPage>
   )
 }
