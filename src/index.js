@@ -10,6 +10,8 @@ import reducer from './reducers';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
+import registerServiceWorker from './registerServiceWorker';
+
 import './styles/global';
 
 const history = createHistory();
@@ -35,3 +37,5 @@ render(
   </Provider>,
   document.getElementById('root')
 );
+
+registerServiceWorker();

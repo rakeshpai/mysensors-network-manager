@@ -17,7 +17,7 @@ const Greeting = props => {
   return <div>
     <h2 className={pageHeading}>Namaskar</h2>
     <p className={pageSubheading}>
-      Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank'>MySensors</a> network.
+      Here you can set up and configure your <a href='https://www.mysensors.org/' target='_blank' rel='noopener noreferrer'>MySensors</a> network.
     </p>
   </div>
 };
