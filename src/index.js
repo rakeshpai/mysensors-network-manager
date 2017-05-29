@@ -10,13 +10,7 @@ import reducer from './reducers';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
-import { css } from 'glamor';
-import { fontFamily } from './styles/typography';
-import { linkColor } from './styles/colors';
-import 'glamor-reset';
-
-css.global('*', { boxSizing: 'border-box', fontFamily });
-css.global('a', { color: linkColor });
+import './styles/global';
 
 const history = createHistory();
 const middleware = [routerMiddleware(history)];

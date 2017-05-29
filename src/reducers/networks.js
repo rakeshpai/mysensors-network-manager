@@ -18,7 +18,23 @@ export default (state = [], action) => {
           {
             id: generateId(),
             type: 'gateway',
-            gatewayType: 'serial'
+            gatewayType: 'serial',
+            ethernet: {
+              dhcp: true,
+              ip: '192.168.1.10',
+              gateway: '192.168.1.1',
+              subnet: '255.255.255.0'
+            },
+            wifi: { ssid: '', password: '' },
+            conn: {
+              type: 'server',
+              serverPort: 5003,
+              serverMaxClients: 1,
+              controllerIp: '',
+              controllerPort: 5003,
+              mqttHost: '',
+              mqttPort: 1883
+            }
           }
         ]
       }

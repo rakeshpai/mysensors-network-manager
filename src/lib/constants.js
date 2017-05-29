@@ -27,13 +27,13 @@ export const gatewayTypes = [
     description: 'The gateway is directly connected to a computer\'s serial port, usually through a USB cable.'
   },
   {
-    name: 'esp8266-wifi',
-    title: 'ESP8266 WiFi based gateway',
-    description: 'The gateway is connected to your ethernet network using the ESP8266 module'
-  },
-  {
     name: 'ethernet',
     title: 'Ethernet based gateway',
     description: 'The gateway is connected to your ethernet network using an ethernet cable'
+  },
+  {
+    name: 'esp8266',
+    title: 'ESP8266 WiFi based gateway',
+    description: 'The gateway is connected to your ethernet network using the ESP8266 module'
   }
 ]

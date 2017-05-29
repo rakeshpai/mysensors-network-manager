@@ -1,9 +1,4 @@
-.loading {
-  font-family: sans-serif;
-  padding: 10px;
-}
-
-/* Generated using https://google-webfonts-helper.herokuapp.com/ */
+/* Font styles generated using https://google-webfonts-helper.herokuapp.com/ */
 
 /* roboto-300 - latin */
 @font-face {
@@ -22,4 +17,11 @@
   src: local('Roboto'), local('Roboto-Regular'),
        url('./fonts/roboto-v16-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
        url('./fonts/roboto-v16-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+.loading {
+  font-family: sans-serif;
+  margin-top: 100px;
+  padding: 10px;
+  text-align: center;
 }

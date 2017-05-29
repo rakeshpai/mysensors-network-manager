@@ -5,8 +5,9 @@ import { generateId } from '../lib/utils';
 import { css } from 'glamor';
 import { FullPage } from './Layouts';
 import { pageHeading, heading, pageSubheading } from '../styles/typography';
-import { row, leftCell, rightCell, info, successButton, button, footer } from '../styles/forms';
+import { info, successButton, button, footer } from '../styles/forms';
 
+import { RightAlignedLabel } from './Forms';
 import RadioPicker from './RadioPicker';
 import FrequencyPicker from './FrequencyPicker';
 
@@ -60,23 +61,18 @@ export default class extends Component {
         <RadioPicker selectedRadio={this.state.radio}
           onRadioChange={this.onRadioChange.bind(this)} />
 
-        <div className={row}>
-          <label className={leftCell} htmlFor={this.frequencyId}>
-            Which frequency do you want to use?
-          </label>
-          <div className={rightCell}>
-            <FrequencyPicker
-              id={this.frequencyId}
-              {...this.state}
-              onNrfFreqChange={this.onNrfFreqChange.bind(this)}
-              onRfmFreqChange={this.onRfmFreqChange.bind(this)} />
-          </div>
-        </div>
+        <RightAlignedLabel label='Frequency' htmlFor={this.frequencyId}>
+          <FrequencyPicker
+            id={this.frequencyId}
+            {...this.state}
+            onNrfFreqChange={this.onNrfFreqChange.bind(this)}
+            onRfmFreqChange={this.onRfmFreqChange.bind(this)} />
+          <p className={info}>
+            Not all frequencies are available for use in all regions. Please be sure
+            to check your local regulations before choosing a frequency.
+          </p>
+        </RightAlignedLabel>
 
-        <p className={info}>
-          Not all frequencies are available for use in all regions. Please be sure
-          to check your local regulations before choosing a frequency.
-        </p>
 
         <div className={footer}>
           <input type='submit' value='Create a network'

@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "glamor": "^2.20.25",
-    "glamor-reset": "^3.0.0-1",
     "history": "^4.6.1",
     "react": "^15.5.4",
     "react-collapsible": "^1.4.0",

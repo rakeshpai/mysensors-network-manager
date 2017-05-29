@@ -31,13 +31,16 @@ const navPageStyles = {
   }),
   nav: css({
     display: 'table-cell',
-    width: '25%',
+    width: '17%',
     verticalAlign: 'top',
     paddingTop: 20,
+    minWidth: 150,
+    paddingRight: 20,
 
     [breakpoint]: {
       display: 'block',
-      width: '100%'
+      width: '100%',
+      paddingRight: 0
     }
   }),
   content: css({
@@ -53,12 +56,12 @@ const navPageStyles = {
 export const NavPage = props => (
   <div className={navPageStyles.container}>
     <div className={navPageStyles.nav}>
-      <MediaQuery query={`(max-device-width: ${breakpointWidth}px)`}>
+      <MediaQuery query={`(max-width: ${breakpointWidth + 1}px)`}>
         <Collapsible trigger='Navigation' withBg={true}>
           <NavPane {...props} />
         </Collapsible>
       </MediaQuery>
-      <MediaQuery query={`(min-device-width: ${breakpointWidth}px)`}>
+      <MediaQuery query={`(min-width: ${breakpointWidth}px)`}>
         <NavPane {...props} />
       </MediaQuery>
     </div>
@@ -72,26 +75,28 @@ const colBreakpoint = `@media(max-width: 800px)`;
 const columnStyles = {
   container: css({
     display: 'table',
-    maxWidth: 870,
+    width: '100%',
+    paddingRight: 20,
 
     [colBreakpoint]: {
-      display: 'block'
+      display: 'block',
+      padding: 0
     }
   }),
   leftColumn: css({
     display: 'table-cell',
-    minWidth: 400,
     width: '55%',
+    verticalAlign: 'top',
 
     [colBreakpoint]: {
       display: 'block',
-      minWidth: 'auto',
-      maxWidth: 'auto'
+      width: '100%'
     }
   }),
   rightColumn: css({
     display: 'table-cell',
     paddingLeft: 20,
+    verticalAlign: 'top',
 
     [colBreakpoint]: {
       display: 'block',
