@@ -106,7 +106,7 @@ export default props => {
 
                     <RightAlignedLabel label='Listening port'>
                       <input type='number' value={gateway.conn.serverPort}
-                        min='1' max='65535'
+                        min='1' max='65535' pattern='\d*'
                         onChange={e => handlers.setServerPort(parseInt(e.target.value, 10))} />
 
                       <p className={info}>
@@ -116,7 +116,7 @@ export default props => {
 
                     <RightAlignedLabel label='Max. incoming connections'>
                       <input type='number' value={gateway.conn.serverMaxClients}
-                        min='1' max='8'
+                        min='1' max='8' pattern='\d*'
                         onChange={e => handlers.setServerMaxClients(parseInt(e.target.value, 10))} />
 
                       <p className={info}>
@@ -142,7 +142,7 @@ export default props => {
 
                     <RightAlignedLabel label='Port'>
                       <input type='number' value={gateway.conn.controllerPort} required
-                        min='1' max='65535'
+                        min='1' max='65535' pattern='\d*'
                         onChange={e => handlers.setControllerPort(parseInt(e.target.value, 10))} />
                     </RightAlignedLabel>
                   </fieldset>
@@ -164,7 +164,7 @@ export default props => {
 
                     <RightAlignedLabel label='Port'>
                       <input type='number' value={gateway.conn.mqttPort} required
-                        min='1' max='65535'
+                        min='1' max='65535' pattern='\d*'
                         onChange={e => handlers.setMqttPort(parseInt(e.target.value, 10))} />
                     </RightAlignedLabel>
                   </fieldset>
