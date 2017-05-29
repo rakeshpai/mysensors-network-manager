@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { css } from 'glamor';
+import { info as styles_info } from '../styles/forms';
 import { generateId } from '../lib/utils';
 import MediaQuery from 'react-responsive';
 
@@ -12,10 +13,13 @@ const rightAligned = {
     display: 'table-cell',
     width: '35%',
     textAlign: 'right',
-    paddingRight: 10
+    paddingRight: 10,
+    verticalAlign: 'top',
+    paddingTop: 7
   }),
   fields: css({
-    display: 'table-cell'
+    display: 'table-cell',
+    verticalAlign: 'top'
   })
 };
 
@@ -85,15 +89,27 @@ const inline = css({
   position: 'relative',
   padding: '3px 0 5px 25px',
 
+  ':hover': {
+    background: '#f6f6f6'
+  },
+
   '& input': {
     position: 'absolute',
     top: 3,
     left: 0
   }
 });
-export const InlineLabel = ({ label, children }) => (
+export const InlineLabel = ({ label, children, info, inlineInfo }) => (
   <label className={inline}>
     {children}
     {label}
+    {info && (
+      <p className={css(styles_info, { marginBottom: 0 }, inlineInfo && {
+          display: 'inline-block',
+          paddingLeft: 7
+        })}>
+        ({info})
+      </p>
+    )}
   </label>
 );

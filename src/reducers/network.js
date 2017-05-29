@@ -36,6 +36,26 @@ export default (state, action) => {
       return modifyGateway(state, gateway => ({
         wifi: { ...gateway.password, password: action.password }
       }))
+    case 'SET_MODE':
+      return modifyGateway(state, gateway => ({
+        conn: { ...gateway.conn, type: action.mode }
+      }))
+    case 'SET_SERVER_PORT':
+      return modifyGateway(state, gateway => ({
+        conn: { ...gateway.conn, serverPort: action.port }
+      }))
+    case 'SET_SERVER_MAX_CLIENTS':
+      return modifyGateway(state, gateway => ({
+        conn: { ...gateway.conn, serverMaxClients: action.maxClients}
+      }))
+    case 'SET_CONTROLLER_IP':
+      return modifyGateway(state, gateway => ({
+        conn: { ...gateway.conn, controllerIp: action.controllerIp }
+      }))
+    case 'SET_CONTROLLER_PORT':
+      return modifyGateway(state, gateway => ({
+        conn: { ...gateway.conn, controllerPort: action.controllerPort }
+      }))
     default: return state;
   }
 }

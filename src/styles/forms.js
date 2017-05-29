@@ -5,7 +5,8 @@ export const outlineStyle = { boxShadow: `0px 0px 10px ${outline}` }
 
 export const info = css({
   color: '#666',
-  fontSize: 12
+  fontSize: 12,
+  marginTop: 3
 });
 
 export const button = css({
