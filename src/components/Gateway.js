@@ -47,7 +47,7 @@ export default props => {
   const gateway = network.nodes.find(n => n.type === 'gateway');
   if(!gateway) return <NotFound />;
 
-  const handlers = props.createHandlers(networkId);
+  const handlers = props.createHandlers(networkId, gateway.id);
 
   const ipPattern = '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
 
@@ -68,7 +68,7 @@ export default props => {
               <li key={gatewayType.name}>
                 <RadioInput name='gatewayType' value={gatewayType.name}
                   className={styles.radioLabel} checkClassName={styles.check}
-                  onChange={e => handlers.onGatewayTypeChange(e.target.value)}
+                  onChange={e => handlers.setType(e.target.value)}
                   checked={gatewayType.name === gateway.gatewayType}>
                   {gatewayType.title}
                   <p className={styles.gatewayDescription}>{gatewayType.description}</p>
@@ -93,7 +93,7 @@ export default props => {
                       onChange={e => handlers.setMode('client')} />
                   </InlineLabel>
 
-                  <InlineLabel label='Connect to an MQTT broker.'>
+                  <InlineLabel label='Connect to a MQTT broker.'>
                     <input type='radio' name='mode' value='mqtt'
                       checked={gateway.conn.type === 'mqtt'}
                       onChange={e => handlers.setMode('mqtt')} />
@@ -195,6 +195,17 @@ export default props => {
           {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
             <div>
               <Collapsible trigger='Ethernet settings' withBg={true} open={true}>
+                {gateway.gatewayType === 'ethernet' && (
+                  <TopAlignedLabel label='Ethernet module'>
+                    <select value={gateway.ethernet.module}
+                      onChange={e => handlers.setEthernetModule(e.target.value)}>
+                      <option value='w5100'>WizNET (W5100)</option>
+                      <option value='enc28j60'>ENC28J60</option>
+                    </select>
+                  </TopAlignedLabel>
+                )}
+
+                Network configuration
                 <InlineLabel label='Use DHCP'
                   info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
                   inlineInfo={true}>
@@ -237,6 +248,15 @@ export default props => {
               </Collapsible>
             </div>
           )}
+
+          <Collapsible trigger='Security settings' withBg={true}>
+            <TopAlignedLabel label='Device key'>
+              <input type='text' value={gateway.key} required
+                pattern='[0-9a-fA-F]{18}|(0x[0-9a-fA-F]{2}\s*,\s*){9}'
+                onChange={e => handlers.setDeviceKey(e.target.value)} />
+              <p className={info}>An 18 digit hex number used for encryption</p>
+            </TopAlignedLabel>
+          </Collapsible>
         </RightColumn>
       </ColumnContainer>
     </NavPage>

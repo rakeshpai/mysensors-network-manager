@@ -13,7 +13,7 @@ const blockFields = [ ...blockInputTypes.map(t => `input[type=${t}]`), 'select' 
 
 css.global(blockFields.join(), {
   display: 'inline-block',
-  fontSize: 18,
+  fontSize: 16,
   padding: 5,
   border: '1px solid #ddd',
   transition: 'all 0.3s ease-in',
