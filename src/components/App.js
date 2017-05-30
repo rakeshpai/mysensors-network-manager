@@ -5,13 +5,14 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 import { brandBackground } from '../styles/colors';
 
-import wrapInContainer from '../containers/wrapInContainer';
 import CreateNetwork from '../containers/CreateNetwork';
 import Network from '../containers/Network';
 import Gateway from '../containers/Gateway';
 
-import AfterCreate from '../components/AfterCreate';
-import Networks from '../components/Networks';
+import wrapInContainer from '../containers/wrapInContainer';
+import Home from './Home';
+import AfterCreate from './AfterCreate';
+import Networks from './Networks';
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -37,7 +38,7 @@ export default ({ network }) => <div>
   </header>
 
   <Switch>
-    <Route exact path='/' component={CreateNetwork} />
+    <Route exact path='/' component={wrapInContainer(Home)} />
     <Route exact path='/networks' component={wrapInContainer(Networks)} />
     <Route exact path='/networks/create' component={CreateNetwork} />
     <Route exact path='/networks/:networkId/after-create' component={wrapInContainer(AfterCreate)} />
