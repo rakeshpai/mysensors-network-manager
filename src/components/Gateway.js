@@ -9,9 +9,11 @@ import { info } from '../styles/forms';
 import NotFound from './NotFound';
 import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
 import RadioInput from './RadioInput';
-import { NavPage } from './Layouts';
 import Collapsible from './Collapsible';
-import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
+import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
+import PageMenu, { AddButton } from './PageMenu';
+
+import { serveSketch } from '../sketch-generator';
 
 const styles = {
   gatewayList: css({
@@ -53,6 +55,10 @@ export default props => {
 
   return (
     <NavPage {...props}>
+      <PageMenu>
+        <AddButton title='Download' onClick={_ => serveSketch(network, gateway.id) } />
+      </PageMenu>
+
       <h2 className={pageHeading}>
         Gateway
       </h2>

@@ -36,4 +36,23 @@ export const gatewayTypes = [
     title: 'ESP8266 WiFi based gateway',
     description: 'The gateway is connected to your ethernet network using the ESP8266 module'
   }
-]
+];
+
+export const spFiles = [
+  {
+    key: 'sp-ino',
+    name: 'SecurityPersonalizer.ino'
+  },
+  {
+    key: 'src-h',
+    name: 'sha204_lib_return_codes.h'
+  },
+  {
+    key: 'sl-c',
+    name: 'sha204_library.cpp'
+  },
+  {
+    key: 'sl-h',
+    name: 'sha204_library.h'
+  }
+];
