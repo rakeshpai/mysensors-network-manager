@@ -11,7 +11,7 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import registerServiceWorker from './registerServiceWorker';
-import { cache } from './lib/sp-files';
+import cacheFiles from './lib/cache-files';
 
 import './styles/global';
 
@@ -40,6 +40,6 @@ render(
 );
 
 registerServiceWorker();
-cache()
+cacheFiles()
   .then(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: true }))
   .catch(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: false }));
