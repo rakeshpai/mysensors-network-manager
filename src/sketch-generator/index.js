@@ -5,22 +5,43 @@ import { saveAs } from 'file-saver';
 
 import { spFiles } from '../lib/constants';
 import securityPersonalizer from './security-personalizer';
+import nodeSketch from './node-sketch';
 
-export const serveSketch = (network, nodeId) => {
+const arduinoFiles = ({ network, nodeId }) => {
+  const sketchName = `Sketch-${nodeId}`;
+
+  return [
+    ...spFiles.map(file => {
+      const fileContents = JSON.parse(window.localStorage.getItem(file.key)).text;
+
+      return {
+        path: `/${sketchName}/SecurityPersonalizer/${file.name}`,
+        contents: (
+          file.key === 'sp-ino'
+          ? securityPersonalizer(network, nodeId, fileContents)
+          : fileContents
+        )
+      }
+    }),
+    {
+      path: `/${sketchName}/${sketchName}/${sketchName}.ino`,
+      contents: nodeSketch({ network, nodeId })
+    }
+  ];
+}
+
+const pioFiles = _ => [];
+
+export const serveSketch = ({ network, nodeId, format }) => {
   const zip = new JSZip();  // Ugh! Objects!
 
-  const spFolder = zip.folder('SecurityPersonalizer');
-
-  spFiles.forEach(file => { // Ugh! forEach! Because Objects! Objects are bad, kids!
-    const { text } = JSON.parse(window.localStorage.getItem(file.key));
-
-    if(file.key !== 'sp-ino') spFolder.file(file.name, text);
-    spFolder.file(file.name, securityPersonalizer(network, nodeId, text));
-  });
+  (
+    format === 'arduino'
+    ? arduinoFiles
+    : pioFiles
+  )({ network, nodeId }).forEach(({path, contents}) => zip.file(path, contents));
 
   zip
     .generateAsync({type:"blob"})
-    .then(function(content) {
-        saveAs(content, "example.zip");
-    });
-}
+    .then(content => saveAs(content, `Sketch-${nodeId}`));
+};

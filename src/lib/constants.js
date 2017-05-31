@@ -38,21 +38,16 @@ export const gatewayTypes = [
   }
 ];
 
+export const spFilesRoot = 'https://raw.githubusercontent.com/mysensors/MySensors/development/examples/SecurityPersonalizer/';
 export const spFiles = [
-  {
-    key: 'sp-ino',
-    name: 'SecurityPersonalizer.ino'
-  },
-  {
-    key: 'src-h',
-    name: 'sha204_lib_return_codes.h'
-  },
-  {
-    key: 'sl-c',
-    name: 'sha204_library.cpp'
-  },
-  {
-    key: 'sl-h',
-    name: 'sha204_library.h'
-  }
+  { key: 'sp-ino', name: 'SecurityPersonalizer.ino' },
+  { key: 'src-h', name: 'sha204_lib_return_codes.h' },
+  { key: 'sl-c', name: 'sha204_library.cpp' },
+  { key: 'sl-h', name: 'sha204_library.h' }
+];
+
+export const nmFilesRoot = 'https://raw.githubusercontent.com/mysensors/NodeManager/master/';
+export const nmFiles = [
+  { key: 'nm-c', name: 'NodeManager.cpp' },
+  { key: 'nm-h', name: 'NodeManager.h' }
 ];

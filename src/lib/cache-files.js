@@ -1,10 +1,9 @@
-import { spFiles } from './constants';
+import { spFiles, spFilesRoot, nmFiles, nmFilesRoot } from './constants';
 
-const constructPath = name => `https://raw.githubusercontent.com/mysensors/MySensors/development/examples/SecurityPersonalizer/${name}`
 const oneDay = 1000 * 60 * 60 * 24;
 
-const putFileInLocalStorage = ({ name, key }) => {
-  return fetch(constructPath(name), { mode: 'cors' })
+const putFileInLocalStorage = ({ name, path, key }) => {
+  return fetch(`${path}${name}`, { mode: 'cors' })
     .then(res => res.text())
     .then(text => window.localStorage.setItem(key, JSON.stringify({ date: Date.now(), text })));
 }
@@ -25,4 +24,9 @@ const downloadIfNeeded = file => {
   });
 }
 
-export default _ => Promise.all(spFiles.map(downloadIfNeeded));
+const addPath = path => file => ({ ...file, path });
+
+export default _ => Promise.all([
+  ...spFiles.map(addPath(spFilesRoot)),
+  ...nmFiles.map(addPath(nmFilesRoot))
+].map(downloadIfNeeded));
