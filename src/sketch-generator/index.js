@@ -9,15 +9,15 @@ import nodeSketchFiles from './node-sketch-files';
 
 const fileContents = ({ key }) => JSON.parse(window.localStorage.getItem(key)).text;
 
-const arduinoFiles = ({ network, nodeId }) => {
-  const sketchName = `Sketch-${nodeId}`;
+const arduinoFiles = (nodeParams) => {
+  const sketchName = `Sketch-${nodeParams.nodeId}`;
 
   return [
     ...spFiles.map(file => ({
       path: `/${sketchName}/SecurityPersonalizer/${file.name}`,
       contents: (
         file.key === 'sp-ino'
-        ? securityPersonalizer(network, nodeId, fileContents(file))
+        ? securityPersonalizer(nodeParams, fileContents(file))
         : fileContents(file)
       )
     })),
@@ -25,7 +25,7 @@ const arduinoFiles = ({ network, nodeId }) => {
       path: `/${sketchName}/${sketchName}/${file.name}`,
       contents: fileContents(file)
     })),
-    ...nodeSketchFiles({ network, nodeId }).map(file => ({
+    ...nodeSketchFiles(nodeParams).map(file => ({
       path: `/${sketchName}/${sketchName}/${file.name}`,
       contents: file.contents
     }))
@@ -34,16 +34,16 @@ const arduinoFiles = ({ network, nodeId }) => {
 
 const pioFiles = _ => [];
 
-export default ({ network, nodeId, format }) => {
+export default (nodeParams, format) => {
   const zip = new JSZip();  // Ugh! Objects!
 
   (
     format === 'arduino'
     ? arduinoFiles
     : pioFiles
-  )({ network, nodeId }).forEach(({path, contents}) => zip.file(path, contents));
+  )(nodeParams).forEach(({path, contents}) => zip.file(path, contents));
 
   zip
     .generateAsync({type:"blob"})
-    .then(content => saveAs(content, `Sketch-${nodeId}`));
+    .then(content => saveAs(content, `Sketch-${nodeParams.nodeId}`));
 };

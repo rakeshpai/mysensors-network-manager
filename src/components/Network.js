@@ -14,7 +14,8 @@ import Collapsible from './Collapsible';
 import { Info } from '../styles/blocks';
 import NotFound from './NotFound';
 
-import { generateId, formatNumber } from '../lib/utils';
+import { radios } from '../lib/constants';
+import { generateId } from '../lib/utils';
 
 export default props => {
   const network = props.networks.find(n => n.id === props.match.params.networkId);
@@ -22,6 +23,13 @@ export default props => {
   if(!network) return <NotFound />;
 
   const frequencyId = generateId();
+
+  const frequencyString = radios
+    .find(r => r.name === network.radio)
+    .frequencies
+    .find(f => (network.radio === 'NRF24L01+' ? network.nrfChannel : network.rfmFrequency) === f.value)
+    .display;
+
 
   return <NavPage {...props}>
     <PageMenu>
@@ -34,7 +42,7 @@ export default props => {
       {network.radio} based network
     </h2>
     <p className={pageSubheading}>
-      Operating at {formatNumber(network.frequency)} MHz.
+      Operating at {frequencyString}.
     </p>
 
     <ColumnContainer>
@@ -48,10 +56,10 @@ export default props => {
             <FrequencyPicker
               id={frequencyId}
               radio={network.radio}
-              nrfFrequency={network.frequency}
-              rfmFrequency={network.frequency}
-              onNrfFreqChange={f => props.onFrequencyChange(network.id, f)}
-              onRfmFreqChange={f => props.onFrequencyChange(network.id, f)} />
+              nrfChannel={network.nrfChannel}
+              rfmFrequency={network.rfmFrequency}
+              onNrfChannelChange={f => props.onNrfChannelChange(network.id, f)}
+              onRfmFrequencyChange={f => props.onRfmFrequencyChange(network.id, f)} />
             <p className={info}>
               Not all frequencies are available for use in all regions. Please be sure
               to check your local regulations before choosing a frequency.

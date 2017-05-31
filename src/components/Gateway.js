@@ -56,7 +56,7 @@ export default props => {
   return (
     <NavPage {...props}>
       <PageMenu>
-        <AddButton title='Download' onClick={_ => generateSketch({ network, nodeId: gateway.id, format: 'arduino' }) } />
+        <AddButton title='Download' onClick={_ => generateSketch({ network, nodeId: gateway.id }, 'arduino' ) } />
       </PageMenu>
 
       <h2 className={pageHeading}>

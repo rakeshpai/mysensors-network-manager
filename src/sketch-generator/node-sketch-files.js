@@ -1,12 +1,10 @@
-const generateConfig = ({ network, nodeId }) => {
-  return 'Hello world config';
-};
+import generateConfig from './generate-config-h';
 
-const generateSketch = ({ network, nodeId }) => {
+const generateSketch = (nodeParams) => {
   return 'Hello world sketch';
 };
 
-export default ({ network, nodeId }) => ([
-  { name: 'config.h', contents: generateConfig({ network, nodeId }) },
-  { name: 'Sketch.ino', contents: generateSketch({ network, nodeId }) }
+export default (nodeParams) => ([
+  { name: 'config.h', contents: generateConfig(nodeParams) },
+  { name: 'Sketch.ino', contents: generateSketch(nodeParams) }
 ]);

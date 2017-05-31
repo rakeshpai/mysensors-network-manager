@@ -1,6 +1,6 @@
 const convertToHex = hexString => hexString.match(/.{2}/g).map(x => `0x${x}`).join();
 
-export default (network, nodeId, text) => {
+export default ({ network, nodeId }, text) => {
   return text
     .split('\n')
     .map(line => {

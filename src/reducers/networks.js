@@ -1,11 +1,8 @@
-import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 import { generateHexNumber } from '../lib/utils';
 
 import gatewayReducer from './gateway';
 import nodeReducer from './node';
-
-const radioByName = name => radios.find(r => r.name === name);
 
 const defaultNode = _ => ({
   id: generateId(),
@@ -38,6 +35,11 @@ const defaultGateway = _ => ({
 });
 
 export default (state = [], action) => {
+  const modify = propName => state.map(network => {
+    if(network.id !== action.networkId) return network;
+    return { ...network, [propName]: action[propName] };
+  })
+
   switch(action.type) {
     case 'CREATE_NETWORK': return [
       ...state,
@@ -57,32 +59,11 @@ export default (state = [], action) => {
         ...state.slice(networkIndex + 1)
       ];
 
-    case 'CHANGE_RADIO': return state.map(network => {
-      if(network.id !== action.networkId) return network;
-
-      const radio = radioByName(action.radio);
-
-      return {
-        ...network,
-        radio: action.radio,
-        frequency: radio.frequencies.includes(network.frequency) ? network.frequency : radio.defaultFrequency
-      };
-    });
-
-    case 'CHANGE_FREQUENCY': return state.map(network => {
-      if(network.id !== action.networkId) return network;
-      return { ...network, frequency: action.frequency };
-    });
-
-    case 'CHANGE_HMAC': return state.map(network => {
-      if(network.id !== action.networkId) return network;
-      return { ...network, hmac: action.hmac }
-    });
-
-    case 'CHANGE_AES': return state.map(network => {
-      if(network.id !== action.networkId) return network;
-      return { ...network, aes: action.aes }
-    });
+    case 'CHANGE_RADIO': return modify('radio')
+    case 'CHANGE_CHANNEL': return modify('nrfChannel');
+    case 'CHANGE_FREQUENCY': return modify('rfmFrequency');
+    case 'CHANGE_HMAC': return modify('hmac');
+    case 'CHANGE_AES': return modify('aes');
 
     default: break;
   }

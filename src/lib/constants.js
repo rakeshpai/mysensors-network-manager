@@ -7,15 +7,18 @@ export const radios = [
     image: nrfImage,
     pros: 'Cheap! No external antenna needed.',
     cons: 'Possible interference and range issues.',
-    frequencies: Array(126).fill(0).map((_, channel) => channel + 2400),
-    defaultFrequency: 2477
+    frequencies: Array(125).fill(0).map((_, channel) => ({
+      value: channel,
+      display: `2.${(400 + channel).toString().replace(/0+$/,'')} GHz (ch: ${channel + 1})`
+    })),
+    defaultChannel: 76
   },
   {
     name: 'RFM69',
     image: rfmImage,
     pros: 'Less interference, better range.',
     cons: 'More expensive. Needs an external antenna.',
-    frequencies: [433,868,915],
+    frequencies: [433,868,915].map(f => ({ value: f, display: `${f} MHz` })),
     defaultFrequency: 868
   }
 ];
