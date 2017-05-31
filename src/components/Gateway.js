@@ -13,7 +13,7 @@ import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu, { AddButton } from './PageMenu';
 
-import { serveSketch } from '../sketch-generator';
+import generateSketch from '../sketch-generator';
 
 const styles = {
   gatewayList: css({
@@ -56,7 +56,7 @@ export default props => {
   return (
     <NavPage {...props}>
       <PageMenu>
-        <AddButton title='Download' onClick={_ => serveSketch({ network, nodeId: gateway.id, format: 'arduino' }) } />
+        <AddButton title='Download' onClick={_ => generateSketch({ network, nodeId: gateway.id, format: 'arduino' }) } />
       </PageMenu>
 
       <h2 className={pageHeading}>

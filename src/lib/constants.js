@@ -5,7 +5,7 @@ export const radios = [
   {
     name: 'NRF24L01+',
     image: nrfImage,
-    pros: 'So so cheap!',
+    pros: 'Cheap! No external antenna needed.',
     cons: 'Possible interference and range issues.',
     frequencies: Array(126).fill(0).map((_, channel) => channel + 2400),
     defaultFrequency: 2477
@@ -14,7 +14,7 @@ export const radios = [
     name: 'RFM69',
     image: rfmImage,
     pros: 'Less interference, better range.',
-    cons: 'More expensive compared to the NRF24L01+.',
+    cons: 'More expensive. Needs an external antenna.',
     frequencies: [433,868,915],
     defaultFrequency: 868
   }
@@ -38,16 +38,14 @@ export const gatewayTypes = [
   }
 ];
 
-export const spFilesRoot = 'https://raw.githubusercontent.com/mysensors/MySensors/development/examples/SecurityPersonalizer/';
-export const spFiles = [
+export const spFiles = ([
   { key: 'sp-ino', name: 'SecurityPersonalizer.ino' },
   { key: 'src-h', name: 'sha204_lib_return_codes.h' },
   { key: 'sl-c', name: 'sha204_library.cpp' },
   { key: 'sl-h', name: 'sha204_library.h' }
-];
+]).map(f => ({ ...f, path: 'https://raw.githubusercontent.com/mysensors/MySensors/development/examples/SecurityPersonalizer/'}));
 
-export const nmFilesRoot = 'https://raw.githubusercontent.com/mysensors/NodeManager/master/';
-export const nmFiles = [
+export const nmFiles = ([
   { key: 'nm-c', name: 'NodeManager.cpp' },
   { key: 'nm-h', name: 'NodeManager.h' }
-];
+]).map(f => ({ ...f, path: 'https://raw.githubusercontent.com/mysensors/NodeManager/master/' }));
