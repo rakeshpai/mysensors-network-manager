@@ -108,7 +108,7 @@ export const InlineLabel = ({ label, children, info, inlineInfo }) => (
           display: 'inline-block',
           paddingLeft: 7
         })}>
-        ({info})
+        {info}
       </p>
     )}
   </label>

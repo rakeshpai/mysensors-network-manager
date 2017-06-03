@@ -5,6 +5,7 @@ const sketchConfiguration = (network, node) => `
 
 #define SKETCH_NAME "${node.name}"
 #define SKETCH_VERSION "1.0"
+${node.batteryPowered && node.type !== 'gateway' ? '//' : ''}#define MY_REPEATER_FEATURE
 `;
 
 const radioConfiguration = (network, node) => {
@@ -14,7 +15,7 @@ const radioConfiguration = (network, node) => {
 #define MY_RADIO_NRF24
 #define MY_RF24_ENABLE_ENCRYPTION
 #define MY_RF24_CHANNEL ${network.nrfChannel}
-#define MY_RF24_PA_LEVEL RF24_PA_HIGH
+#define MY_RF24_PA_LEVEL RF24_PA_${node.pa && !node.batteryPowered ? 'HIGH' : 'LOW'}
 //#define MY_DEBUG_VERBOSE_RF24
 `
   } else {
@@ -22,8 +23,8 @@ const radioConfiguration = (network, node) => {
 // RFM69 radio settings
 #define MY_RADIO_RFM69
 #define MY_RFM69_FREQUENCY RF69_${network.rfmFrequency}MHZ
-#define MY_IS_RFM69HW
-##define MY_DEBUG_VERBOSE_RFM69
+${node.hw ? '' : '//'}#define MY_IS_RFM69HW
+//#define MY_DEBUG_VERBOSE_RFM69
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ENABLE_ENCRYPTION
 #define MY_RF69_IRQ_PIN D1
@@ -43,41 +44,72 @@ const nodeConfiguration = (network, node) => `
 //#define MY_DEBUG
 `;
 
-const gatewayConfiguration = (network, node) => `
-/**********************************
- * MySensors gateway configuration
- */
-// Common gateway settings
-//#define MY_REPEATER_FEATURE
+const gatewayConfiguration = (network, node) => {
+  if(node.type !== 'gateway') return '';
 
+  const gatewayTypes = {};
+
+  gatewayTypes.serial = `
 // Serial gateway settings
-//#define MY_GATEWAY_SERIAL
+#define MY_GATEWAY_SERIAL
+`;
 
+  gatewayTypes.ethernet = `
 // Ethernet gateway settings
-//#define MY_GATEWAY_W5100
+#define MY_GATEWAY_${node.ethernet.module === 'w5100' ? 'W5100' : 'ENC28J60'}
+`;
 
+  gatewayTypes.esp8266 = `
 // ESP8266 gateway settings
-//#define MY_GATEWAY_ESP8266
-//#define MY_ESP8266_SSID ""
-//#define MY_ESP8266_PASSWORD ""
+#define MY_GATEWAY_ESP8266
+#define MY_ESP8266_SSID "${node.wifi.ssid}"
+${node.wifi.password ? '' : '//'}#define MY_ESP8266_PASSWORD "${node.wifi.password}"
+`;
 
+  const ipSettings = `
 // Gateway networking settings
-//#define MY_IP_ADDRESS 192,168,178,87
-//#define MY_IP_GATEWAY_ADDRESS 192,168,178,1
-//#define MY_IP_SUBNET_ADDRESS 255,255,255,0
-//#define MY_PORT 5003
-//#define MY_GATEWAY_MAX_CLIENTS 2
-//#define MY_USE_UDP
+${node.dhcp ? '' : `
+#define MY_IP_ADDRESS ${node.ethernet.ip.split('.').join(',')}
+#define MY_IP_GATEWAY_ADDRESS ${node.ethernet.gateway.split('.').join(',')}
+#define MY_IP_SUBNET_ADDRESS ${node.ethernet.subnet.split('.').join(',')}
+`}`;
 
+  const connTypes = {};
+
+  connTypes.server = `
+#define MY_GATEWAY_MAX_CLIENTS ${node.conn.serverMaxClients}
+#define MY_PORT ${node.conn.serverPort}
+`;
+
+  connTypes.client = `
+// Controller ip address. Enables client mode (default is "server" mode).
+// Also enable this if MY_USE_UDP is used and you want sensor data sent somewhere.
+#define MY_CONTROLLER_IP_ADDRESS ${node.conn.controllerIp.split('.').join(',')}
+//#define MY_CONTROLLER_URL_ADDRESS "m20.cloudmqtt.com"
+//#define MY_USE_UDP
+#define MY_PORT ${node.conn.controllerPort}
+`;
+
+  connTypes.mqtt = `
 // Gateway MQTT settings
-//#define MY_GATEWAY_MQTT_CLIENT
-//#define MY_CONTROLLER_IP_ADDRESS 192, 168, 178, 68
-//#define MY_PORT 1883
+#define MY_GATEWAY_MQTT_CLIENT
+//#define MY_CONTROLLER_URL_ADDRESS "m20.cloudmqtt.com"
+#define MY_CONTROLLER_IP_ADDRESS ${node.conn.mqttHost.split('.').join(',')}
+#define MY_PORT ${node.conn.mqttPort}
 //#define MY_MQTT_USER "username"
 //#define MY_MQTT_PASSWORD "password"
 //#define MY_MQTT_CLIENT_ID "mysensors-1"
 //#define MY_MQTT_PUBLISH_TOPIC_PREFIX "mygateway1-out"
 //#define MY_MQTT_SUBSCRIBE_TOPIC_PREFIX "mygateway1-in"
+`;
+
+  return `
+/**********************************
+ * MySensors gateway configuration
+ */
+${gatewayTypes[node.gatewayType]}
+${['ethernet', 'esp8266'].includes(node.gatewayType) ? ipSettings : ''}
+${connTypes[node.conn.type]}
 
 // Gateway inclusion mode
 //#define MY_INCLUSION_MODE_FEATURE
@@ -89,7 +121,7 @@ const gatewayConfiguration = (network, node) => `
 //#define MY_DEFAULT_ERR_LED_PIN 4
 //#define MY_DEFAULT_RX_LED_PIN  5
 //#define MY_DEFAULT_TX_LED_PIN  6
-`;
+`};
 
 const nodeManagerConfiguration = (network, node) => `
 /***********************************
@@ -101,12 +133,9 @@ const nodeManagerConfiguration = (network, node) => `
 
 // if enabled, enable the capability to power on sensors with the arduino's pins to save battery while sleeping
 #define POWER_MANAGER 1
-// if enabled, will load the battery manager library to allow the battery level to be reported automatically or on demand
-#define BATTERY_MANAGER 1
-// if enabled, allow modifying the configuration remotely by interacting with the configuration child id
+${node.batteryPowered ? '' : '//'}#define BATTERY_MANAGER 1
 #define REMOTE_CONFIGURATION 1
-// if enabled, persist the remote configuration settings on EEPROM
-#define PERSIST 0
+#define PERSIST 1
 // if enabled, a battery sensor will be created at BATTERY_CHILD_ID and will report vcc voltage together with the battery level percentage
 #define BATTERY_SENSOR 1
 // if enabled, send a SLEEPING and AWAKE service messages just before entering and just after leaving a sleep cycle and STARTED when starting/rebooting

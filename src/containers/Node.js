@@ -10,7 +10,10 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
   });
 
   return {
-    setDeviceKey: key => d('SET_DEVICE_KEY', { key })
+    setDeviceKey: key => d('SET_DEVICE_KEY', { key }),
+    setPA: pa => d('SET_PA', { pa }),
+    setHW: hw => d('SET_HW', { hw }),
+    setBatteryPowered: b => d('SET_BATTERY', { batteryPowered: b })
   }
 };
 

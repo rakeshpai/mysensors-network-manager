@@ -5,13 +5,16 @@ import { gatewayTypes } from '../lib/constants';
 import { css } from 'glamor';
 import { pageHeading, pageSubheading } from '../styles/typography';
 import { info } from '../styles/forms';
+import tabs from '../styles/tabs';
 
+import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import NotFound from './NotFound';
 import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
 import RadioInput from './RadioInput';
 import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu, { AddButton } from './PageMenu';
+import { Form as NodeForm } from './Node';
 
 import generateSketch from '../sketch-generator';
 
@@ -36,6 +39,10 @@ const styles = {
     color: '#999',
     fontSize: 14,
     margin: '7px 0 3px'
+  }),
+  settingsHeading: css({
+    fontWeight: 'normal',
+    marginTop: 30
   })
 };
 
@@ -66,205 +73,210 @@ export default props => {
         The gateway acts as the bridge between the {network.radio} network, and the controller running on a computer.
       </p>
 
-      <ColumnContainer>
-        <LeftColumn>
-          Which type of gateway are you using?
-          <ul className={styles.gatewayList}>
-            {gatewayTypes.map(gatewayType => (
-              <li key={gatewayType.name}>
-                <RadioInput name='gatewayType' value={gatewayType.name}
-                  className={styles.radioLabel} checkClassName={styles.check}
-                  onChange={e => handlers.setType(e.target.value)}
-                  checked={gatewayType.name === gateway.gatewayType}>
-                  {gatewayType.title}
-                  <p className={styles.gatewayDescription}>{gatewayType.description}</p>
-                </RadioInput>
-              </li>
-            ))}
+      <Tabs className={tabs.toString()}>
+        <TabList>
+          <Tab>Gateway settings</Tab>
+          <Tab>Other settings</Tab>
+        </TabList>
 
-            {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
-              <div className={css({marginTop: 30})}>
-                How should the gateway connect to the controller?
+        <TabPanel>
+          <h3 className={styles.settingsHeading}>Gateway settings</h3>
+          <ColumnContainer>
+            <LeftColumn>
+              Which type of gateway are you using?
+              <ul className={styles.gatewayList}>
+                {gatewayTypes.map(gatewayType => (
+                  <li key={gatewayType.name}>
+                    <RadioInput name='gatewayType' value={gatewayType.name}
+                      className={styles.radioLabel} checkClassName={styles.check}
+                      onChange={e => handlers.setType(e.target.value)}
+                      checked={gatewayType.name === gateway.gatewayType}>
+                      {gatewayType.title}
+                      <p className={styles.gatewayDescription}>{gatewayType.description}</p>
+                    </RadioInput>
+                  </li>
+                ))}
 
-                <div className={css({marginTop: 10})}>
-                  <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
-                    <input type='radio' name='mode' value='server'
-                      checked={gateway.conn.type === 'server'}
-                      onChange={e => handlers.setMode('server')} />
-                  </InlineLabel>
+                {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
+                  <div className={css({marginTop: 30})}>
+                    How should the gateway connect to the controller?
 
-                  <InlineLabel label={'As a client, connecting to the controller\'s server.'}>
-                    <input type='radio' name='mode' value='client'
-                      checked={gateway.conn.type === 'client'}
-                      onChange={e => handlers.setMode('client')} />
-                  </InlineLabel>
+                    <div className={css({marginTop: 10})}>
+                      <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
+                        <input type='radio' name='mode' value='server'
+                          checked={gateway.conn.type === 'server'}
+                          onChange={e => handlers.setMode('server')} />
+                      </InlineLabel>
 
-                  <InlineLabel label='Connect to a MQTT broker.'>
-                    <input type='radio' name='mode' value='mqtt'
-                      checked={gateway.conn.type === 'mqtt'}
-                      onChange={e => handlers.setMode('mqtt')} />
-                  </InlineLabel>
+                      <InlineLabel label={'As a client, connecting to the controller\'s server.'}>
+                        <input type='radio' name='mode' value='client'
+                          checked={gateway.conn.type === 'client'}
+                          onChange={e => handlers.setMode('client')} />
+                      </InlineLabel>
+
+                      <InlineLabel label='Connect to a MQTT broker.'>
+                        <input type='radio' name='mode' value='mqtt'
+                          checked={gateway.conn.type === 'mqtt'}
+                          onChange={e => handlers.setMode('mqtt')} />
+                      </InlineLabel>
+                    </div>
+
+                    {gateway.conn.type === 'server' && (
+                      <fieldset>
+                        <legend>Server settings</legend>
+
+                        <RightAlignedLabel label='Listening port'>
+                          <input type='number' value={gateway.conn.serverPort}
+                            min='1' max='65535' pattern='\d*'
+                            onChange={e => handlers.setServerPort(parseInt(e.target.value, 10))} />
+
+                          <p className={info}>
+                            The port that the gateway should open for incoming connections.
+                          </p>
+                        </RightAlignedLabel>
+
+                        <RightAlignedLabel label='Max. incoming connections'>
+                          <input type='number' value={gateway.conn.serverMaxClients}
+                            min='1' max='8' pattern='\d*'
+                            onChange={e => handlers.setServerMaxClients(parseInt(e.target.value, 10))} />
+
+                          <p className={info}>
+                            Allowing too many incoming connections may cause the gateway to crash!
+                          </p>
+                        </RightAlignedLabel>
+                      </fieldset>
+                    )}
+
+                    {gateway.conn.type === 'client' && (
+                      <fieldset>
+                        <legend>Controller settings</legend>
+
+                        <RightAlignedLabel label='Controller host'>
+                          <input type='text' value={gateway.conn.controllerIp} required
+                            placeholder='Host or IP'
+                            onChange={e => handlers.setControllerIp(e.target.value.trim())} />
+
+                          <p className={info}>
+                            The hostname or IP address of the controller
+                          </p>
+                        </RightAlignedLabel>
+
+                        <RightAlignedLabel label='Port'>
+                          <input type='number' value={gateway.conn.controllerPort} required
+                            min='1' max='65535' pattern='\d*'
+                            onChange={e => handlers.setControllerPort(parseInt(e.target.value, 10))} />
+                        </RightAlignedLabel>
+                      </fieldset>
+                    )}
+
+                    {gateway.conn.type === 'mqtt' && (
+                      <fieldset>
+                        <legend>MQTT settings</legend>
+
+                        <RightAlignedLabel label='Broker host'>
+                          <input type='text' value={gateway.conn.mqttHost} required
+                            placeholder='Host or IP'
+                            onChange={e => handlers.setMqttHost(e.target.value.trim())} />
+
+                          <p className={info}>
+                            The hostname or IP address of the MQTT broker
+                          </p>
+                        </RightAlignedLabel>
+
+                        <RightAlignedLabel label='Port'>
+                          <input type='number' value={gateway.conn.mqttPort} required
+                            min='1' max='65535' pattern='\d*'
+                            onChange={e => handlers.setMqttPort(parseInt(e.target.value, 10))} />
+                        </RightAlignedLabel>
+                      </fieldset>
+                    )}
+                  </div>
+                )}
+              </ul>
+            </LeftColumn>
+            <RightColumn>
+              {gateway.gatewayType === 'esp8266' && (
+                <div>
+                  <Collapsible trigger='WiFi settings' withBg={true} open={true}>
+                    <TopAlignedLabel label={'Your WiFi\'s SSID'}>
+                      <input type='text' value={gateway.wifi.ssid} required
+                        placeholder="Enter your WiFi's SSID"
+                        onChange={e => handlers.setSsid(e.target.value)} />
+                    </TopAlignedLabel>
+
+                    <TopAlignedLabel label={'Your WiFi\'s password'}>
+                      <input type='password' value={gateway.wifi.password}
+                        placeholder='Enter your WiFi password'
+                        onChange={e => handlers.setPassword(e.target.value)} />
+                    </TopAlignedLabel>
+                  </Collapsible>
                 </div>
+              )}
 
-                {gateway.conn.type === 'server' && (
-                  <fieldset>
-                    <legend>Server settings</legend>
+              {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
+                <div>
+                  <Collapsible trigger='Ethernet settings' withBg={true} open={true}>
+                    {gateway.gatewayType === 'ethernet' && (
+                      <TopAlignedLabel label='Ethernet module'>
+                        <select value={gateway.ethernet.module}
+                          onChange={e => handlers.setEthernetModule(e.target.value)}>
+                          <option value='w5100'>WizNET (W5100)</option>
+                          <option value='enc28j60'>ENC28J60</option>
+                        </select>
+                      </TopAlignedLabel>
+                    )}
 
-                    <RightAlignedLabel label='Listening port'>
-                      <input type='number' value={gateway.conn.serverPort}
-                        min='1' max='65535' pattern='\d*'
-                        onChange={e => handlers.setServerPort(parseInt(e.target.value, 10))} />
+                    Network configuration
+                    <InlineLabel label='Use DHCP'
+                      info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
+                      inlineInfo={true}>
+                      <input type='radio' name='dhcp' value='yes'
+                        checked={gateway.ethernet.dhcp}
+                        onChange={e => handlers.setDhcp(true)} />
+                    </InlineLabel>
 
-                      <p className={info}>
-                        The port that the gateway should open for incoming connections.
-                      </p>
-                    </RightAlignedLabel>
+                    <InlineLabel label={'Configure the network manually'}
+                      info={gateway.conn.type === 'server' ? 'Recommended' : null}
+                      inlineInfo={true}>
+                      <input type='radio' name='dhcp' value='no'
+                        checked={!gateway.ethernet.dhcp}
+                        onChange={e => handlers.setDhcp(false)} />
+                    </InlineLabel>
 
-                    <RightAlignedLabel label='Max. incoming connections'>
-                      <input type='number' value={gateway.conn.serverMaxClients}
-                        min='1' max='8' pattern='\d*'
-                        onChange={e => handlers.setServerMaxClients(parseInt(e.target.value, 10))} />
+                    {!gateway.ethernet.dhcp && (
+                      <fieldset>
+                        <legend>Manual network configuration</legend>
 
-                      <p className={info}>
-                        Allowing too many incoming connections may cause the gateway to crash!
-                      </p>
-                    </RightAlignedLabel>
-                  </fieldset>
-                )}
+                        <TopAlignedLabel label='Static IP'>
+                          <input type='text' value={gateway.ethernet.ip}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setIp(e.target.value)} />
+                        </TopAlignedLabel>
 
-                {gateway.conn.type === 'client' && (
-                  <fieldset>
-                    <legend>Controller settings</legend>
+                        <TopAlignedLabel label='Gateway IP'>
+                          <input type='text' value={gateway.ethernet.gateway}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setGateway(e.target.value)} />
+                        </TopAlignedLabel>
 
-                    <RightAlignedLabel label='Controller host'>
-                      <input type='text' value={gateway.conn.controllerIp} required
-                        placeholder='Host or IP'
-                        onChange={e => handlers.setControllerIp(e.target.value.trim())} />
-
-                      <p className={info}>
-                        The hostname or IP address of the controller
-                      </p>
-                    </RightAlignedLabel>
-
-                    <RightAlignedLabel label='Port'>
-                      <input type='number' value={gateway.conn.controllerPort} required
-                        min='1' max='65535' pattern='\d*'
-                        onChange={e => handlers.setControllerPort(parseInt(e.target.value, 10))} />
-                    </RightAlignedLabel>
-                  </fieldset>
-                )}
-
-                {gateway.conn.type === 'mqtt' && (
-                  <fieldset>
-                    <legend>MQTT settings</legend>
-
-                    <RightAlignedLabel label='Broker host'>
-                      <input type='text' value={gateway.conn.mqttHost} required
-                        placeholder='Host or IP'
-                        onChange={e => handlers.setMqttHost(e.target.value.trim())} />
-
-                      <p className={info}>
-                        The hostname or IP address of the MQTT broker
-                      </p>
-                    </RightAlignedLabel>
-
-                    <RightAlignedLabel label='Port'>
-                      <input type='number' value={gateway.conn.mqttPort} required
-                        min='1' max='65535' pattern='\d*'
-                        onChange={e => handlers.setMqttPort(parseInt(e.target.value, 10))} />
-                    </RightAlignedLabel>
-                  </fieldset>
-                )}
-              </div>
-            )}
-          </ul>
-        </LeftColumn>
-        <RightColumn>
-          {gateway.gatewayType === 'esp8266' && (
-            <div>
-              <Collapsible trigger='WiFi settings' withBg={true} open={true}>
-                <TopAlignedLabel label={'Your WiFi\'s SSID'}>
-                  <input type='text' value={gateway.wifi.ssid} required
-                    placeholder="Enter your WiFi's SSID"
-                    onChange={e => handlers.setSsid(e.target.value)} />
-                </TopAlignedLabel>
-
-                <TopAlignedLabel label={'Your WiFi\'s password'}>
-                  <input type='password' value={gateway.wifi.password}
-                    placeholder='Enter your WiFi password'
-                    onChange={e => handlers.setPassword(e.target.value)} />
-                </TopAlignedLabel>
-              </Collapsible>
-            </div>
-          )}
-
-          {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
-            <div>
-              <Collapsible trigger='Ethernet settings' withBg={true} open={true}>
-                {gateway.gatewayType === 'ethernet' && (
-                  <TopAlignedLabel label='Ethernet module'>
-                    <select value={gateway.ethernet.module}
-                      onChange={e => handlers.setEthernetModule(e.target.value)}>
-                      <option value='w5100'>WizNET (W5100)</option>
-                      <option value='enc28j60'>ENC28J60</option>
-                    </select>
-                  </TopAlignedLabel>
-                )}
-
-                Network configuration
-                <InlineLabel label='Use DHCP'
-                  info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
-                  inlineInfo={true}>
-                  <input type='radio' name='dhcp' value='yes'
-                    checked={gateway.ethernet.dhcp}
-                    onChange={e => handlers.setDhcp(true)} />
-                </InlineLabel>
-
-                <InlineLabel label={'Configure the network manually'}
-                  info={gateway.conn.type === 'server' ? 'Recommended' : null}
-                  inlineInfo={true}>
-                  <input type='radio' name='dhcp' value='no'
-                    checked={!gateway.ethernet.dhcp}
-                    onChange={e => handlers.setDhcp(false)} />
-                </InlineLabel>
-
-                {!gateway.ethernet.dhcp && (
-                  <fieldset>
-                    <legend>Manual network configuration</legend>
-
-                    <TopAlignedLabel label='Static IP'>
-                      <input type='text' value={gateway.ethernet.ip}
-                        pattern={ipPattern} required
-                        onChange={e => handlers.setIp(e.target.value)} />
-                    </TopAlignedLabel>
-
-                    <TopAlignedLabel label='Gateway IP'>
-                      <input type='text' value={gateway.ethernet.gateway}
-                        pattern={ipPattern} required
-                        onChange={e => handlers.setGateway(e.target.value)} />
-                    </TopAlignedLabel>
-
-                    <TopAlignedLabel label='Subnet mask'>
-                      <input type='text' value={gateway.ethernet.subnet}
-                        pattern={ipPattern} required
-                        onChange={e => handlers.setSubnet(e.target.value)} />
-                    </TopAlignedLabel>
-                  </fieldset>
-                )}
-              </Collapsible>
-            </div>
-          )}
-
-          <Collapsible trigger='Security settings' withBg={true}>
-            <TopAlignedLabel label='Device key'>
-              <input type='text' value={gateway.key} required
-                pattern='[0-9a-fA-F]{18}|(0x[0-9a-fA-F]{2}\s*,\s*){9}'
-                onChange={e => handlers.setDeviceKey(e.target.value)} />
-              <p className={info}>An 18 digit hex number used for encryption</p>
-            </TopAlignedLabel>
-          </Collapsible>
-        </RightColumn>
-      </ColumnContainer>
+                        <TopAlignedLabel label='Subnet mask'>
+                          <input type='text' value={gateway.ethernet.subnet}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setSubnet(e.target.value)} />
+                        </TopAlignedLabel>
+                      </fieldset>
+                    )}
+                  </Collapsible>
+                </div>
+              )}
+            </RightColumn>
+          </ColumnContainer>
+        </TabPanel>
+        <TabPanel>
+          <h3 className={styles.settingsHeading}>Node settings</h3>
+          <NodeForm network={network} node={gateway} handlers={handlers} {...props} />
+        </TabPanel>
+      </Tabs>
     </NavPage>
   )
 }

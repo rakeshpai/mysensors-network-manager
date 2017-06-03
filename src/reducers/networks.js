@@ -6,11 +6,18 @@ import nodeReducer from './node';
 
 const defaultNode = _ => ({
   id: generateId(),
-  key: generateHexNumber(18)
+  name: 'MyNode',
+  key: generateHexNumber(18),
+  pa: false,
+  hw: false,
+  batteryPowered: false
 });
 
 const defaultGateway = _ => ({
   ...defaultNode(),
+
+  name: 'Gateway',
+  batteryPowered: false,
 
   type: 'gateway',
   gatewayType: 'serial',
