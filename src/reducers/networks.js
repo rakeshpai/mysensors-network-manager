@@ -5,17 +5,25 @@ import gatewayReducer from './gateway';
 import nodeReducer from './node';
 
 const defaultNode = _ => ({
-  id: generateId(),
   name: 'MyNode',
+  type: 'node',
   key: generateHexNumber(18),
   pa: false,
   hw: false,
-  batteryPowered: false
+  battery: {
+    powered: false,
+    min: 2.5,
+    max: 3.3,
+    measure: 'internal',
+    measurePin: 'A0',
+    voltsPerBit: 0.003363075
+  }
 });
 
 const defaultGateway = _ => ({
   ...defaultNode(),
 
+  id: generateId(),
   name: 'Gateway',
   batteryPowered: false,
 
@@ -66,6 +74,15 @@ export default (state = [], action) => {
         ...state.slice(networkIndex + 1)
       ];
 
+    case 'ADD_NODE': return [
+      ...state.map(network => {
+        if(network.id !== action.networkId) return network;
+        return {...network, nodes: [
+          ...network.nodes,
+          { id: action.id, ...defaultNode() }
+        ]}
+      })
+    ]
     case 'CHANGE_RADIO': return modify('radio')
     case 'CHANGE_CHANNEL': return modify('nrfChannel');
     case 'CHANGE_FREQUENCY': return modify('rfmFrequency');

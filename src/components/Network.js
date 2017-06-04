@@ -33,7 +33,7 @@ export default props => {
 
   return <NavPage {...props}>
     <PageMenu>
-      <AddButton title='Add a new node' />
+      <AddButton onClick={e => props.addNode(network.id)} title='Add a new node' />
       <DeleteButton onClick={e => props.deleteNetwork(network.id)}
         title='Delete this network' />
     </PageMenu>

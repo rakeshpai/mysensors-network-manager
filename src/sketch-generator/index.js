@@ -10,7 +10,7 @@ import nodeSketchFiles from './node-sketch-files';
 const fileContents = ({ key }) => JSON.parse(window.localStorage.getItem(key)).text;
 
 const arduinoFiles = (nodeParams) => {
-  const sketchName = `Sketch-${nodeParams.nodeId}`;
+  const sketchName = nodeParams.network.nodes.find(n => n.id === nodeParams.nodeId).name.trim();
 
   return [
     ...spFiles.map(file => ({
@@ -25,7 +25,7 @@ const arduinoFiles = (nodeParams) => {
       path: `/${sketchName}/${sketchName}/${file.name}`,
       contents: fileContents(file)
     })),
-    ...nodeSketchFiles(nodeParams).map(file => ({
+    ...nodeSketchFiles(nodeParams, sketchName).map(file => ({
       path: `/${sketchName}/${sketchName}/${file.name}`,
       contents: file.contents
     }))
@@ -45,5 +45,5 @@ export default (nodeParams, format) => {
 
   zip
     .generateAsync({type:"blob"})
-    .then(content => saveAs(content, `Sketch-${nodeParams.nodeId}`));
+    .then(content => saveAs(content, `${nodeParams.network.nodes.find(n => n.id === nodeParams.nodeId).name.trim()}-${nodeParams.nodeId}`));
 };

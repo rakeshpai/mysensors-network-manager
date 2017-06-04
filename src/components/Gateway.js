@@ -13,7 +13,7 @@ import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
 import RadioInput from './RadioInput';
 import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
-import PageMenu, { AddButton } from './PageMenu';
+import PageMenu, { DownloadButton } from './PageMenu';
 import { Form as NodeForm } from './Node';
 
 import generateSketch from '../sketch-generator';
@@ -63,7 +63,7 @@ export default props => {
   return (
     <NavPage {...props}>
       <PageMenu>
-        <AddButton title='Download' onClick={_ => generateSketch({ network, nodeId: gateway.id }, 'arduino' ) } />
+        <DownloadButton title='Download the sketch for the gateway' onClick={_ => generateSketch({ network, nodeId: gateway.id }, 'arduino' ) } />
       </PageMenu>
 
       <h2 className={pageHeading}>

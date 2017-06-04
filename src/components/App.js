@@ -8,6 +8,7 @@ import { brandBackground } from '../styles/colors';
 import CreateNetwork from '../containers/CreateNetwork';
 import Network from '../containers/Network';
 import Gateway from '../containers/Gateway';
+import Node from '../containers/Node';
 
 import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
@@ -44,5 +45,6 @@ export default ({ network }) => <div>
     <Route exact path='/networks/:networkId/after-create' component={wrapInContainer(AfterCreate)} />
     <Route exact path='/networks/:networkId' component={Network} />
     <Route path='/networks/:networkId/gateway' component={Gateway} />
+    <Route path='/networks/:networkId/:nodeId' component={Node} />
   </Switch>
 </div>;

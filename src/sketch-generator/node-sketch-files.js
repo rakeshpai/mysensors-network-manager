@@ -4,7 +4,7 @@ const generateSketch = (nodeParams) => {
   return 'Hello world sketch';
 };
 
-export default (nodeParams) => ([
+export default (nodeParams, sketchName) => ([
   { name: 'config.h', contents: generateConfig(nodeParams) },
-  { name: 'Sketch.ino', contents: generateSketch(nodeParams) }
+  { name: sketchName, contents: generateSketch(nodeParams) }
 ]);

@@ -1,9 +1,18 @@
 import React from 'react';
 
 import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
-import Collapsible from './Collapsible'
+import Collapsible from './Collapsible';
+import NotFound from './NotFound';
+import { NavPage } from './Layouts';
 import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './Forms';
-import { info } from '../styles/forms';
+import { AnalogPins } from './Pins';
+import PageMenu, { DownloadButton } from './PageMenu';
+
+import { css } from 'glamor';
+import { pageHeading, pageSubheading } from '../styles/typography';
+import { info, button } from '../styles/forms';
+
+import generateSketch from '../sketch-generator';
 
 export const Form = ({ network, node, handlers }) => (
   <ColumnContainer>
@@ -11,36 +20,84 @@ export const Form = ({ network, node, handlers }) => (
       <div>
         {node.type !== 'gateway' && (
           <RightAlignedLabel label='Name this type of node'>
-            <input type='text' value={node.name} />
+            <input type='text' value={node.name}
+              onChange={e => handlers.setName(e.target.value)} />
             <p className={info}>
               Example: 'MotionSensor', or 'GardenLights'
             </p>
           </RightAlignedLabel>
         )}
-        {node.type !== 'gateway' && (
-          <InlineLabel label='This node is battery powered'>
-            <input type='checkbox' checked={node.batteryPowered}
-              onChange={e => handlers.setBatteryPowered(e.target.checked)} />
-          </InlineLabel>
-        )}
         {network.radio === 'NRF24L01+' && (
           <InlineLabel
             label={'This node uses the NRF24L01+ PA+LNA module with a good power supply.'}
-            info='The power supply should be able to able to supply 100 mA bursts.'>
+            info='The power supply should be able to supply 100 mA bursts.'>
             <input type='checkbox' checked={node.pa}
               onChange={e => handlers.setPA(e.target.checked)} />
           </InlineLabel>
         )}
 
         {network.radio === 'RFM69' && (
-          <InlineLabel label={'This node uses the RFM69HW module with a good power supply.'}>
+          <InlineLabel label={'This node uses the RFM69HW module with a good power supply.'}
+            info='The power supply should be able to supply 130mA bursts.'>
             <input type='checkbox' checked={node.hw}
               onChange={e => handlers.setHW(e.target.checked)} />
           </InlineLabel>
         )}
+
+        {node.type !== 'gateway' && (
+          <div>
+            <InlineLabel label='This node is battery-powered'>
+              <input type='checkbox' checked={node.battery.powered}
+                onChange={e => handlers.setBatteryPowered(e.target.checked)} />
+            </InlineLabel>
+          </div>
+        )}
       </div>
     </LeftColumn>
     <RightColumn>
+      {node.battery.powered && (
+        <Collapsible trigger='Battery settings' withBg={true} open={true}>
+          <RightAlignedLabel label='Battery voltage range'>
+            <div className={css({display: 'table'})}>
+              <div className={css({display: 'table-cell', paddingRight: 10})}>
+                <input type='number' min='0' max='24' step='0.1' pattern='\d*'
+                  value={node.battery.min} onChange={e => handlers.setBatteryMin(e.target.value)} />
+                <p className={info}>Min</p>
+              </div>
+              <div className={css({display: 'table-cell'})}>
+                <input type='number' min='0' max='24' step='0.1' pattern='\d*'
+                  value={node.battery.max} onChange={e => handlers.setBatteryMax(e.target.value)} />
+                <p className={info}>Max</p>
+              </div>
+            </div>
+          </RightAlignedLabel>
+
+          <RightAlignedLabel label='Measure battery voltage'>
+            <select value={node.battery.measure} onChange={e => handlers.setMeasure(e.target.value)}>
+              <option value='internal'>internally, using the Vcc voltage</option>
+              <option value='external'>externally, using an analog pin</option>
+            </select>
+          </RightAlignedLabel>
+
+          {node.battery.measure === 'external' && (
+            <RightAlignedLabel label='Measurement pin'>
+              <AnalogPins value={node.battery.measurePin}
+                onChange={e => handlers.setMeasurePin(e.target.value)} />
+            </RightAlignedLabel>
+          )}
+
+          {node.battery.measure === 'external' && (
+            <RightAlignedLabel label='Volts per bit'>
+              <input type='text' value={node.battery.voltsPerBit}
+                onChange={e => handlers.setVoltsPerBit(e.target.value)} />
+              <p className={info}>
+                This value depends on your choice of voltage divider resistors.
+              </p>
+            </RightAlignedLabel>
+          )}
+        </Collapsible>
+      )}
+
       <Collapsible trigger='Security settings' withBg={true}>
         <TopAlignedLabel label='Device key'>
           <input type='text' value={node.key} required
@@ -53,8 +110,32 @@ export const Form = ({ network, node, handlers }) => (
   </ColumnContainer>
 )
 
-export default props => (
-  <div>
-    Node page
-  </div>
-);
+export default props => {
+  const { networks, match } = props;
+
+  const networkId = match.params.networkId;
+  const network = networks.find(n => n.id === networkId);
+  if(!network) return <NotFound />
+
+  const node = network.nodes.find(n => n.id === match.params.nodeId);
+  if(!node) return <NotFound />
+
+  const handlers = props.createHandlers(networkId, node.id);
+
+  return (
+    <NavPage {...props}>
+      <PageMenu>
+        <DownloadButton title='Download the sketch for this node' onClick={_ => generateSketch({ network, nodeId: node.id }, 'arduino' ) } />
+      </PageMenu>
+
+      <h2 className={pageHeading}>
+        {node.name || 'Unnamed node'}
+      </h2>
+      <p className={pageSubheading}>
+        Describe how this node is built
+      </p>
+
+      <Form network={network} node={node} handlers={handlers} />
+    </NavPage>
+  )
+};

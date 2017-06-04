@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Network from '../components/Network';
+import { generateId } from '../lib/utils';
 import { push } from 'react-router-redux';
 
 export default connect(
@@ -7,8 +8,13 @@ export default connect(
   dispatch => {
     return {
       deleteNetwork: networkId => {
-        dispatch({ type: 'DELETE_NETWORK', networkId })
+        dispatch({ type: 'DELETE_NETWORK', networkId });
         dispatch(push(`/networks`));
+      },
+      addNode: networkId => {
+        const id = generateId();
+        dispatch({ type: 'ADD_NODE', networkId, id });
+        dispatch(push(`/networks/${networkId}/${id}`))
       },
       changeRadio: (networkId, radio) => dispatch({ type: 'CHANGE_RADIO', networkId, radio }),
       onNrfChannelChange: (networkId, nrfChannel) => dispatch({ type: 'CHANGE_CHANNEL', networkId, nrfChannel }),

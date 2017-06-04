@@ -133,7 +133,7 @@ const nodeManagerConfiguration = (network, node) => `
 
 // if enabled, enable the capability to power on sensors with the arduino's pins to save battery while sleeping
 #define POWER_MANAGER 1
-${node.batteryPowered ? '' : '//'}#define BATTERY_MANAGER 1
+${node.battery.powered ? '' : '//'}#define BATTERY_MANAGER 1
 #define REMOTE_CONFIGURATION 1
 #define PERSIST 1
 // if enabled, a battery sensor will be created at BATTERY_CHILD_ID and will report vcc voltage together with the battery level percentage

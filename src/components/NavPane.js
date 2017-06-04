@@ -19,7 +19,11 @@ const styles = {
   nodesList: css({
     margin: 0,
     padding: '15px 15px 15px 15px',
-    listStyle: 'none'
+    listStyle: 'none',
+
+    '& li': {
+      padding: '0 0 10px'
+    }
   })
 };
 
@@ -52,6 +56,17 @@ export default ({ networks, router, match }) => {
                 <LinkOrText to={`/networks/${network.id}/gateway`}
                   matchUrl={match.url}>Gateway</LinkOrText>
               </li>
+              {network
+                .nodes
+                .filter(n => n.type !== 'gateway')
+                .sort((a, b) => b.name - a.name)
+                .map(node => (
+                  <li key={node.id}>
+                    <LinkOrText to={`/networks/${network.id}/${node.id}`}
+                      matchUrl={match.url}>{node.name}</LinkOrText>
+                  </li>
+                ))
+              }
             </ul>
           </Collapsible>
         ))}

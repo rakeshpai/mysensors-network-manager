@@ -7,7 +7,8 @@ import MediaQuery from 'react-responsive';
 const rightAligned = {
   container: css({
     display: 'table',
-    width: '100%'
+    width: '100%',
+    marginBottom: 10
   }),
   label: css({
     display: 'table-cell',
