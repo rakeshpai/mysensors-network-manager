@@ -1,6 +1,5 @@
 // This shit is mad science!
 
-import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
 import { spFiles, nmFiles } from '../lib/constants';
@@ -35,15 +34,18 @@ const arduinoFiles = (nodeParams) => {
 const pioFiles = _ => [];
 
 export default (nodeParams, format) => {
-  const zip = new JSZip();  // Ugh! Objects!
+  return import('jszip').then(JSZip => {
+    const zip = new JSZip();
 
-  (
-    format === 'arduino'
-    ? arduinoFiles
-    : pioFiles
-  )(nodeParams).forEach(({path, contents}) => zip.file(path, contents));
+    (
+      format === 'arduino'
+      ? arduinoFiles
+      : pioFiles
+    )(nodeParams)
+      .forEach(({path, contents}) => zip.file(path, contents));
 
-  zip
-    .generateAsync({type:"blob"})
-    .then(content => saveAs(content, `${nodeParams.network.nodes.find(n => n.id === nodeParams.nodeId).name.trim()}-${nodeParams.nodeId}`));
+    return zip
+      .generateAsync({type:"blob"})
+      .then(content => saveAs(content, `${nodeParams.network.nodes.find(n => n.id === nodeParams.nodeId).name.trim()}-${nodeParams.nodeId}`));
+  })
 };
