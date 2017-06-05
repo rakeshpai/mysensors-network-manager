@@ -17,7 +17,10 @@ const defaultNode = _ => ({
     measure: 'internal',
     measurePin: 'A0',
     voltsPerBit: 0.003363075
-  }
+  },
+  sleepTime: 60,
+  sleepUnit: 'minutes',
+  sensors: []
 });
 
 const defaultGateway = _ => ({

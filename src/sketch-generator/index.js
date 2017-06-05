@@ -1,5 +1,3 @@
-// This shit is mad science!
-
 import { saveAs } from 'file-saver';
 
 import { spFiles, nmFiles } from '../lib/constants';

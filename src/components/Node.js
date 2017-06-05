@@ -10,7 +10,7 @@ import PageMenu, { DownloadButton } from './PageMenu';
 
 import { css } from 'glamor';
 import { pageHeading, pageSubheading } from '../styles/typography';
-import { info, button } from '../styles/forms';
+import { info } from '../styles/forms';
 
 import generateSketch from '../sketch-generator';
 
@@ -52,11 +52,23 @@ export const Form = ({ network, node, handlers }) => (
             </InlineLabel>
           </div>
         )}
+
+        {node.type !== 'gateway' && node.battery.powered && (
+          <div>
+            <RightAlignedLabel label='Sleep for'>
+              <input type='number' value={node.sleepTime}
+                min='0' max='32767' className={css({ marginRight: 5 })} />
+              <select value={node.sleepUnit}>
+                {['seconds', 'minutes', 'hours', 'days'].map(u => <option value={u}>{u}</option>)}
+              </select>
+            </RightAlignedLabel>
+          </div>
+        )}
       </div>
     </LeftColumn>
     <RightColumn>
       {node.battery.powered && (
-        <Collapsible trigger='Battery settings' withBg={true} open={true}>
+        <Collapsible trigger='Battery measurement' withBg={true} open={true}>
           <RightAlignedLabel label='Battery voltage range'>
             <div className={css({display: 'table'})}>
               <div className={css({display: 'table-cell', paddingRight: 10})}>

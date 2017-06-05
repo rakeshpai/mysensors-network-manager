@@ -14,6 +14,9 @@ export default (state, action) => {
     case 'SET_BATTERY_MEASURE': return mb({ measure: action.measure });
     case 'SET_BATTERY_MEASURE_PIN': return mb({ measurePin: action.measurePin });
     case 'SET_BATTERY_VPB': return mb({ voltsPerBit: action.voltsPerBit });
+
+    case 'SET_SLEEP_TIME': return m({ time: action.sleepTime });
+    case 'SET_SLEEP_UNIT': return m({ unit: action.sleepUnit });
     default: return state;
   }
 }

@@ -19,7 +19,10 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
     setBatteryMax: max => d('SET_BATTERY_MAX', { max }),
     setMeasure: measure => d('SET_BATTERY_MEASURE', { measure }),
     setMeasurePin: measurePin => d('SET_BATTERY_MEASURE_PIN', { measurePin }),
-    setVoltsPerBit: voltsPerBit => d('SET_BATTERY_VPB', { voltsPerBit })
+    setVoltsPerBit: voltsPerBit => d('SET_BATTERY_VPB', { voltsPerBit }),
+
+    setSleepTime: time => d('SET_SLEEP_TIME', { time }),
+    setSleepUnit: unit => d('SET_SLEEP_UNIT', { unit })
   }
 };
 
