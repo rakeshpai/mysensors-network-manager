@@ -21,8 +21,22 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
     setMeasurePin: measurePin => d('SET_BATTERY_MEASURE_PIN', { measurePin }),
     setVoltsPerBit: voltsPerBit => d('SET_BATTERY_VPB', { voltsPerBit }),
 
-    setSleepTime: time => d('SET_SLEEP_TIME', { time }),
-    setSleepUnit: unit => d('SET_SLEEP_UNIT', { unit })
+    setSleepTime: sleepTime => d('SET_SLEEP_TIME', { sleepTime }),
+    setSleepUnit: sleepUnit => d('SET_SLEEP_UNIT', { sleepUnit }),
+
+    addSensor: sensor => d('ADD_SENSOR', { sensor }),
+    deleteSensor: index => d('DELETE_SENSOR', { index }),
+
+    sensorHandlers: sensorIndex => {
+      const ds = (type, action) => d(type, { sensorIndex, ...action });
+
+      return {
+        setPin: pin => ds('SET_SENSOR_PIN', { pin }),
+        usePowerPin: use => ds('SET_SENSOR_USE_POWER_PIN', { use }),
+        setPowerPin: pin => ds('SET_SENSOR_POWER_PIN', { pin }),
+        setReportPercentage: percent => ds('SET_SENSOR_REPORT_PERCENTAGE', { percent }),
+      }
+    }
   }
 };
 

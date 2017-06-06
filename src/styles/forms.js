@@ -12,9 +12,9 @@ export const info = css({
 
 export const button = css({
   border: 0,
+  fontSize: 16,
+  padding: '5px 10px',
   appearance: 'none',
-  padding: '10px 25px',
-  fontSize: 20,
   borderRadius: 5,
   cursor: 'pointer',
 
@@ -23,7 +23,9 @@ export const button = css({
 
 export const successButton = css({
   background: buttonColor,
-  color: '#fff'
+  color: '#fff',
+  fontSize: 20,
+  padding: '10px 25px',
 });
 
 export const footer = css({

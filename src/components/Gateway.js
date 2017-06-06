@@ -3,7 +3,7 @@ import React from 'react';
 import { gatewayTypes } from '../lib/constants';
 
 import { css } from 'glamor';
-import { pageHeading, pageSubheading } from '../styles/typography';
+import { pageHeading, pageSubheading, subheading } from '../styles/typography';
 import { info } from '../styles/forms';
 import tabs from '../styles/tabs';
 
@@ -39,10 +39,6 @@ const styles = {
     color: '#999',
     fontSize: 14,
     margin: '7px 0 3px'
-  }),
-  settingsHeading: css({
-    fontWeight: 'normal',
-    marginTop: 30
   })
 };
 
@@ -80,7 +76,7 @@ export default props => {
         </TabList>
 
         <TabPanel>
-          <h3 className={styles.settingsHeading}>Gateway settings</h3>
+          <h3 className={subheading}>Gateway settings</h3>
           <ColumnContainer>
             <LeftColumn>
               Which type of gateway are you using?
@@ -273,7 +269,7 @@ export default props => {
           </ColumnContainer>
         </TabPanel>
         <TabPanel>
-          <h3 className={styles.settingsHeading}>Node settings</h3>
+          <h3 className={subheading}>Node settings</h3>
           <NodeForm network={network} node={gateway} handlers={handlers} {...props} />
         </TabPanel>
       </Tabs>

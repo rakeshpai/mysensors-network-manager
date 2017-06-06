@@ -1,6 +1,47 @@
+import { sensors, analogPins, digitalPins } from '../lib/constants';
+
+const getNextAvailablePin = (type, node) => {
+  const pinType = sensors.find(s => s.type === type).pinType;
+  const chip = (node.type === 'gateway' && node.gatewayType === 'esp8266') ? 'esp8266' : 'atmega328';
+  const usedPins = node.sensors.map(s => s.pin);
+
+  return (pinType === 'analog' ? analogPins : digitalPins)[chip].find(p => !usedPins.includes(p));
+}
+
+const getPowerPin = (type, node) => {
+  const chip = (node.type === 'gateway' && node.gatewayType === 'esp8266') ? 'esp8266' : 'atmega328';
+  const usedPowerPins = node.sensors.map(s => s.powerPin).filter((v, i, o) => o.indexOf(v) === i);
+  if(usedPowerPins.length) return usedPowerPins[0];
+
+  const usedPins = node.sensors.map(s => s.pin);
+  return digitalPins[chip].find(p => !usedPins.includes(p));
+}
+
+const defaultSensorValues = (sensorType, node) => {
+  const defaults = {
+    type: sensorType,
+    pin: getNextAvailablePin(sensorType, node),
+    ...sensors.find(s => s.type === sensorType).defaults
+  };
+
+  if(defaults.usePowerPin) defaults.powerPin = getPowerPin(sensorType, node);
+  if(defaults.reportPercentage) {
+    defaults.rangeMin = 0;
+    defaults.rangeMax = 1024;
+  }
+
+  return defaults;
+}
+
 export default (state, action) => {
   const m = modified => ({ ...state, ...modified });
-  const mb = modified => ({ ...state, battery: { ...state.battery, ...modified }})
+  const mb = modified => ({ ...state, battery: { ...state.battery, ...modified }});
+  const ms = modified => ({ ...state, sensors: [
+    ...state.sensors.map(sensor => {
+      if(sensor.id === action.sensorIndex) return sensor;
+      return { ...sensor, ...modified };
+    })
+  ]})
 
   switch(action.type.slice(('NODE/').length)) {
     case 'SET_NAME': return m({ name: action.name });
@@ -15,8 +56,19 @@ export default (state, action) => {
     case 'SET_BATTERY_MEASURE_PIN': return mb({ measurePin: action.measurePin });
     case 'SET_BATTERY_VPB': return mb({ voltsPerBit: action.voltsPerBit });
 
-    case 'SET_SLEEP_TIME': return m({ time: action.sleepTime });
-    case 'SET_SLEEP_UNIT': return m({ unit: action.sleepUnit });
+    case 'SET_SLEEP_TIME': return m({ sleepTime: action.sleepTime });
+    case 'SET_SLEEP_UNIT': return m({ sleepUnit: action.sleepUnit });
+
+    case 'ADD_SENSOR': return { ...state, sensors: [ ...state.sensors, defaultSensorValues(action.sensor, state) ]};
+    case 'DELETE_SENSOR': return { ...state, sensors: [
+      ...state.sensors.slice(0, action.index),
+      ...state.sensors.slice(action.index + 1)
+    ]};
+
+    case 'SET_SENSOR_PIN': return ms({ pin: action.pin });
+    case 'SET_SENSOR_USE_POWER_PIN': return ms({ usePowerPin: action.use });
+    case 'SET_SENSOR_POWER_PIN': return ms({ powerPin: action.pin });
+    case 'SET_SENSOR_REPORT_PERCENTAGE': return ms({ reportPercentage: action.percent })
     default: return state;
   }
 }

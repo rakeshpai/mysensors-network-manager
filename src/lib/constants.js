@@ -52,3 +52,35 @@ export const nmFiles = ([
   { key: 'nm-c', name: 'NodeManager.cpp' },
   { key: 'nm-h', name: 'NodeManager.h' }
 ]).map(f => ({ ...f, path: 'https://raw.githubusercontent.com/mysensors/NodeManager/master/' }));
+
+export const analogPins = {
+  atmega328: Array(8).fill(0).map((_, i) => `A${i}`),
+  esp8266: [ 'A0' ]
+}
+
+export const digitalPins = {
+  atmega328: [ ...Array(14).fill(0).map((_, i) => `D${i}`), ...analogPins.atmega328 ],
+  esp8266: [ 0,1,2,3,4,5,12,13,14,15,16 ].map(i => `D${i}`)
+}
+
+export const pwmPins = {
+  atmega328: [ 3,5,6,10,11 ].map(i => `D${i}`),
+  esp8266: [ ...digitalPins.esp8266 ]
+}
+
+export const sensors = [
+  { pinType: 'analog', type: 'ldr', label: 'Light dependent resistor (LDR)', defaults: { usePowerPin: true, reportPercentage: true, setReverse: true }},
+  { pinType: 'analog', type: 'rain', label: 'Rain sensor', defaults: { usePowerPin: true, reportPercentage: true, setReverse: true }},
+  { pinType: 'analog', type: 'soil', label: 'Soil Moisture sensor', defaults: { usePowerPin: true, reportPercentage: true, setReverse: true }},
+  { pinType: 'analog', type: 'thermistor', label: 'Thermistor', defaults: { usePowerPin: true }},
+  { pinType: 'analog', type: 'acs712', label: 'ACS712 current sensor', defaults: { usePowerPin: true }},
+  { pinType: 'analog', type: 'rainGuage', label: 'Rain Guage', defaults: { usePowerPin: true }},
+  { pinType: 'analog', type: 'analogInput', label: 'Generic analog input', defaults: { usePowerPin: true, reportPercentage: true, setReverse: true }},
+  { pinType: 'digital', type: 'relay', label: 'Relay' },
+  { pinType: 'digital', type: 'latchingRelay', label: 'Latching relay' },
+  { pinType: 'digital', type: 'switch', label: 'Switch' },
+  { pinType: 'digital', type: 'door', label: 'Door' },
+  { pinType: 'digital', type: 'motion', label: 'PIR Motion sensor' },
+  { pinType: 'digital', type: 'hcsr504', label: 'HC-SR504 Ultrasonic range finder' },
+  { pinType: 'digital', type: 'digitalOutput', label: 'Generic digital output'  }
+]
