@@ -35,6 +35,9 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
         usePowerPin: use => ds('SET_SENSOR_USE_POWER_PIN', { use }),
         setPowerPin: pin => ds('SET_SENSOR_POWER_PIN', { pin }),
         setReportPercentage: percent => ds('SET_SENSOR_REPORT_PERCENTAGE', { percent }),
+        setPercentageMin: min => ds('SET_SENSOR_PERCENTAGE_MIN', { min }),
+        setPercentageMax: max => ds('SET_SENSOR_PERCENTAGE_MAX', { max }),
+        setMvPerAmp: mvPerAmp => ds('SET_SENSOR_MV_PER_AMP', { mvPerAmp })
       }
     }
   }

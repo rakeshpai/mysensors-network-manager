@@ -26,9 +26,11 @@ const defaultSensorValues = (sensorType, node) => {
 
   if(defaults.usePowerPin) defaults.powerPin = getPowerPin(sensorType, node);
   if(defaults.reportPercentage) {
-    defaults.rangeMin = 0;
-    defaults.rangeMax = 1024;
+    defaults.percentageRangeMin = 0;
+    defaults.percentageRangeMax = 1024;
   }
+
+  if(sensorType === 'acs712') defaults.mvPerAmp = 185;
 
   return defaults;
 }
@@ -68,7 +70,10 @@ export default (state, action) => {
     case 'SET_SENSOR_PIN': return ms({ pin: action.pin });
     case 'SET_SENSOR_USE_POWER_PIN': return ms({ usePowerPin: action.use });
     case 'SET_SENSOR_POWER_PIN': return ms({ powerPin: action.pin });
-    case 'SET_SENSOR_REPORT_PERCENTAGE': return ms({ reportPercentage: action.percent })
+    case 'SET_SENSOR_REPORT_PERCENTAGE': return ms({ reportPercentage: action.percent });
+    case 'SET_SENSOR_PERCENTAGE_MIN': return ms({ percentageRangeMin: action.min });
+    case 'SET_SENSOR_PERCENTAGE_MAX': return ms({ percentageRangeMax: action.max });
+    case 'SET_SENSOR_MV_PER_AMP': return ms({ mvPerAmp: action.mvPerAmp});
     default: return state;
   }
 }

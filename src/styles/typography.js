@@ -29,7 +29,7 @@ export const heading = css({
 export const subheading = css({
   fontWeight: 'normal',
   marginTop: 30
-})
+});
 
 export const unimportant = css({
   fontSize: 11,

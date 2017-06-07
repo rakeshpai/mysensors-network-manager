@@ -78,10 +78,19 @@ export const Form = ({ network, node, handlers }) => {
             <p>There are no sensors on this node yet.</p>
           }
 
-          {node.sensors.map((sensor, sensorIndex) => {
-            return <Sensor key={sensorIndex} sensorIndex={sensorIndex}
-              sensor={sensor} handlers={handlers} />
-          })}
+          {
+            node.sensors.length > 0 && (
+              <ul className={css({marginBottom: 10, listStyle: 'none', padding: 0})}>
+                {node.sensors.map((sensor, sensorIndex) => (
+                  <li key={sensorIndex}>
+                    <Sensor sensorIndex={sensorIndex}
+                      sensor={sensor} handlers={handlers} />
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+
 
           <RightAlignedLabel label={`Add ${node.sensors.length ? 'another' : 'a'} sensor`}>
             <SensorPicker dropdownRef={r => addSensorDropdown = r}

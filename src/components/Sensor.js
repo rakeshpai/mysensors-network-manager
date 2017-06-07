@@ -6,7 +6,6 @@ import { info } from '../styles/forms';
 import { RightAlignedLabel, InlineLabel } from './Forms';
 import { DeleteButton } from './PageMenu';
 import { AnalogPins, DigitalPins } from './Pins';
-import SensorPicker from './SensorPicker';
 
 import { sensors } from '../lib/constants';
 
@@ -16,7 +15,7 @@ const styles = {
     padding: 20,
     marginTop: 20,
     borderTop: '1px solid #eee',
-    borderRadius: 10,
+    borderBottom: '1px solid #eee',
 
     '&:hover': {
       background: '#f6f6f6'
@@ -53,17 +52,16 @@ export default ({ sensor, sensorIndex, handlers }) => {
           </RightAlignedLabel>
 
           <InlineLabel label='Provide power using an external pin'
-            info='Recommended. Only powers on the sensor when a reading is required.'>
+            info='Recommended. Only powers the sensor on when a reading is needed.'>
             <input type='checkbox' checked={sensor.usePowerPin}
               onChange={e => sensorHandlers.usePowerPin(e.target.checked)} />
           </InlineLabel>
 
-          {
-            sensor.usePowerPin &&
+          {sensor.usePowerPin && (
             <RightAlignedLabel label='Power pin'>
               <DigitalPins value={sensor.powerPin} onChange={e => sensorHandlers.setPowerPin(e.target.value)} />
             </RightAlignedLabel>
-          }
+          )}
 
           {['ldr', 'rain', 'soil', 'analogInput'].includes(sensor.type) && (
             <div>
@@ -78,12 +76,12 @@ export default ({ sensor, sensorIndex, handlers }) => {
                   <div className={css({display: 'table'})}>
                     <div className={css({display: 'table-cell', paddingRight: 10})}>
                       <input type='number' min='0' max='1024' pattern='\d*'
-                        value={sensor.rangeMin} onChange={e => sensorHandlers.setPercentageMin(e.target.value)} />
+                        value={sensor.percentageRangeMin} onChange={e => sensorHandlers.setPercentageMin(e.target.value)} />
                       <p className={info}>Min</p>
                     </div>
                     <div className={css({display: 'table-cell'})}>
                       <input type='number' min='0' max='1024' pattern='\d*'
-                        value={sensor.rangeMax} onChange={e => sensorHandlers.setPercentageMax(e.target.value)} />
+                        value={sensor.percentageRangeMax} onChange={e => sensorHandlers.setPercentageMax(e.target.value)} />
                       <p className={info}>Max</p>
                     </div>
                   </div>
@@ -93,6 +91,19 @@ export default ({ sensor, sensorIndex, handlers }) => {
                 </RightAlignedLabel>
               }
             </div>
+          )}
+
+          {sensor.type === 'acs712' && (
+            <RightAlignedLabel label='Current'>
+              <select value={sensor.mvPerAmp} onChange={e => sensorHandlers.setMvPerAmp(e.target.value)}>
+                <option value={185}>5 Amps</option>
+                <option value={100}>20 Amps</option>
+                <option value={66}>30 Amps</option>
+              </select>
+              <p className={info}>
+                This depends on the chip or module you are using.
+              </p>
+            </RightAlignedLabel>
           )}
         </div>
       )}

@@ -19,9 +19,9 @@ export const getSensorLines = (network, nodeId) => {
   return node.sensors.reduce((lines, sensor) => {
     return [
       ...lines,
-      ...registry
-        .find(r => r.type === sensor.type)
-        .getLines(node, sensor, getVariableName(sensor, node.sensors))
+      // ...registry
+      //   .find(r => r.type === sensor.type)
+      //   .getLines(node, sensor, getVariableName(sensor, node.sensors))
     ];
   }, []);
 }
