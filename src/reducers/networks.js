@@ -109,6 +109,22 @@ export default (state = [], action) => {
     })
   }
 
+  if(action.type === 'NODE/DELETE') {
+    return state.map(network => {
+      if(network.id !== action.networkId) return network;
+
+      const nodeIndex = network.nodes.findIndex(n => n.id === action.nodeId);
+
+      return {
+        ...network,
+        nodes: [
+          ...network.nodes.slice(0, nodeIndex),
+          ...network.nodes.slice(nodeIndex + 1)
+        ]
+      }
+    })
+  }
+
   if(action.type.indexOf('NODE/') === 0) {
     return state.map(network => {
       if(network.id !== action.networkId) return network;

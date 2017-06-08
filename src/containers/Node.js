@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import Node from '../components/Node';
 
 export const createHandlers = dispatch => (networkId, nodeId) => {
@@ -10,6 +11,8 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
   });
 
   return {
+    deleteNode: _ => { d('DELETE'); dispatch(push(`/networks/${networkId}`)); },
+
     setName: name => d('SET_NAME', { name }),
     setDeviceKey: key => d('SET_DEVICE_KEY', { key }),
     setPA: pa => d('SET_PA', { pa }),

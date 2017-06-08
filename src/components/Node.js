@@ -6,7 +6,7 @@ import NotFound from './NotFound';
 import { NavPage } from './Layouts';
 import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './Forms';
 import { AnalogPins } from './Pins';
-import PageMenu, { DownloadButton } from './PageMenu';
+import PageMenu, { DownloadButton, DeleteButton } from './PageMenu';
 import Sensor from './Sensor';
 import SensorPicker from './SensorPicker';
 
@@ -172,6 +172,7 @@ export default props => {
     <NavPage {...props}>
       <PageMenu>
         <DownloadButton title='Download the sketch for this node' onClick={_ => generateSketch({ network, nodeId: node.id }, 'arduino' ) } />
+        <DeleteButton title='Delete this node' onClick={_ => handlers.deleteNode()}></DeleteButton>
       </PageMenu>
 
       <h2 className={pageHeading}>
