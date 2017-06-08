@@ -3,8 +3,27 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <script type="text/javascript">
+       // From https://github.com/rafrex/spa-github-pages
+       (function(l) {
+         if (l.search) {
+           var q = {};
+           l.search.slice(1).split('&').forEach(function(v) {
+             var a = v.split('=');
+             q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+           });
+           if (q.p !== undefined) {
+             window.history.replaceState(null, null,
+               l.pathname.slice(0, -1) + (q.p || '') +
+               (q.q ? ('?' + q.q) : '') +
+               l.hash
+             );
+           }
+         }
+       }(window.location))
+     </script>
     <title>MySensors network</title>
   </head>
   <body>
