@@ -15,7 +15,9 @@ import cacheFiles from './lib/cache-files';
 
 import './styles/global';
 
-const history = createHistory();
+const history = createHistory({
+  basename: process.env.NODE_ENV === 'production' ? '/mysensors-network-manager': '/'
+});
 const middleware = [routerMiddleware(history)];
 
 //if(process.env.NODE_ENV !== 'production') {
@@ -30,14 +32,9 @@ const store = createStore(
   )
 );
 
-const routerProps = {};
-if(process.env.NODE_ENV === 'production') {
-  routerProps.basename = '/mysensors-network-manager';
-}
-
 render(
   <Provider store={store}>
-    <ConnectedRouter history={history} {...routerProps}>
+    <ConnectedRouter history={history}>
       <App network={store.getState().network} />
     </ConnectedRouter>
   </Provider>,
