@@ -32,12 +32,22 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
 
       return {
         setPin: pin => ds('SET_SENSOR_PIN', { pin }),
+        setReverse: reverse => ds('SET_SENSOR_REVERSE', { reverse }),
         usePowerPin: use => ds('SET_SENSOR_USE_POWER_PIN', { use }),
         setPowerPin: pin => ds('SET_SENSOR_POWER_PIN', { pin }),
         setReportPercentage: percent => ds('SET_SENSOR_REPORT_PERCENTAGE', { percent }),
         setPercentageMin: min => ds('SET_SENSOR_PERCENTAGE_MIN', { min }),
         setPercentageMax: max => ds('SET_SENSOR_PERCENTAGE_MAX', { max }),
-        setMvPerAmp: mvPerAmp => ds('SET_SENSOR_MV_PER_AMP', { mvPerAmp })
+        setMvPerAmp: mvPerAmp => ds('SET_SENSOR_MV_PER_AMP', { mvPerAmp }),
+        setOnValue: value => ds('SET_SENSOR_ON_VALUE', { value }),
+        setInitialValue: value => ds('SET_SENSOR_INITIAL_VALUE', { value }),
+        setAutoTurnOff: turnOff => ds('SET_SENSOR_AUTO_TURN_OFF', { turnOff }),
+        setTurnOffTime: time => ds('SET_SENSOR_TURN_OFF_TIME', { time }),
+        setInterruptMode: mode => ds('SET_SENSOR_INTERRUPT_MODE', { mode }),
+        setDebounceTime: time => ds('SET_SENSOR_DEBOUNCE_TIME', { time }),
+        setNormalValue: value => ds('SET_SENSOR_NORMAL_VALUE', { value }),
+        setTriggerPin: triggerPin => ds('SET_SENSOR_TRIGGER_PIN', { triggerPin }),
+        setEchoPin: echoPin => ds('SET_SENSOR_ECHO_PIN', { echoPin })
       }
     }
   }

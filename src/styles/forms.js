@@ -17,6 +17,8 @@ export const button = css({
   appearance: 'none',
   borderRadius: 5,
   cursor: 'pointer',
+  background: buttonColor,
+  color: 'white',
 
   '&:focus': { ...outlineStyle }
 });
