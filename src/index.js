@@ -30,9 +30,14 @@ const store = createStore(
   )
 );
 
+const routerProps = {};
+if(process.env.NODE_ENV === 'production') {
+  routerProps.basename = '/mysensors-network-manager';
+}
+
 render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <ConnectedRouter history={history} {...routerProps}>
       <App network={store.getState().network} />
     </ConnectedRouter>
   </Provider>,
