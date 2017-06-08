@@ -148,7 +148,7 @@ export const Form = ({ network, node, handlers }) => {
             <input type='text' value={node.key} required
               pattern='[0-9a-fA-F]{18}|(0x[0-9a-fA-F]{2}\s*,\s*){9}'
               onChange={e => handlers.setDeviceKey(e.target.value)} />
-            <p className={info}>An 18 digit hex number used for encryption</p>
+            <p className={info}>A 9 byte device ID, used for whitelisting</p>
           </TopAlignedLabel>
         </Collapsible>
       </RightColumn>
