@@ -18,9 +18,9 @@ import './styles/global';
 const history = createHistory();
 const middleware = [routerMiddleware(history)];
 
-if(process.env.NODE_ENV !== 'production') {
+//if(process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').createLogger({diff: true}));
-}
+//}
 
 const store = createStore(
   reducer,
