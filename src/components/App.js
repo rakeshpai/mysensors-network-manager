@@ -12,7 +12,6 @@ import Node from '../containers/Node';
 
 import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
-import AfterCreate from './AfterCreate';
 import Networks from './Networks';
 
 import { Route, Switch } from 'react-router-dom';
@@ -42,7 +41,6 @@ export default ({ network }) => <div>
     <Route exact path='/' component={wrapInContainer(Home)} />
     <Route exact path='/networks' component={wrapInContainer(Networks)} />
     <Route exact path='/networks/create' component={CreateNetwork} />
-    <Route exact path='/networks/:networkId/after-create' component={wrapInContainer(AfterCreate)} />
     <Route exact path='/networks/:networkId' component={Network} />
     <Route path='/networks/:networkId/gateway' component={Gateway} />
     <Route path='/networks/:networkId/:nodeId' component={Node} />

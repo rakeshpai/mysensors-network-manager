@@ -10,7 +10,7 @@ export default connect(
       createNetwork: net => {
         const network = { ...net, id: generateId(), nodes: [] };
         dispatch({ type: 'CREATE_NETWORK', network })
-        dispatch(push(`/networks/${network.id}/after-create`));
+        dispatch(push(`/networks/${network.id}/gateway`));
       }
     }
   }
