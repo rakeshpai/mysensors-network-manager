@@ -30,6 +30,10 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
     addSensor: sensor => d('ADD_SENSOR', { sensor }),
     deleteSensor: index => d('DELETE_SENSOR', { index }),
 
+    setSigning: signing => d('SET_SIGNING', { signing }),
+    setSoftSigningPin: signingPin => d('SET_SOFT_SIGNING_PIN', { signingPin }),
+    setAtshaSigningPin: signingPin => d('SET_ATSHA_SIGNING_PIN', { signingPin }),
+
     sensorHandlers: sensorIndex => {
       const ds = (type, action) => d(type, { sensorIndex, ...action });
 

@@ -78,6 +78,10 @@ export default (state, action) => {
       ...state.sensors.slice(action.index + 1)
     ]};
 
+    case 'SET_SIGNING': return m({ signing: action.signing });
+    case 'SET_SOFT_SIGNING_PIN': return m({ softSigningPin: action.signingPin });
+    case 'SET_ATSHA_SIGNING_PIN': return m({ atshaSigningPin: action.signingPin });
+
     case 'SET_SENSOR_PIN': return ms({ pin: action.pin });
     case 'SET_SENSOR_REVERSE': return ms({ reverse: action.reverse });
     case 'SET_SENSOR_USE_POWER_PIN': return ms({ usePowerPin: action.use });

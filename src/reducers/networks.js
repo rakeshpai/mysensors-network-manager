@@ -20,7 +20,10 @@ const defaultNode = _ => ({
   },
   sleepTime: 60,
   sleepUnit: 'minutes',
-  sensors: []
+  sensors: [],
+  signing: 'software',
+  softSigningPin: 'A7',
+  atshaSigningPin: 'A3'
 });
 
 const defaultGateway = _ => ({

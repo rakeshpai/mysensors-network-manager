@@ -28,7 +28,20 @@ const initialize = ({ network, nodeId }) => {
   return lines.join('\n  ');
 }
 
+const security = ({ network, nodeId }) => {
+  const node = network.nodes.find(n => n.id === nodeId);
+  const softwareSigning = node.signing === 'software';
+
+  return `
+// Message signing
+#define ${softwareSigning?'MY_SIGNING_SOFT':'MY_SIGNING_ATSHA204'}
+#define ${softwareSigning?'MY_SIGNING_SOFT_RANDOMSEED_PIN':'MY_SIGNING_ATSHA204_PIN'} ${(softwareSigning?node.softSigningPin:node.atshaSigningPin).replace(/^[A]/, '')}
+#define MY_SIGNING_REQUEST_SIGNATURES
+`
+}
+
 const generateSketch = nodeParams => `
+${security(nodeParams)}
 // load user settings
 #include "config.h"
 // load MySensors library
