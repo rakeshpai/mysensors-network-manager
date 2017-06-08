@@ -11,7 +11,7 @@ const arduinoFiles = (nodeParams) => {
 
   return [
     ...spFiles.map(file => ({
-      path: `/${sketchName}/SecurityPersonalizer/${file.name}`,
+      path: `${sketchName}/SecurityPersonalizer/${file.name}`,
       contents: (
         file.key === 'sp-ino'
         ? securityPersonalizer(nodeParams, fileContents(file))
@@ -19,11 +19,11 @@ const arduinoFiles = (nodeParams) => {
       )
     })),
     ...nmFiles.map(file => ({
-      path: `/${sketchName}/${sketchName}/${file.name}`,
+      path: `${sketchName}/${sketchName}/${file.name}`,
       contents: fileContents(file)
     })),
     ...nodeSketchFiles(nodeParams, sketchName).map(file => ({
-      path: `/${sketchName}/${sketchName}/${file.name}`,
+      path: `${sketchName}/${sketchName}/${file.name}`,
       contents: file.contents
     }))
   ];
