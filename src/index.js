@@ -20,9 +20,9 @@ const history = createHistory({
 });
 const middleware = [routerMiddleware(history)];
 
-//if(process.env.NODE_ENV !== 'production') {
+if(process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').createLogger({diff: true}));
-//}
+}
 
 const store = createStore(
   reducer,
@@ -41,7 +41,7 @@ render(
   document.getElementById('root')
 );
 
-registerServiceWorker();
+registerServiceWorker(store.dispatch);
 cacheFiles()
   .then(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: true }))
   .catch(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: false }));

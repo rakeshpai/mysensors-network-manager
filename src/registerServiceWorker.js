@@ -1,3 +1,5 @@
+import { notify } from './components/Notification';
+
 // In production, we register a service worker to serve assets from local cache.
 
 // This lets the app load faster on subsequent visits in production, and gives
@@ -8,7 +10,7 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
-export default _ => {
+export default dispatch => {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
@@ -25,11 +27,25 @@ export default _ => {
                   // It's the perfect time to display a "New content is
                   // available; please refresh." message in your web app.
                   console.log('New content is available; please refresh.');
+                  notify({
+                    title: 'An update has been downloaded',
+                    message: 'Click this message to apply the new update',
+                    level: 'success',
+                    dismissable: 0,
+                    position: 'bc',
+                    onRemove: _ => window.location.reload()
+                  });
                 } else {
                   // At this point, everything has been precached.
                   // It's the perfect time to display a
                   // "Content is cached for offline use." message.
                   console.log('Content is cached for offline use.');
+                  notify({
+                    title: 'Offline ready!',
+                    message: 'This site can be used without an Internet connection!',
+                    level: 'success',
+                    position: 'bc'
+                  });
                 }
               }
             };

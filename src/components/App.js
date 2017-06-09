@@ -5,6 +5,7 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 import { brandBackground } from '../styles/colors';
 
+import Notification from './Notification';
 import CreateNetwork from '../containers/CreateNetwork';
 import Network from '../containers/Network';
 import Gateway from '../containers/Gateway';
@@ -33,6 +34,7 @@ const styles = {
 };
 
 export default ({ network }) => <div>
+  <Notification />
   <header className={styles.header}>
     <h1 className={styles.h1}>MySensors Network</h1>
   </header>
