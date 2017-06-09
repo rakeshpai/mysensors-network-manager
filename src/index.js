@@ -13,6 +13,8 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import registerServiceWorker from './registerServiceWorker';
 import cacheFiles from './lib/cache-files';
 
+import ga from 'react-ga';
+
 import './styles/global';
 
 const history = createHistory({
@@ -28,9 +30,18 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(...middleware),
-    persistState('networks', {key: 'app-data'})
+    persistState(['networks', 'version'], {key: 'app-data'})
   )
 );
+
+if(process.env.NODE_ENV === 'production') {
+  ga.initialize('UA-100686637-1');
+
+  history.listen(({ pathname }) => {
+    ga.set({ page: pathname });
+    ga.pageview(pathname);
+  });
+}
 
 render(
   <Provider store={store}>
