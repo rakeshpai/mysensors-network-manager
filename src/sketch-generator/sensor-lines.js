@@ -1,4 +1,4 @@
-import { sensors, sensorsByType } from '../lib/constants';
+import { sensorsByType } from '../lib/constants';
 
 const getVariableSuffix = (sensor, sensors) => {
   const sensorsOfThisType = sensors.filter(s => s.type === sensor.type);
