@@ -41,7 +41,7 @@ render(
   document.getElementById('root')
 );
 
-registerServiceWorker(store.dispatch);
+registerServiceWorker();
 cacheFiles()
   .then(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: true }))
   .catch(_ => store.dispatch({ type: 'SOURCE_CACHE', primed: false }));
