@@ -1,5 +1,5 @@
 import generateConfig from './generate-config-h';
-import { getSensorLines } from '../sensors';
+import getSensorLines from './sensor-lines';
 
 const initialize = ({ network, nodeId }) => {
   const node = network.nodes.find(n => n.id === nodeId);

@@ -1,7 +1,14 @@
-import { sensors } from '../lib/constants';
+import { sensors, sensorsByType } from '../lib/constants';
 
-export default (node, sensor, variableSuffix) => {
-  const matchingSensor = sensors.find(s => s.type === sensor.type);
+const getVariableSuffix = (sensor, sensors) => {
+  const sensorsOfThisType = sensors.filter(s => s.type === sensor.type);
+
+  if(sensorsOfThisType.length === 1) return '';
+  return '' + (sensorsOfThisType.findIndex(s => s === sensor) + 1);
+}
+
+const sensorLines = (node, sensor, variableSuffix) => {
+  const matchingSensor = sensorsByType[sensor.type];
 
   const sensorHandle = sensor.type + variableSuffix;
   const sensorVariable = `${sensor.type}Sensor${variableSuffix}`;
@@ -40,4 +47,15 @@ export default (node, sensor, variableSuffix) => {
   lines.push('');
 
   return lines;
+}
+
+export default (network, nodeId) => {
+  const node = network.nodes.find(n => n.id === nodeId);
+
+  return node.sensors.reduce((lines, sensor) => {
+    return [
+      ...lines,
+      ...sensorLines(node, sensor, getVariableSuffix(sensor, node.sensors))
+    ];
+  }, []);
 }
