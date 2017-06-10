@@ -1,5 +1,5 @@
 const migrations = [
-  networks => networks, // Need this for the greater good
+  network => network, // Need this for seeding
 ];
 
 export const currentVersion = migrations.length;

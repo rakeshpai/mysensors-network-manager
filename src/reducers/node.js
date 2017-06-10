@@ -50,8 +50,8 @@ export default (state, action) => {
   const m = modified => ({ ...state, ...modified });
   const mb = modified => ({ ...state, battery: { ...state.battery, ...modified }});
   const ms = modified => ({ ...state, sensors: [
-    ...state.sensors.map(sensor => {
-      if(sensor.id === action.sensorIndex) return sensor;
+    ...state.sensors.map((sensor, index) => {
+      if(index !== action.sensorIndex) return sensor;
       return { ...sensor, ...modified };
     })
   ]})
