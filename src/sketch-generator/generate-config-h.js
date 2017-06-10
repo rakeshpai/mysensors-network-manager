@@ -1,4 +1,4 @@
-const sketchConfiguration = (network, node) => `
+export const sketchConfiguration = (network, node) => `
 /**********************************
  * Sketch configuration
  */
@@ -8,14 +8,14 @@ const sketchConfiguration = (network, node) => `
 ${!node.battery.powered && '#define MY_REPEATER_FEATURE'}
 `;
 
-const radioConfiguration = (network, node) => {
+export const radioConfiguration = (network, node) => {
   if(network.radio === 'NRF24L01+') {
     return `
 // NRF24 radio settings
 #define MY_RADIO_NRF24
 #define MY_RF24_ENABLE_ENCRYPTION
 #define MY_RF24_CHANNEL ${network.nrfChannel}
-#define MY_RF24_PA_LEVEL RF24_PA_${node.pa && !node.batteryPowered ? 'HIGH' : 'LOW'}
+#define MY_RF24_PA_LEVEL RF24_PA_${node.pa && !node.battery.powered ? 'HIGH' : 'LOW'}
 //#define MY_DEBUG_VERBOSE_RF24
 `
   } else {
@@ -24,17 +24,17 @@ const radioConfiguration = (network, node) => {
 #define MY_RADIO_RFM69
 #define MY_RFM69_FREQUENCY RF69_${network.rfmFrequency}MHZ
 ${node.hw ? '' : '//'}#define MY_IS_RFM69HW
-//#define MY_DEBUG_VERBOSE_RFM69
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ENABLE_ENCRYPTION
 #define MY_RF69_IRQ_PIN D1
 #define MY_RF69_IRQ_NUM MY_RF69_IRQ_PIN
 #define MY_RF69_SPI_CS D2
+//#define MY_DEBUG_VERBOSE_RFM69
 `
   }
 }
 
-const nodeConfiguration = (network, node) => `
+export const nodeConfiguration = (network, node) => `
 /**********************************
  * MySensors node configuration
  */
@@ -44,27 +44,31 @@ const nodeConfiguration = (network, node) => `
 //#define MY_DEBUG
 `;
 
-const gatewayConfiguration = (network, node) => {
+export const gatewayConfiguration = (network, node) => {
   if(node.type !== 'gateway') return '';
 
-  const gatewayTypes = {};
-
-  gatewayTypes.serial = `
+  if(node.gatewayType === 'serial') {
+    return `
 // Serial gateway settings
 #define MY_GATEWAY_SERIAL
 `;
+  }
 
-  gatewayTypes.ethernet = `
+  let gatewayType;
+
+  if(node.gatewayType === 'ethernet') {
+    gatewayType = `
 // Ethernet gateway settings
 #define MY_GATEWAY_${node.ethernet.module === 'w5100' ? 'W5100' : 'ENC28J60'}
 `;
-
-  gatewayTypes.esp8266 = `
+  } else if(node.gatewayType === 'esp8266') {
+    gatewayType = `
 // ESP8266 gateway settings
 #define MY_GATEWAY_ESP8266
 #define MY_ESP8266_SSID "${node.wifi.ssid}"
-${node.wifi.password ? '' : '//'}#define MY_ESP8266_PASSWORD "${node.wifi.password}"
+${node.wifi.password ? '' : '//'}#define MY_ESP8266_PASSWORD "${node.wifi.password || ''}"
 `;
+  }
 
   const ipSettings = `
 // Gateway networking settings
@@ -74,23 +78,24 @@ ${node.dhcp ? '' : `
 #define MY_IP_SUBNET_ADDRESS ${node.ethernet.subnet.split('.').join(',')}
 `}`;
 
-  const connTypes = {};
+  let connType;
 
-  connTypes.server = `
+  if(node.conn.type === 'server') {
+    connType = `
 #define MY_GATEWAY_MAX_CLIENTS ${node.conn.serverMaxClients}
 #define MY_PORT ${node.conn.serverPort}
 `;
-
-  connTypes.client = `
+  } else if(node.conn.type === 'client') {
+    connType = `
 // Controller ip address. Enables client mode (default is "server" mode).
 // Also enable this if MY_USE_UDP is used and you want sensor data sent somewhere.
 #define MY_CONTROLLER_IP_ADDRESS ${node.conn.controllerIp.split('.').join(',')}
 //#define MY_CONTROLLER_URL_ADDRESS "m20.cloudmqtt.com"
-//#define MY_USE_UDP
 #define MY_PORT ${node.conn.controllerPort}
+//#define MY_USE_UDP
 `;
-
-  connTypes.mqtt = `
+  } else if(node.conn.type === 'mqtt') {
+    connType = `
 // Gateway MQTT settings
 #define MY_GATEWAY_MQTT_CLIENT
 //#define MY_CONTROLLER_URL_ADDRESS "m20.cloudmqtt.com"
@@ -102,14 +107,15 @@ ${node.dhcp ? '' : `
 //#define MY_MQTT_PUBLISH_TOPIC_PREFIX "mygateway1-out"
 //#define MY_MQTT_SUBSCRIBE_TOPIC_PREFIX "mygateway1-in"
 `;
+  }
 
   return `
 /**********************************
  * MySensors gateway configuration
  */
-${gatewayTypes[node.gatewayType]}
+${gatewayType}
 ${['ethernet', 'esp8266'].includes(node.gatewayType) ? ipSettings : ''}
-${connTypes[node.conn.type]}
+${['ethernet', 'esp8266'].includes(node.gatewayType) ? connType : ''}
 
 // Gateway inclusion mode
 //#define MY_INCLUSION_MODE_FEATURE
@@ -123,13 +129,13 @@ ${connTypes[node.conn.type]}
 //#define MY_DEFAULT_TX_LED_PIN  6
 `};
 
-const nodeManagerConfiguration = (network, node) => `
+export const nodeManagerConfiguration = (network, node) => `
 /***********************************
  * NodeManager configuration
  */
 
 // if enabled, enable debug messages on serial port
-#define DEBUG 1
+//#define DEBUG 1
 
 #define POWER_MANAGER ${node.sensors.some(s => s.usePowerPin) ? '1' : '0'}
 #define BATTERY_MANAGER ${node.battery.powered ? '1' : '0'}

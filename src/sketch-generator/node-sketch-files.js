@@ -40,7 +40,7 @@ const security = ({ network, nodeId }) => {
 `
 }
 
-const generateSketch = nodeParams => `
+export const generateSketch = nodeParams => `
 ${security(nodeParams)}
 // load user settings
 #include "config.h"

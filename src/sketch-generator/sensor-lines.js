@@ -1,6 +1,6 @@
 import { sensorsByType } from '../lib/constants';
 
-const getVariableSuffix = (sensor, sensors) => {
+export const getVariableSuffix = (sensor, sensors) => {
   const sensorsOfThisType = sensors.filter(s => s.type === sensor.type);
 
   if(sensorsOfThisType.length === 1) return '';
@@ -15,18 +15,18 @@ const sensorLines = (node, sensor, variableSuffix) => {
 
   const lines = [
     `// Code for ${matchingSensor.label}`,
-    `int ${sensorHandle} = nm.registerSensor(SENSOR_${matchingSensor.nmType}, ${sensor.pin.replace(/^[D]/gi, '')});`,
+    `int ${sensorHandle} = nm.registerSensor(SENSOR_${matchingSensor.nmType}, ${sensor.pin});`,
     `${matchingSensor.nmClass}* ${sensorVariable} = ((${matchingSensor.nmClass}*)nm.getSensor(${sensorHandle}));`,
   ];
 
-  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(${sensor.powerPin.replace(/^[D]/gi, '')},12,300);`);
+  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(${sensor.powerPin},12,300);`);
 
   if('reportPercentage' in sensor) {
     lines.push(`${sensorVariable}->setOutputPercentage(${sensor.reportPercentage?'true':'false'});`);
 
     if(sensor.reportPercentage) {
       lines.push(`${sensorVariable}->setRangeMin(${sensor.percentageRangeMin});`);
-      lines.push(`${sensorVariable}->setRangeMax(${sensor.percentageRangeMin});`);
+      lines.push(`${sensorVariable}->setRangeMax(${sensor.percentageRangeMax});`);
     }
   }
 
