@@ -32,7 +32,6 @@ it('sets up the sensor\'s percentage range', () => {
       id: 'asdf',
       sensors: [{
         type: 'ldr',
-        pin: 'A0',
         reportPercentage: true,
         percentageRangeMin: 333,
         percentageRangeMax: 999
@@ -49,12 +48,98 @@ it('sets up the extra params for the rain sensor', () => {
     nodes: [{
       id: 'asdf',
       sensors: [{
-        type: 'rain',
-        pin: 'A0'
+        type: 'rain'
       }]
     }]
   }, 'asdf').join('\n');
 
   expect(output).toEqual(match(/\nrainSensor->setPresentation\(S_RAIN\);/));
   expect(output).toEqual(match(/\nrainSensor->setType\(V_RAINRATE\);/));
+});
+
+it('sets up mVPerAmp for the acs712', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'acs712',
+        mvPerAmp: '0.03'
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\nacs712Sensor->setmVPerAmp\(0\.03\);/));
+});
+
+it('sets the initial value, \'on\' value for digital output sensors', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'relay',
+        initialValue: 'low',
+        onValue: 'high'
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\nrelaySensor->setInitialValue\(LOW\);/));
+  expect(output).toEqual(match(/\nrelaySensor->setOnValue\(HIGH\);/));
+});
+
+it('sets up auto-turn-off for digital-out', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'relay',
+        autoTurnOff: true,
+        turnOffTime: 2
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\nrelaySensor->setSafeguard\(2\);/));
+});
+
+it('sets up interrupts', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'motion',
+        interruptMode: 'change'
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\nmotionSensor->setMode\(CHANGE\);/));
+});
+
+it('sets up debounce for digital-in', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'door',
+        debounceTime: 50
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\ndoorSensor->setDebounce\(50\);/));
+});
+
+it('sets up the \'normal\' state of a digital-in', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'door',
+        normalValue: 'high'
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\ndoorSensor->setInitial\(HIGH\);/));
 });

@@ -48,7 +48,7 @@ it('sets up the analog input module', () => {
       nodeManagerConfiguration({
         radio: 'NRF24L01+'
       }, {
-        battery: { powered: false },
+        battery: {},
         sensors: [{ type }]
       })
     ).toEqual(match(/\n#define MODULE_ANALOG_INPUT 1/));
@@ -58,7 +58,7 @@ it('sets up the analog input module', () => {
     nodeManagerConfiguration({
       radio: 'NRF24L01+'
     }, {
-      battery: { powered: false },
+      battery: {},
       sensors: [{ type: 'foo' }]
     })
   ).toEqual(match(/\n#define MODULE_ANALOG_INPUT 0/));
@@ -69,7 +69,7 @@ it('sets up the digital input module', () => {
     nodeManagerConfiguration({
       radio: 'NRF24L01+'
     }, {
-      battery: { powered: false },
+      battery: {},
       sensors: [{ type: 'digitalInput' }]
     })
   ).toEqual(match(/\n#define MODULE_DIGITAL_INPUT 1/));
@@ -81,7 +81,7 @@ it('sets up the digital output module', () => {
       nodeManagerConfiguration({
         radio: 'NRF24L01+'
       }, {
-        battery: { powered: false },
+        battery: {},
         sensors: [{ type }]
       })
     ).toEqual(match(/\n#define MODULE_DIGITAL_OUTPUT 1/));
@@ -91,7 +91,7 @@ it('sets up the digital output module', () => {
     nodeManagerConfiguration({
       radio: 'NRF24L01+'
     }, {
-      battery: { powered: false },
+      battery: {},
       sensors: [{ type: 'foo' }]
     })
   ).toEqual(match(/\n#define MODULE_DIGITAL_OUTPUT 0/));
@@ -103,7 +103,7 @@ it('sets up the switch module', () => {
       nodeManagerConfiguration({
         radio: 'NRF24L01+'
       }, {
-        battery: { powered: false },
+        battery: {},
         sensors: [{ type }]
       })
     ).toEqual(match(/\n#define MODULE_SWITCH 1/));
@@ -113,7 +113,7 @@ it('sets up the switch module', () => {
     nodeManagerConfiguration({
       radio: 'NRF24L01+'
     }, {
-      battery: { powered: false },
+      battery: {},
       sensors: [{ type: 'foo' }]
     })
   ).toEqual(match(/\n#define MODULE_SWITCH 0/));
