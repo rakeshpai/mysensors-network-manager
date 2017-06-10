@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import App from './components/App';
 
@@ -12,6 +12,7 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import registerServiceWorker from './registerServiceWorker';
 import cacheFiles from './lib/cache-files';
+import { currentVersion } from './reducers/migrations';
 
 import ga from 'react-ga';
 
@@ -43,14 +44,25 @@ if(process.env.NODE_ENV === 'production') {
   });
 }
 
-render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App network={store.getState().network} />
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+class Root extends Component {
+  componentWillMount() {
+    store.dispatch({ type: 'MIGRATE' });
+  }
+
+  render() {
+    if(store.getState().version !== currentVersion) return <div></div>;
+
+    return (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App network={store.getState().network} />
+        </ConnectedRouter>
+      </Provider>
+    )
+  }
+}
+
+render(<Root />, document.getElementById('root'));
 
 registerServiceWorker();
 cacheFiles()
