@@ -13,6 +13,7 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import registerServiceWorker from './registerServiceWorker';
 import cacheFiles from './lib/cache-files';
 import { currentVersion } from './reducers/migrations';
+import createLogger from 'redux-logger';
 
 import ga from 'react-ga';
 
@@ -23,9 +24,7 @@ const history = createHistory({
 });
 const middleware = [routerMiddleware(history)];
 
-if(process.env.NODE_ENV !== 'production') {
-  middleware.push(require('redux-logger').createLogger({diff: true}));
-}
+middleware.push(createLogger({diff: true}));
 
 const store = createStore(
   reducer,
