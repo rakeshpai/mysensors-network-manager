@@ -26,7 +26,7 @@ it('sets up the sensor\'s variable', () => {
   expect(output).toEqual(match(/\nSensorLDR\* ldrSensor = \(\(SensorLDR\*\)nm.getSensor\(ldr\)\);/));
 });
 
-it('sets up the sensor\'s variable', () => {
+it('sets up the sensor\'s percentage range', () => {
   const output = sensorLines({
     nodes: [{
       id: 'asdf',
