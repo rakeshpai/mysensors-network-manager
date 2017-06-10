@@ -1,6 +1,5 @@
 const migrations = [
   networks => networks, // Need this for the greater good
-  n => n
 ];
 
 export const currentVersion = migrations.length;
