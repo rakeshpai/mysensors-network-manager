@@ -32,6 +32,7 @@ it('sets up the sensor\'s percentage range', () => {
       id: 'asdf',
       sensors: [{
         type: 'ldr',
+        pin: 'A0',
         reportPercentage: true,
         percentageRangeMin: 333,
         percentageRangeMax: 999
@@ -48,7 +49,8 @@ it('sets up the extra params for the rain sensor', () => {
     nodes: [{
       id: 'asdf',
       sensors: [{
-        type: 'rain'
+        type: 'rain',
+        pin: 'A0'
       }]
     }]
   }, 'asdf').join('\n');
@@ -63,6 +65,7 @@ it('sets up mVPerAmp for the acs712', () => {
       id: 'asdf',
       sensors: [{
         type: 'acs712',
+        pin: 'A0',
         mvPerAmp: '0.03'
       }]
     }]
@@ -77,6 +80,7 @@ it('sets the initial value, \'on\' value for digital output sensors', () => {
       id: 'asdf',
       sensors: [{
         type: 'relay',
+        pin: 'D0',
         initialValue: 'low',
         onValue: 'high'
       }]
@@ -93,6 +97,7 @@ it('sets up auto-turn-off for digital-out', () => {
       id: 'asdf',
       sensors: [{
         type: 'relay',
+        pin: 'D0',
         autoTurnOff: true,
         turnOffTime: 2
       }]
@@ -108,6 +113,7 @@ it('sets up interrupts', () => {
       id: 'asdf',
       sensors: [{
         type: 'motion',
+        pin: 'D1',
         interruptMode: 'change'
       }]
     }]
@@ -122,6 +128,7 @@ it('sets up debounce for digital-in', () => {
       id: 'asdf',
       sensors: [{
         type: 'door',
+        pin: 'D0',
         debounceTime: 50
       }]
     }]
@@ -136,6 +143,7 @@ it('sets up the \'normal\' state of a digital-in', () => {
       id: 'asdf',
       sensors: [{
         type: 'door',
+        pin: 'D0',
         normalValue: 'high'
       }]
     }]

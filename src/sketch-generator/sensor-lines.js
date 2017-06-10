@@ -15,11 +15,11 @@ const sensorLines = (node, sensor, variableSuffix) => {
 
   const lines = [
     `// Code for ${matchingSensor.label}`,
-    `int ${sensorHandle} = nm.registerSensor(SENSOR_${matchingSensor.nmType}, ${sensor.pin});`,
+    `int ${sensorHandle} = nm.registerSensor(SENSOR_${matchingSensor.nmType}, ${sensor.pin.replace(/^[D]/, '')});`,
     `${matchingSensor.nmClass}* ${sensorVariable} = ((${matchingSensor.nmClass}*)nm.getSensor(${sensorHandle}));`,
   ];
 
-  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(${sensor.powerPin},12,300);`);
+  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(${sensor.powerPin.replace(/^[D]/, '')}, 12, 300);`);
 
   if('reportPercentage' in sensor) {
     lines.push(`${sensorVariable}->setOutputPercentage(${sensor.reportPercentage?'true':'false'});`);
@@ -42,7 +42,7 @@ const sensorLines = (node, sensor, variableSuffix) => {
 
   if('interruptMode' in sensor) lines.push(`${sensorVariable}->setMode(${sensor.interruptMode.toUpperCase()});`);
   if('debounceTime' in sensor) lines.push(`${sensorVariable}->setDebounce(${sensor.debounceTime});`);
-  if('normalValue' in sensor) lines.push(`${sensorVariable}->setIntial(${sensor.normalValue});`);
+  if('normalValue' in sensor) lines.push(`${sensorVariable}->setInitial(${sensor.normalValue.toUpperCase()});`);
 
   lines.push('');
 

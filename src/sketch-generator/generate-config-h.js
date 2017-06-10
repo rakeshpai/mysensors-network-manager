@@ -5,7 +5,7 @@ export const sketchConfiguration = (network, node) => `
 
 #define SKETCH_NAME "${node.name}"
 #define SKETCH_VERSION "1.0"
-${!node.battery.powered && '#define MY_REPEATER_FEATURE'}
+${!node.battery.powered ? '#define MY_REPEATER_FEATURE' : ''}
 `;
 
 export const radioConfiguration = (network, node) => {
