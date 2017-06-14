@@ -31,7 +31,6 @@ const defaultGateway = _ => ({
 
   id: generateId(),
   name: 'Gateway',
-  batteryPowered: false,
 
   type: 'gateway',
   gatewayType: 'serial',

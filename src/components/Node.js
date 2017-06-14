@@ -106,12 +106,12 @@ export const Form = ({ network, node, handlers }) => {
               <div className={css({display: 'table'})}>
                 <div className={css({display: 'table-cell', paddingRight: 10})}>
                   <input type='number' min='0' max='24' step='0.1' pattern='\d*'
-                    value={node.battery.min} onChange={e => handlers.setBatteryMin(e.target.value)} />
+                    value={node.battery.min} onChange={e => handlers.setBatteryMin(parseFloat(e.target.value))} />
                   <p className={info}>Min</p>
                 </div>
                 <div className={css({display: 'table-cell'})}>
                   <input type='number' min='0' max='24' step='0.1' pattern='\d*'
-                    value={node.battery.max} onChange={e => handlers.setBatteryMax(e.target.value)} />
+                    value={node.battery.max} onChange={e => handlers.setBatteryMax(parseFloat(e.target.value))} />
                   <p className={info}>Max</p>
                 </div>
               </div>
