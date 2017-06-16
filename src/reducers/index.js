@@ -3,7 +3,7 @@ import { routerReducer as router } from 'react-router-redux';
 import migrate from './migrations';
 import networks from './networks';
 
-import validate from '../lib/validate-network';
+//import validate from '../lib/validate-network';
 
 const combined = combineReducers({
   router,
@@ -14,6 +14,6 @@ const combined = combineReducers({
 export default (state, action) => {
   const migrated = migrate(state, action);
   const newState = combined(migrated, action);
-  console.log('Network validation errors:', validate(newState.networks[0]));
+  //console.log('Network validation errors:', validate(newState.networks[0]));
   return newState;
 };

@@ -16,21 +16,15 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    Promise.all([
-      import('react-syntax-highlighter/dist/light'),
-      import('react-syntax-highlighter/dist/languages/cpp'),
-      import('react-syntax-highlighter/dist/styles/androidstudio')
-    ]).then(([{ default: SyntaxHighlighter, registerLanguage }, {default: cpp}, {default: style}]) => {
-      registerLanguage('cpp', cpp);
-
+    import('./SyntaxHighlighterBundle').then(({default: SyntaxHighlighter}) => {
       this.setState({
         Component: props => (
-          <SyntaxHighlighter language='cpp' style={style} className={container}>
+          <SyntaxHighlighter className={container}>
             {this.props.children}
           </SyntaxHighlighter>
         )
       })
-    })
+    });
   }
 
   render() {
