@@ -10,6 +10,7 @@ import CreateNetwork from '../containers/CreateNetwork';
 import Network from '../containers/Network';
 import Gateway from '../containers/Gateway';
 import Node from '../containers/Node';
+import Code from '../containers/Code';
 
 import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
@@ -44,7 +45,8 @@ export default ({ network }) => <div>
     <Route exact path='/networks' component={wrapInContainer(Networks)} />
     <Route exact path='/networks/create' component={CreateNetwork} />
     <Route exact path='/networks/:networkId' component={Network} />
-    <Route path='/networks/:networkId/gateway' component={Gateway} />
-    <Route path='/networks/:networkId/:nodeId' component={Node} />
+    <Route exact path='/networks/:networkId/gateway' component={Gateway} />
+    <Route exact path='/networks/:networkId/:nodeId' component={Node} />
+    <Route exact path='/networks/:networkId/:nodeId/code' component={Code} />
   </Switch>
 </div>;

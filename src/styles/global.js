@@ -4,8 +4,8 @@ import { linkColor } from './colors';
 import { fontFamily } from './typography';
 import { outlineStyle } from './forms';
 
-css.global('*', { boxSizing: 'border-box', fontFamily });
-css.global('html, body', { margin: 0, padding: 0 })
+css.global('*', { boxSizing: 'border-box' });
+css.global('html, body', { margin: 0, padding: 0, fontFamily })
 css.global('a', { color: linkColor });
 
 const blockInputTypes = ['text', 'number', 'password'];

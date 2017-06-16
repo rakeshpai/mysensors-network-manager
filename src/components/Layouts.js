@@ -21,7 +21,7 @@ const breakpoint = `@media(max-width: ${breakpointWidth}px)`;
 
 const navPageStyles = {
   container: css({
-    display: 'table',
+    display: 'flex',
     width: '100%',
     padding: 10,
 
@@ -30,38 +30,29 @@ const navPageStyles = {
     }
   }),
   nav: css({
-    display: 'table-cell',
-    width: '17%',
-    verticalAlign: 'top',
-    paddingTop: 20,
     minWidth: 150,
-    paddingRight: 20,
-
-    [breakpoint]: {
-      display: 'block',
-      width: '100%',
-      paddingRight: 0
-    }
+    paddingTop: 20,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   }),
   content: css({
-    display: 'table-cell',
-    verticalAlign: 'top',
-
-    [breakpoint]: {
-      display: 'block'
-    }
+    flexGrow: 6,
+    flexShrink: 6,
+    flexBasis: 0,
+    overflow: 'hidden'
   })
 };
 
 export const NavPage = props => (
   <div className={navPageStyles.container}>
     <div className={navPageStyles.nav}>
-      <MediaQuery query={`(max-width: ${breakpointWidth + 1}px)`}>
+      <MediaQuery query={`(max-width: ${breakpointWidth}px)`}>
         <Collapsible trigger='Navigation' withBg={true}>
           <NavPane {...props} />
         </Collapsible>
       </MediaQuery>
-      <MediaQuery query={`(min-width: ${breakpointWidth}px)`}>
+      <MediaQuery query={`(min-width: ${breakpointWidth + 1}px)`}>
         <NavPane {...props} />
       </MediaQuery>
     </div>

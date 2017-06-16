@@ -6,7 +6,7 @@ import { info } from '../styles/forms';
 
 import { NavPage } from './Layouts';
 import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
-import PageMenu, {DeleteButton, AddButton} from './PageMenu';
+import PageMenu from './PageMenu';
 import { RightAlignedLabel, TopAlignedLabel } from './Forms';
 import RadioPicker from './RadioPicker';
 import FrequencyPicker from './FrequencyPicker';
@@ -32,11 +32,8 @@ export default props => {
 
 
   return <NavPage {...props}>
-    <PageMenu>
-      <AddButton onClick={e => props.addNode(network.id)} title='Add a new node' />
-      <DeleteButton onClick={e => props.deleteNetwork(network.id)}
-        title='Delete this network' />
-    </PageMenu>
+    <PageMenu network={network}
+      handlers={({ addNode: props.addNode, deleteNetwork: props.deleteNetwork })} />
 
     <h2 className={pageHeading}>
       {network.radio} based network

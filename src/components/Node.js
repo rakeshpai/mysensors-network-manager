@@ -6,15 +6,13 @@ import NotFound from './NotFound';
 import { NavPage } from './Layouts';
 import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './Forms';
 import { AnalogPins } from './Pins';
-import PageMenu, { DownloadButton, DeleteButton } from './PageMenu';
+import PageMenu from './PageMenu';
 import Sensor from './Sensor';
 import SensorPicker from './SensorPicker';
 
 import { css } from 'glamor';
 import { pageHeading, pageSubheading, subheading } from '../styles/typography';
 import { info, button } from '../styles/forms';
-
-import generateSketch from '../sketch-generator';
 
 export const Form = ({ network, node, handlers }) => {
   let addSensorDropdown;
@@ -196,10 +194,7 @@ export default props => {
 
   return (
     <NavPage {...props}>
-      <PageMenu>
-        <DownloadButton title='Download the sketch for this node' onClick={_ => generateSketch({ network, nodeId: node.id }, 'arduino' ) } />
-        <DeleteButton title='Delete this node' onClick={_ => handlers.deleteNode()}></DeleteButton>
-      </PageMenu>
+      <PageMenu network={network} node={node} handlers={handlers} view='edit' />
 
       <h2 className={pageHeading}>
         {node.name || 'Unnamed node'}

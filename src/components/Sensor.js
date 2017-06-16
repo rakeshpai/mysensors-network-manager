@@ -4,7 +4,7 @@ import { css } from 'glamor';
 import { info } from '../styles/forms';
 
 import { RightAlignedLabel, InlineLabel } from './Forms';
-import { DeleteButton } from './PageMenu';
+import { DeleteButton } from './Buttons';
 import { AnalogPins, DigitalPins, InterruptPins } from './Pins';
 
 import { sensors, sensorsByType } from '../lib/constants';

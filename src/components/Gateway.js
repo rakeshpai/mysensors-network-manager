@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { gatewayTypes } from '../lib/constants';
-
-import { css } from 'glamor';
 import { pageHeading, pageSubheading, subheading } from '../styles/typography';
 import { info } from '../styles/forms';
 import tabs from '../styles/tabs';
@@ -13,10 +11,10 @@ import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
 import RadioInput from './RadioInput';
 import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
-import PageMenu, { DownloadButton } from './PageMenu';
+import PageMenu from './PageMenu';
 import { Form as NodeForm } from './Node';
 
-import generateSketch from '../sketch-generator';
+import { css } from 'glamor';
 
 const styles = {
   gatewayList: css({
@@ -58,9 +56,7 @@ export default props => {
 
   return (
     <NavPage {...props}>
-      <PageMenu>
-        <DownloadButton title='Download the sketch for the gateway' onClick={_ => generateSketch({ network, nodeId: gateway.id }, 'arduino' ) } />
-      </PageMenu>
+      <PageMenu network={network} node={gateway} handlers={handlers} view='edit' />
 
       <h2 className={pageHeading}>
         Gateway
