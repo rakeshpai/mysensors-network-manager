@@ -8,7 +8,8 @@ import generateSketch from '../sketch-generator';
 
 const styles = {
   menu: css({
-    float: 'right'
+    float: 'right',
+    paddingTop: 15
   }),
   switcher: css({
     display: 'inline-block',

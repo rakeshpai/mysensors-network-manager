@@ -34,7 +34,7 @@ export default props => {
         {node.name} Code
       </h2>
 
-      <Tabs className={tabs.toString()}>
+      <Tabs className={tabs.toString()} defaultIndex={2}>
         <TabList>
           <Tab>SecurityPersonalizer.ino</Tab>
           <Tab>config.h</Tab>
@@ -43,17 +43,17 @@ export default props => {
 
         <TabPanel>
           <SyntaxHighlighter>
-            {securityPersonalizer({network, nodeId}, JSON.parse(window.localStorage.getItem('sp-ino')).text)}
+            {securityPersonalizer({network, nodeId}, JSON.parse(window.localStorage.getItem('sp-ino')).text).trim()}
           </SyntaxHighlighter>
         </TabPanel>
         <TabPanel>
           <SyntaxHighlighter>
-            {files.find(f => f.name === 'config.h').contents}
+            {files.find(f => f.name === 'config.h').contents.trim()}
           </SyntaxHighlighter>
         </TabPanel>
         <TabPanel>
           <SyntaxHighlighter>
-            {files.find(f => f.name !== 'config.h').contents}
+            {files.find(f => f.name !== 'config.h').contents.trim()}
           </SyntaxHighlighter>
         </TabPanel>
       </Tabs>
