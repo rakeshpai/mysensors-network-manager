@@ -16,6 +16,8 @@ import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
 import Networks from './Networks';
 
+import { modalStub } from './Modal';
+
 import { Route, Switch } from 'react-router-dom';
 
 const styles = {
@@ -36,6 +38,7 @@ const styles = {
 
 export default ({ network }) => <div>
   <Notification />
+  {modalStub}
   <header className={styles.header}>
     <h1 className={styles.h1}>MySensors Network</h1>
   </header>

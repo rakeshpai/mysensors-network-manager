@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { radios } from '../lib/constants';
 import { generateId } from '../lib/utils';
 
-import { css } from 'glamor';
 import { FullPage } from './Layouts';
 import { pageHeading, heading, pageSubheading } from '../styles/typography';
-import { info, successButton, button, footer } from '../styles/forms';
+import { info, successButton, footer } from '../styles/forms';
 
 import { RightAlignedLabel } from './Forms';
 import RadioPicker from './RadioPicker';
@@ -70,7 +69,7 @@ export default class extends Component {
 
           <div className={footer}>
             <input type='submit' value='Create a network'
-              className={css(button, successButton)} />
+              className={successButton} />
           </div>
         </form>
       </FullPage>

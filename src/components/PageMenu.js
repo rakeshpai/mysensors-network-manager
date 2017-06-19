@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AddButton, DownloadButton, DeleteButton } from './Buttons';
+import { confirm } from './Modal';
 
 import { css } from 'glamor';
 
@@ -45,7 +46,11 @@ export default ({ network, node, view, handlers }) => (
     {!node && (
       <div>
         <AddButton onClick={e => handlers.addNode(network.id)} title='Add a new node' />
-        <DeleteButton onClick={e => handlers.deleteNetwork(network.id)}
+        <DeleteButton onClick={() => confirm({
+            title: 'Delete this network?',
+            text: 'Are you sure you want to delete this network and all its nodes and sensors? You can\'t undo this!',
+            dangerButtonText: 'Yes, delete this network'
+        }).then(() => handlers.deleteNetwork(network.id))}
           title='Delete this network' />
       </div>
     )}
@@ -62,10 +67,14 @@ export default ({ network, node, view, handlers }) => (
         </ul>
 
         <DownloadButton title='Download the sketch for this node'
-          onClick={_ => generateSketch({ network, nodeId: node.id }, 'arduino' ) } />
+          onClick={() => generateSketch({ network, nodeId: node.id }, 'arduino' ) } />
 
         {node.type !== 'gateway' && (
-          <DeleteButton title='Delete this node' onClick={_ => handlers.deleteNode()} />
+          <DeleteButton title='Delete this node' onClick={() => confirm({
+              title: 'Delete this node?',
+              text: 'Are you sure you want to delete this node and all its sensors? You can\'t undo this!',
+              dangerButtonText: 'Yes, delete this node'
+            }).then(handlers.deleteNode)} />
         )}
       </div>
     )}

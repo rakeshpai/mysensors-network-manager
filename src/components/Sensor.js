@@ -6,6 +6,7 @@ import { info } from '../styles/forms';
 import { RightAlignedLabel, InlineLabel } from './Forms';
 import { DeleteButton } from './Buttons';
 import { AnalogPins, DigitalPins, InterruptPins } from './Pins';
+import { confirm } from './Modal';
 
 import { sensors, sensorsByType } from '../lib/constants';
 
@@ -33,7 +34,7 @@ const styles = {
     marginTop: 10,
     fontSize: 18
   })
-}
+};
 
 export default ({ sensor, sensorIndex, handlers }) => {
   const sensorHandlers = handlers.sensorHandlers(sensorIndex);
@@ -43,7 +44,11 @@ export default ({ sensor, sensorIndex, handlers }) => {
   return (
     <div className={styles.container}>
       <div className={styles.delButton}>
-        <DeleteButton title='Delete this sensor' width={16} onClick={e => handlers.deleteSensor(sensorIndex)} />
+        <DeleteButton title='Delete this sensor' width={16} onClick={e => confirm({
+            title: 'Delete this sensor?',
+            text: 'Are you sure you want to delete this sensor? You can\'t undo this!',
+            dangerButtonText: 'Yes, delete this sensor'
+        }).then(() => handlers.deleteSensor(sensorIndex))} />
       </div>
       <h5 className={styles.sensorHeading}>{sensors.find(s => s.type === sensor.type).label}</h5>
 

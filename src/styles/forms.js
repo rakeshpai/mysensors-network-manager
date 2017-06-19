@@ -1,5 +1,5 @@
 import { css } from 'glamor';
-import { outline, buttonColor } from './colors';
+import { outline, buttonColor, linkColor } from './colors';
 
 export const outlineStyle = { boxShadow: `0px 0px 10px ${outline}` }
 
@@ -23,11 +23,24 @@ export const button = css({
   '&:focus': { ...outlineStyle }
 });
 
-export const successButton = css({
+export const successButton = css(button, {
   background: buttonColor,
   color: '#fff',
   fontSize: 20,
   padding: '10px 25px',
+});
+
+export const dangerButton = css(button, { background: '#d9534f', color: '#fff' });
+
+export const buttonLink = css({
+  background: 'none',
+  border: 'none',
+  color: linkColor,
+  cursor: 'pointer',
+
+  ':hover': {
+    textDecoration: 'underline'
+  }
 });
 
 export const footer = css({
