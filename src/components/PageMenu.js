@@ -59,7 +59,7 @@ export default ({ network, node, view, handlers }) => (
       <div>
         <ul className={styles.switcher}>
           <li>
-            {view === 'edit'?<span>Editor</span>:<Link to={`/networks/${network.id}/${node.id}`}>Editor</Link>}
+            {view === 'edit'?<span>Editor</span>:<Link to={`/networks/${network.id}/${node.type === 'gateway'?'gateway':node.id}`}>Editor</Link>}
           </li>
           <li>
             {view === 'edit'?<Link to={`/networks/${network.id}/${node.id}/code`}>Code</Link>:<span>Code</span>}
