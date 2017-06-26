@@ -70,13 +70,12 @@ ${node.wifi.password ? '' : '//'}#define MY_ESP8266_PASSWORD "${node.wifi.passwo
 `;
   }
 
-  const ipSettings = `
+  const ipSettings = node.ethernet.dhcp ? '' : `
 // Gateway networking settings
-${node.dhcp ? '' : `
 #define MY_IP_ADDRESS ${node.ethernet.ip.split('.').join(',')}
 #define MY_IP_GATEWAY_ADDRESS ${node.ethernet.gateway.split('.').join(',')}
 #define MY_IP_SUBNET_ADDRESS ${node.ethernet.subnet.split('.').join(',')}
-`}`;
+`;
 
   let connType;
 
@@ -142,11 +141,11 @@ export const nodeManagerConfiguration = (network, node) => `
 // if enabled, allow modifying the configuration remotely by interacting with the configuration child id
 #define REMOTE_CONFIGURATION 1
 // if enabled, persist the configuration settings on EEPROM
-#define PERSIST 1
+#define PERSIST 0
 // if enabled, a battery sensor will be created at BATTERY_CHILD_ID and will report vcc voltage together with the battery level percentage
-#define BATTERY_SENSOR 1
+#define BATTERY_SENSOR ${node.battery.powered ? '1' : '0'}
 // if enabled, send a SLEEPING and AWAKE service messages just before entering and just after leaving a sleep cycle and STARTED when starting/rebooting
-#define SERVICE_MESSAGES 1
+#define SERVICE_MESSAGES 0
 
 // Enable this module to use one of the following sensors: SENSOR_ANALOG_INPUT, SENSOR_LDR, SENSOR_THERMISTOR, SENSOR_MQ, SENSOR_ML8511, SENSOR_ACS712, SENSOR_RAIN_GAUGE
 #define MODULE_ANALOG_INPUT ${node.sensors.some(s => ['analogInput', 'ldr', 'thermistor', 'acs712'].includes(s.type)) ? '1' : '0'}
@@ -159,7 +158,7 @@ export const nodeManagerConfiguration = (network, node) => `
 // Enable this module to use one of the following sensors: SENSOR_SHT21
 #define MODULE_SHT21 0
 // Enable this module to use one of the following sensors: SENSOR_SWITCH, SENSOR_DOOR, SENSOR_MOTION
-#define MODULE_SWITCH ${node.sensors.some(s => ['switch', 'door', 'motion'].includes(s.type)) ? '1' : '0'}
+#define MODULE_SWITCH ${node.sensors.some(s => ['inputSwitch', 'door', 'motion'].includes(s.type)) ? '1' : '0'}
 // Enable this module to use one of the following sensors: SENSOR_DS18B20
 #define MODULE_DS18B20 0
 // Enable this module to use one of the following sensors: SENSOR_BH1750

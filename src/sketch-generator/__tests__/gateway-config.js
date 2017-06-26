@@ -21,8 +21,7 @@ it('sets gateway ethernet', () => {
       {
         type: 'gateway',
         gatewayType: 'ethernet',
-        dhcp: true,
-        ethernet: { module: 'enc28j60' },
+        ethernet: { dhcp: true, module: 'enc28j60' },
         conn: {}
       }
     )
@@ -34,8 +33,7 @@ it('sets gateway ethernet', () => {
       {
         type: 'gateway',
         gatewayType: 'ethernet',
-        dhcp: true,
-        ethernet: { module: 'w5100' },
+        ethernet: { dhcp: true, module: 'w5100' },
         conn: {}
       }
     )
@@ -48,7 +46,7 @@ it('sets esp8266 settings', () => {
     {
       type: 'gateway',
       gatewayType: 'esp8266',
-      dhcp: true,
+      ethernet: { dhcp: true },
       wifi: { ssid: 'dlink', password: 'admin' },
       conn: {}
     }
@@ -66,7 +64,7 @@ it('doesn\'t set esp8266 password if not specified', () => {
       {
         type: 'gateway',
         gatewayType: 'esp8266',
-        dhcp: true,
+        ethernet: { dhcp: true },
         wifi: { ssid: 'dlink' },
         conn: {}
       }
@@ -97,8 +95,7 @@ it('sets up server mode', () => {
     {
       type: 'gateway',
       gatewayType: 'ethernet',
-      dhcp: true,
-      ethernet: { module: 'w5100' },
+      ethernet: { dhcp: true, module: 'w5100' },
       conn: { type: 'server', serverMaxClients: 1, serverPort: 1234 }
     }
   );
@@ -113,8 +110,7 @@ it('sets up client mode', () => {
     {
       type: 'gateway',
       gatewayType: 'ethernet',
-      dhcp: true,
-      ethernet: { module: 'w5100' },
+      ethernet: { dhcp: true, module: 'w5100' },
       conn: { type: 'client', controllerIp: '1.1.1.1', controllerPort: 1234 }
     }
   );
@@ -131,8 +127,7 @@ it('sets up mqtt mode', () => {
     {
       type: 'gateway',
       gatewayType: 'ethernet',
-      dhcp: true,
-      ethernet: { module: 'w5100' },
+      ethernet: { dhcp: true, module: 'w5100' },
       conn: { type: 'mqtt', mqttHost: '1.1.1.1', mqttPort: 1234 }
     }
   );

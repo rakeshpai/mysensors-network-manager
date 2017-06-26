@@ -183,7 +183,7 @@ export const sensors = [
   {
     label: 'Switch',
     pinType: 'digital',
-    type: 'switch',
+    type: 'inputSwitch',
     nmType: 'SWITCH',
     nmClass: 'SensorSwitch',
     defaults: {

@@ -98,7 +98,7 @@ it('sets up the digital output module', () => {
 });
 
 it('sets up the switch module', () => {
-  ['switch', 'door', 'motion'].forEach(type => {
+  ['inputSwitch', 'door', 'motion'].forEach(type => {
     expect(
       nodeManagerConfiguration({
         radio: 'NRF24L01+'

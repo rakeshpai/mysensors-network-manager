@@ -64,11 +64,17 @@ export default ({ sensor, sensorIndex, handlers }) => {
         </RightAlignedLabel>
       )}
 
-      {(['switch', 'door', 'motion'].includes(sensor.type)) && (
-        <RightAlignedLabel label='Sense pin'>
-          <InterruptPins {...pinProps} />
-        </RightAlignedLabel>
-      )}
+      {
+        sensors
+          .filter(s => s.defaults && 'interruptMode' in s.defaults)
+          .map(s => s.type)
+          .includes(sensor.type)
+        && (
+          <RightAlignedLabel label='Sense pin'>
+            <InterruptPins {...pinProps} />
+          </RightAlignedLabel>
+        )
+      }
 
       {sensor.type === 'hcsr504' && (
         <div>
