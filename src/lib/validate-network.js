@@ -1,4 +1,4 @@
-import { radios } from './constants';
+import { radios, sensors, analogPins, digitalPins } from './constants';
 
 const createExpect = record => (value, path) => {
   const chainable = {
@@ -61,7 +61,8 @@ export default network => {
   expect(network.nodes.find(n => n.type === 'gateway'), 'gateway').toBeA('object');
 
   network.nodes.forEach((node, nodeIndex) => {
-    const ex = (node, key = '') => expect(node, `node[${nodeIndex}].${key}`);
+    const ex = (value, key = '') => expect(value, `node[${nodeIndex}].${key}`);
+    const chip = (node.type === 'gateway' && node.gatewayType === 'esp8266') ? 'esp8266' : 'atmega328';
 
     ex(node).toBeA('object');
     if(typeof node !== 'object') return;
@@ -81,6 +82,7 @@ export default network => {
       if(node.battery.powered) {
         ex(node.battery.min, 'battery.min').toBeWithin(0, 24);
         ex(node.battery.max, 'battery.max').toBeWithin(0, 24);
+        ex(node.battery.max, 'battery.min').toBeGreaterThan(node.battery.min);
         ex(node.battery.measure, 'battery.measure').toBeOfSet(['internal', 'external']);
         ex(node.sleepTime, 'sleepTime').toBeGreaterThan(0);
         ex(node.sleepUnit, 'sleepUnit').toBeOfSet(['seconds', 'minutes', 'hours', 'days']);
@@ -98,6 +100,31 @@ export default network => {
     } else {
       ex(node.atshaSigningPin, 'atshaSigningPin').toBeA('string');
     }
+
+    ex(node.sensors, 'sensors').toBeA('array');
+    node.sensors.forEach((sensor, sensorIndex) => {
+      const ex = (value, key) => expect(value, `nodes[${nodeIndex}].sensors[${sensorIndex}].${key}`);
+
+      ex(sensor.type, 'type').toBeOfSet(sensors.map(s => s.type));
+
+      if(sensors.find(s => s.type === sensor.type).pinType === 'analog') {
+        ex(sensor.pin, 'pin').toBeOfSet(analogPins[chip]);
+
+        if('reverse' in sensor) ex(sensor.reverse, 'reverse').toBeA('boolean');
+        if('usePowerPin' in sensor) {
+          ex(sensor.usePowerPin, 'usePowerPin').toBeA('boolean');
+
+          if(sensor.usePowerPin) ex(sensor.powerPin, 'powerPin').toBeOfSet(digitalPins[chip]);
+        }
+
+        if('reportPercentage' in sensor) {
+          ex(sensor.reportPercentage, 'reportPercentage').toBeA('boolean');
+          ex(sensor.percentageRangeMin, 'percentageRangeMin').toBeA('number');
+          ex(sensor.percentageRangeMax, 'percentageRangeMax').toBeA('number');
+          ex(sensor.percentageRangeMax, 'percentageRangeMax').toBeGreaterThan(sensor.percentageRangeMin);
+        }
+      }
+    });
   });
 
   return errors;

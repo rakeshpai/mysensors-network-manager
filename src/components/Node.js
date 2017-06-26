@@ -61,7 +61,7 @@ export const Form = ({ network, node, handlers }) => {
               <RightAlignedLabel label='Sleep for'>
                 <input type='number' value={node.sleepTime}
                   min='0' max='32767' className={css({ marginRight: 5 })}
-                  onChange={e => handlers.setSleepTime(e.target.value)} />
+                  onChange={e => handlers.setSleepTime(parseInt(e.target.value, 10))} />
                 <select value={node.sleepUnit} onChange={e => handlers.setSleepUnit(e.target.value)}>
                   {['seconds', 'minutes', 'hours', 'days'].map(u => <option key={u} value={u}>{u}</option>)}
                 </select>
