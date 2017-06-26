@@ -19,7 +19,7 @@ const sensorLines = (node, sensor, variableSuffix) => {
     `${matchingSensor.nmClass}* ${sensorVariable} = ((${matchingSensor.nmClass}*)nm.getSensor(${sensorHandle}));`,
   ];
 
-  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(${sensor.powerPin.replace(/^[D]/, '')}, 12, 300);`);
+  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(-1, ${sensor.powerPin.replace(/^[D]/, '')}, 300);`);
 
   if('reportPercentage' in sensor) {
     lines.push(`${sensorVariable}->setOutputPercentage(${sensor.reportPercentage?'true':'false'});`);
