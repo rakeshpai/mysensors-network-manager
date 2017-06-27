@@ -2,46 +2,6 @@ import { generateSketch } from '../node-sketch-files';
 
 const match = expect.stringMatching;
 
-it('sets up software signing', () => {
-  const output = generateSketch({
-    network: {
-      radio: 'NRF24L01+',
-      nodes: [{
-        id: 'asdf',
-        battery: {},
-        signing: 'software',
-        softSigningPin: 'A7',
-        sensors: []
-      }]
-    },
-    nodeId: 'asdf'
-  });
-
-  expect(output).toEqual(match(/\n#define MY_SIGNING_SOFT/));
-  expect(output).toEqual(match(/\n#define MY_SIGNING_SOFT_RANDOMSEED_PIN 7/));
-  expect(output).toEqual(match(/\n#define MY_SIGNING_REQUEST_SIGNATURES/));
-});
-
-it('sets up ATSHA signing', () => {
-  const output = generateSketch({
-    network: {
-      radio: 'NRF24L01+',
-      nodes: [{
-        id: 'asdf',
-        battery: {},
-        signing: 'atsha',
-        atshaSigningPin: 'A3',
-        sensors: []
-      }]
-    },
-    nodeId: 'asdf'
-  });
-
-  expect(output).toEqual(match(/\n#define MY_SIGNING_ATSHA204/));
-  expect(output).toEqual(match(/\n#define MY_SIGNING_ATSHA204_PIN 3/));
-  expect(output).toEqual(match(/\n#define MY_SIGNING_REQUEST_SIGNATURES/));
-});
-
 it('doesn\'t include battery and sleep when not required', () => {
   const output = generateSketch({
     network: {

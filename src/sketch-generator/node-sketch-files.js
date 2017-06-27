@@ -28,20 +28,7 @@ const initialize = ({ network, nodeId }) => {
   return lines.join('\n  ');
 }
 
-const security = ({ network, nodeId }) => {
-  const node = network.nodes.find(n => n.id === nodeId);
-  const softwareSigning = node.signing === 'software';
-
-  return `
-// Message signing
-#define ${softwareSigning?'MY_SIGNING_SOFT':'MY_SIGNING_ATSHA204'}
-#define ${softwareSigning?'MY_SIGNING_SOFT_RANDOMSEED_PIN':'MY_SIGNING_ATSHA204_PIN'} ${(softwareSigning?node.softSigningPin:node.atshaSigningPin).replace(/^[A]/, '')}
-#define MY_SIGNING_REQUEST_SIGNATURES
-`
-}
-
 export const generateSketch = nodeParams => `
-${security(nodeParams)}
 // load user settings
 #include "config.h"
 // load MySensors library
@@ -97,3 +84,20 @@ export default (nodeParams, sketchName) => ([
   { name: 'config.h', contents: generateConfig(nodeParams) },
   { name: `${sketchName}.ino`, contents: generateSketch(nodeParams) }
 ]);
+
+export const platformini = (nodeParams) => `
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter, extra scripting
+;   Upload options: custom port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;
+; Please visit documentation for the other options and examples
+; http://docs.platformio.org/en/stable/projectconf.html
+
+[env:pro8MHzatmega328]
+platform = atmelavr
+framework = arduino
+board = pro8MHzatmega328
+lib_deps = https://github.com/mysensors/MySensors#development
+`;

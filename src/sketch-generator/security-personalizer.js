@@ -30,3 +30,20 @@ export default ({ network, nodeId }, text) => {
     })
     .join('\n');
 };
+
+export const platformini = () => `
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter, extra scripting
+;   Upload options: custom port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;
+; Please visit documentation for the other options and examples
+; http://docs.platformio.org/en/stable/projectconf.html
+
+[env:pro8MHzatmega328]
+platform = atmelavr
+framework = arduino
+board = pro8MHzatmega328
+lib_deps = https://github.com/mysensors/MySensors#development
+`

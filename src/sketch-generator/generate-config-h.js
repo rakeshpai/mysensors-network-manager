@@ -177,12 +177,24 @@ export const nodeManagerConfiguration = (network, node) => `
 #define MODULE_MCP9808 0
 `;
 
+export const securityConfiguration = (network, node) => {
+  const softwareSigning = node.signing === 'software';
+
+  return `
+// Message signing
+#define ${softwareSigning?'MY_SIGNING_SOFT':'MY_SIGNING_ATSHA204'}
+#define ${softwareSigning?'MY_SIGNING_SOFT_RANDOMSEED_PIN':'MY_SIGNING_ATSHA204_PIN'} ${(softwareSigning?node.softSigningPin:node.atshaSigningPin).replace(/^[A]/, '')}
+#define MY_SIGNING_REQUEST_SIGNATURES
+`
+}
+
 export default ({ network, nodeId }) => {
   const node = network.nodes.find(n => n.id === nodeId);
 
   return `
 #ifndef config_h
 #define config_h
+${securityConfiguration(network, node)}
 ${sketchConfiguration(network, node)}
 ${nodeConfiguration(network, node)}
 ${radioConfiguration(network, node)}
