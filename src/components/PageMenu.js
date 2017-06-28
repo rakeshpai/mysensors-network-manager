@@ -5,8 +5,6 @@ import { confirm } from './Modal';
 
 import { css } from 'glamor';
 
-import generateSketch from '../sketch-generator';
-
 const styles = {
   menu: css({
     float: 'right',
@@ -40,6 +38,8 @@ const styles = {
     }
   })
 }
+
+const generateSketch = (nodeParams, format) => import('../sketch-generator').then((gen) => gen.default(nodeParams, format));
 
 export default ({ network, node, view, handlers }) => (
   <div className={styles.menu}>
