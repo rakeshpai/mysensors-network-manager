@@ -23,7 +23,7 @@ const navPageStyles = {
   container: css({
     display: 'flex',
     width: '100%',
-    padding: 10,
+    minHeight: '100vh',
 
     [breakpoint]: {
       display: 'block'
@@ -31,16 +31,18 @@ const navPageStyles = {
   }),
   nav: css({
     minWidth: 150,
-    paddingTop: 20,
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
+    background: '#fafbfc',
+    borderRight: '1px solid #e1e4e8'
   }),
   content: css({
     flexGrow: 6,
     flexShrink: 6,
     flexBasis: 0,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    padding: '10px 10px 0 40px'
   })
 };
 

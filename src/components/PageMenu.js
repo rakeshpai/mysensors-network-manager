@@ -6,13 +6,13 @@ import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdow
 import { css } from 'glamor';
 import { buttonLink } from '../styles/forms';
 
-import editIcon from 'feather-icons/icons/core/edit.svg';
-import textFile from 'feather-icons/icons/core/file-text.svg';
+import { EditIcon, CodeIcon, HamburgerIcon } from './Icons';
 
 const styles = {
   menu: css({
     float: 'right',
     paddingTop: 15,
+    marginRight: 10,
 
     '& .dropdown': {
       display: 'inline-block',
@@ -44,11 +44,8 @@ const styles = {
   }),
   switcher: css({
     display: 'inline-block',
-    border: '1px solid #eee',
     margin: 0,
     padding: 0,
-    borderRadius: 5,
-    verticalAlign: 'top',
 
     '& li': {
       display: 'inline-block',
@@ -56,16 +53,33 @@ const styles = {
       '& span, & a': {
         display: 'inline-block',
         padding: '5px 10px',
+        border: '1px solid #ddd',
+        borderRight: 0
       },
 
       '& span': {
-        color: '#999'
+        color: '#999',
+        boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)'
       },
 
       '& a': {
-        background: '#eee',
         cursor: 'pointer',
         textDecoration: 'none'
+      },
+
+      '&:nth-child(1)': {
+        '& a, & span': {
+          borderTopLeftRadius: 5,
+          borderBottomLeftRadius: 5
+        }
+      },
+
+      '&:nth-last-child(1)': {
+        '& span, & a': {
+          borderRight: '1px solid #ddd',
+          borderTopRightRadius: 5,
+          borderBottomRightRadius: 5
+        }
       }
     }
   }),
@@ -88,7 +102,8 @@ const styles = {
 
     ':after': {
       content: '"▾"',
-      margin: '0 0 0 10px'
+      margin: '5px 0 0 10px',
+      verticalAlign: 'top'
     }
   })
 }
@@ -97,9 +112,6 @@ export default ({ network, node, view, handlers }) => {
   let dropdown;
 
   const closeDropdown = () => dropdown.hide();
-
-  const EditIcon = () => <img src={editIcon} width='20' alt='Edit' />;
-  const CodeIcon = () => <img src={textFile} width='20' alt='View code' />;
 
   return (
     <div className={styles.menu}>
@@ -117,7 +129,7 @@ export default ({ network, node, view, handlers }) => {
       <Dropdown ref={r => dropdown = r}>
         <DropdownTrigger>
           <span className={styles.dropdownTrigger}>
-            More...
+            <HamburgerIcon />
           </span>
         </DropdownTrigger>
         <DropdownContent>

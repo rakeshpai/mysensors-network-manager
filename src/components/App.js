@@ -3,7 +3,6 @@ import React from 'react';
 import '../index.css';
 import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
-import { brandBackground } from '../styles/colors';
 
 import Notification from './Notification';
 import CreateNetwork from '../containers/CreateNetwork';
@@ -15,6 +14,7 @@ import Code from '../containers/Code';
 import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
 import Networks from './Networks';
+import { SiteIcon } from './Icons';
 
 import { modalStub } from './Modal';
 
@@ -22,17 +22,21 @@ import { Route, Switch } from 'react-router-dom';
 
 const styles = {
   header: css({
-    background: brandBackground,
-    boxShadow: '0 0 10px rgba(0,0,0,0.6)'
+    background: '#000',
+    //boxShadow: '0 0 10px rgba(0,0,0,0.8)',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 10px'
   }),
 
   h1: css({
     fontFamily: headingFontFamily,
     margin: 0,
     padding: '15px 10px',
-    fontWeight: 'normal',
+    fontWeight: 300,
     fontSize: 20,
-    color: '#666'
+    color: '#ccc',
+    display: 'inline-block'
   })
 };
 
@@ -40,7 +44,10 @@ export default ({ network }) => <div>
   <Notification />
   {modalStub}
   <header className={styles.header}>
-    <h1 className={styles.h1}>MySensors Network</h1>
+    <SiteIcon />
+    <h1 className={styles.h1}>
+      MySensors Configurator
+    </h1>
   </header>
 
   <Switch>

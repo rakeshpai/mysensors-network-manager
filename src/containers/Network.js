@@ -18,6 +18,7 @@ export default connect(
   s => s,
   dispatch => {
     return {
+      dispatch,
       deleteNetwork: deleteNetwork(dispatch),
       addNode: addNode(dispatch),
       changeRadio: (networkId, radio) => dispatch({ type: 'CHANGE_RADIO', networkId, radio }),

@@ -5,6 +5,7 @@ import { createHandlers as nodeHandlers } from './Node';
 export default connect(
   s => s,
   dispatch => ({
+    dispatch,
     createHandlers: (networkId, nodeId) => {
       const d = (type, action) => dispatch({ type: `GATEWAY/${type}`, networkId, ...action});
 

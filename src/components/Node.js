@@ -22,7 +22,7 @@ export const Form = ({ network, node, handlers }) => {
       <LeftColumn>
         <div>
           {node.type !== 'gateway' && (
-            <RightAlignedLabel label='Name this type of node'>
+            <RightAlignedLabel label='Name this node'>
               <input type='text' value={node.name}
                 onChange={e => handlers.setName(e.target.value)} />
               <p className={info}>

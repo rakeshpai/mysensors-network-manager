@@ -14,7 +14,7 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
   return {
     addNode: addNode(dispatch),
     deleteNetwork: deleteNetwork(dispatch),
-    
+
     deleteNode: _ => { d('DELETE'); dispatch(push(`/networks/${networkId}`)); },
 
     setName: name => d('SET_NAME', { name }),
@@ -66,5 +66,5 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
 
 export default connect(
   s => s,
-  dispatch => ({ createHandlers: createHandlers(dispatch) })
+  dispatch => ({ dispatch, createHandlers: createHandlers(dispatch) })
 )(Node);
