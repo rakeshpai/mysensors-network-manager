@@ -7,7 +7,7 @@ export const pageHeading = css({
   fontFamily: headingFontFamily,
   fontWeight: 300,
   fontSize: 40,
-  margin: '20px 0',
+  margin: '30px 0 20px',
   color: '#888'
 });
 
@@ -15,7 +15,7 @@ export const pageSubheading = css({
   color: '#888',
   fontSize: 16,
   fontFamily: headingFontFamily,
-  marginBottom: 30
+  margin: '0 0 50px'
 });
 
 export const heading = css({

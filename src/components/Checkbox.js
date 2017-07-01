@@ -2,15 +2,13 @@ import React from 'react';
 
 import { css } from 'glamor';
 import { success } from '../styles/colors';
-import { pop } from '../styles/animations';
 
 import { Check, Square } from './Icons';
 
 const styles = {
   container: css({
     display: 'inline-block',
-    position: 'relative',
-    animation: pop,
+    position: 'relative'
   }),
 
   hiddenRadio: css({
@@ -20,13 +18,13 @@ const styles = {
   })
 };
 
-export default ({ type='checkbox', size = 24, className, ...props }) => (
+export default ({ type='checkbox', color = success, size = 24, className, ...props }) => (
   <div className={css(styles.container, className)}>
     <input type={type} {...props} className={styles.hiddenRadio} />
 
     {
       props.checked
-      ? <Check size={size} color={success} />
+      ? <Check size={size} color={color} />
       : <Square size={size} color={'#ddd'} />
     }
   </div>

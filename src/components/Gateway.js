@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { gatewayTypes } from '../lib/constants';
+
+import { css } from 'glamor';
 import { pageHeading, pageSubheading, subheading } from '../styles/typography';
-import { info } from '../styles/forms';
+import { info, outlineStyle } from '../styles/forms';
+import { success } from '../styles/colors';
 import tabs from '../styles/tabs';
 
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import NotFound from './NotFound';
 import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
-import RadioInput from './RadioInput';
+import Checkbox from './Checkbox';
 import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
 import { Form as NodeForm } from './Node';
-
-import { css } from 'glamor';
+import NotFound from './NotFound';
 
 const styles = {
   gatewayList: css({
     listStyle: 'none',
-    padding: 0,
+    padding: '20px 0',
     maxWidth: 500
   }),
   radioLabel: css({
-    padding: '10px 10px 10px 50px',
+    display: 'block',
+    padding: '10px 10px 10px 45px',
     position: 'relative',
-    marginBottom: 15
+    marginBottom: 15,
+    border: '1px solid #ccc',
+    borderRadius: 5
+  }),
+  radioLableChecked: css({
+    borderColor: success
   }),
   check: css({
     position: 'absolute',
@@ -39,6 +46,44 @@ const styles = {
     margin: '7px 0 3px'
   })
 };
+
+class GatewayTypePicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { focussed: false };
+  }
+
+  onFocus(e) { this.setState({ focussed: e.target.value }) }
+  onBlur(e) { this.setState({ focussed: false }) }
+
+  render() {
+    const { selectedGatewayType, onGatewayTypeChange } = this.props;
+    const focussed = this.state.focussed;
+
+    return (
+      <div className={styles.gatewayList}>
+        {gatewayTypes.map(gatewayType => {
+          const checked = selectedGatewayType === gatewayType.name;
+
+          return (
+            <label key={gatewayType.name} className={css(
+                styles.radioLabel,
+                checked && styles.radioLableChecked,
+                (focussed === gatewayType.name) && {...outlineStyle}
+              )}>
+              <Checkbox type='radio' name='gatewayType' value={gatewayType.name}
+                checked={checked} className={styles.check}
+                onChange={onGatewayTypeChange} size={30}
+                onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} />
+              {gatewayType.title}
+              <p className={styles.gatewayDescription}>{gatewayType.description}</p>
+            </label>
+          )
+        })}
+      </div>
+    )
+  }
+}
 
 export default props => {
   const { networks, match } = props;
@@ -76,115 +121,105 @@ export default props => {
           <ColumnContainer>
             <LeftColumn>
               Which type of gateway are you using?
-              <ul className={styles.gatewayList}>
-                {gatewayTypes.map(gatewayType => (
-                  <li key={gatewayType.name}>
-                    <RadioInput name='gatewayType' value={gatewayType.name}
-                      className={styles.radioLabel} checkClassName={styles.check}
-                      onChange={e => handlers.setType(e.target.value)}
-                      checked={gatewayType.name === gateway.gatewayType}>
-                      {gatewayType.title}
-                      <p className={styles.gatewayDescription}>{gatewayType.description}</p>
-                    </RadioInput>
-                  </li>
-                ))}
+              <GatewayTypePicker selectedGatewayType={gateway.gatewayType}
+                onGatewayTypeChange={e => handlers.setType(e.target.value)} />
 
-                {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
-                  <div className={css({marginTop: 30})}>
-                    How should the gateway connect to the controller?
 
-                    <div className={css({marginTop: 10})}>
-                      <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
-                        <input type='radio' name='mode' value='server'
-                          checked={gateway.conn.type === 'server'}
-                          onChange={e => handlers.setMode('server')} />
-                      </InlineLabel>
+              {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
+                <div className={css({marginTop: 30})}>
+                  How should the gateway connect to the controller?
 
-                      <InlineLabel label={'As a client, connecting to the controller\'s server.'}>
-                        <input type='radio' name='mode' value='client'
-                          checked={gateway.conn.type === 'client'}
-                          onChange={e => handlers.setMode('client')} />
-                      </InlineLabel>
+                  <div className={css({marginTop: 10})}>
+                    <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
+                      <input type='radio' name='mode' value='server'
+                        checked={gateway.conn.type === 'server'}
+                        onChange={e => handlers.setMode('server')} />
+                    </InlineLabel>
 
-                      <InlineLabel label='Connect to a MQTT broker.'>
-                        <input type='radio' name='mode' value='mqtt'
-                          checked={gateway.conn.type === 'mqtt'}
-                          onChange={e => handlers.setMode('mqtt')} />
-                      </InlineLabel>
-                    </div>
+                    <InlineLabel label={'As a client, connecting to the controller\'s server.'}>
+                      <input type='radio' name='mode' value='client'
+                        checked={gateway.conn.type === 'client'}
+                        onChange={e => handlers.setMode('client')} />
+                    </InlineLabel>
 
-                    {gateway.conn.type === 'server' && (
-                      <fieldset>
-                        <legend>Server settings</legend>
-
-                        <RightAlignedLabel label='Listening port'>
-                          <input type='number' value={gateway.conn.serverPort}
-                            min='1' max='65535' pattern='\d*'
-                            onChange={e => handlers.setServerPort(parseInt(e.target.value, 10))} />
-
-                          <p className={info}>
-                            The port that the gateway should open for incoming connections.
-                          </p>
-                        </RightAlignedLabel>
-
-                        <RightAlignedLabel label='Max. incoming connections'>
-                          <input type='number' value={gateway.conn.serverMaxClients}
-                            min='1' max='8' pattern='\d*'
-                            onChange={e => handlers.setServerMaxClients(parseInt(e.target.value, 10))} />
-
-                          <p className={info}>
-                            Allowing too many incoming connections may cause the gateway to crash!
-                          </p>
-                        </RightAlignedLabel>
-                      </fieldset>
-                    )}
-
-                    {gateway.conn.type === 'client' && (
-                      <fieldset>
-                        <legend>Controller settings</legend>
-
-                        <RightAlignedLabel label='Controller host'>
-                          <input type='text' value={gateway.conn.controllerIp} required
-                            placeholder='Host or IP'
-                            onChange={e => handlers.setControllerIp(e.target.value.trim())} />
-
-                          <p className={info}>
-                            The hostname or IP address of the controller
-                          </p>
-                        </RightAlignedLabel>
-
-                        <RightAlignedLabel label='Port'>
-                          <input type='number' value={gateway.conn.controllerPort} required
-                            min='1' max='65535' pattern='\d*'
-                            onChange={e => handlers.setControllerPort(parseInt(e.target.value, 10))} />
-                        </RightAlignedLabel>
-                      </fieldset>
-                    )}
-
-                    {gateway.conn.type === 'mqtt' && (
-                      <fieldset>
-                        <legend>MQTT settings</legend>
-
-                        <RightAlignedLabel label='Broker host'>
-                          <input type='text' value={gateway.conn.mqttHost} required
-                            placeholder='Host or IP'
-                            onChange={e => handlers.setMqttHost(e.target.value.trim())} />
-
-                          <p className={info}>
-                            The hostname or IP address of the MQTT broker
-                          </p>
-                        </RightAlignedLabel>
-
-                        <RightAlignedLabel label='Port'>
-                          <input type='number' value={gateway.conn.mqttPort} required
-                            min='1' max='65535' pattern='\d*'
-                            onChange={e => handlers.setMqttPort(parseInt(e.target.value, 10))} />
-                        </RightAlignedLabel>
-                      </fieldset>
-                    )}
+                    <InlineLabel label='Connect to a MQTT broker.'>
+                      <input type='radio' name='mode' value='mqtt'
+                        checked={gateway.conn.type === 'mqtt'}
+                        onChange={e => handlers.setMode('mqtt')} />
+                    </InlineLabel>
                   </div>
-                )}
-              </ul>
+
+                  {gateway.conn.type === 'server' && (
+                    <fieldset>
+                      <legend>Server settings</legend>
+
+                      <RightAlignedLabel label='Listening port'>
+                        <input type='number' value={gateway.conn.serverPort}
+                          min='1' max='65535' pattern='\d*'
+                          onChange={e => handlers.setServerPort(parseInt(e.target.value, 10))} />
+
+                        <p className={info}>
+                          The port that the gateway should open for incoming connections.
+                        </p>
+                      </RightAlignedLabel>
+
+                      <RightAlignedLabel label='Max. incoming connections'>
+                        <input type='number' value={gateway.conn.serverMaxClients}
+                          min='1' max='8' pattern='\d*'
+                          onChange={e => handlers.setServerMaxClients(parseInt(e.target.value, 10))} />
+
+                        <p className={info}>
+                          Allowing too many incoming connections may cause the gateway to crash!
+                        </p>
+                      </RightAlignedLabel>
+                    </fieldset>
+                  )}
+
+                  {gateway.conn.type === 'client' && (
+                    <fieldset>
+                      <legend>Controller settings</legend>
+
+                      <RightAlignedLabel label='Controller host'>
+                        <input type='text' value={gateway.conn.controllerIp} required
+                          placeholder='Host or IP'
+                          onChange={e => handlers.setControllerIp(e.target.value.trim())} />
+
+                        <p className={info}>
+                          The hostname or IP address of the controller
+                        </p>
+                      </RightAlignedLabel>
+
+                      <RightAlignedLabel label='Port'>
+                        <input type='number' value={gateway.conn.controllerPort} required
+                          min='1' max='65535' pattern='\d*'
+                          onChange={e => handlers.setControllerPort(parseInt(e.target.value, 10))} />
+                      </RightAlignedLabel>
+                    </fieldset>
+                  )}
+
+                  {gateway.conn.type === 'mqtt' && (
+                    <fieldset>
+                      <legend>MQTT settings</legend>
+
+                      <RightAlignedLabel label='Broker host'>
+                        <input type='text' value={gateway.conn.mqttHost} required
+                          placeholder='Host or IP'
+                          onChange={e => handlers.setMqttHost(e.target.value.trim())} />
+
+                        <p className={info}>
+                          The hostname or IP address of the MQTT broker
+                        </p>
+                      </RightAlignedLabel>
+
+                      <RightAlignedLabel label='Port'>
+                        <input type='number' value={gateway.conn.mqttPort} required
+                          min='1' max='65535' pattern='\d*'
+                          onChange={e => handlers.setMqttPort(parseInt(e.target.value, 10))} />
+                      </RightAlignedLabel>
+                    </fieldset>
+                  )}
+                </div>
+              )}
             </LeftColumn>
             <RightColumn>
               {gateway.gatewayType === 'esp8266' && (
