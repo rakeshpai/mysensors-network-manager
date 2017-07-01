@@ -9,7 +9,6 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import tabs from '../styles/tabs';
 import { pageHeading } from '../styles/typography';
 
-import securityPersonalizer from '../sketch-generator/security-personalizer';
 import nodeSketchFiles from '../sketch-generator/node-sketch-files';
 
 export default props => {
@@ -34,26 +33,20 @@ export default props => {
         {node.name} Code
       </h2>
 
-      <Tabs className={tabs.toString()} defaultIndex={2}>
+      <Tabs className={tabs.toString()} defaultIndex={0}>
         <TabList>
-          <Tab>SecurityPersonalizer.ino</Tab>
-          <Tab>config.h</Tab>
           <Tab>{node.name}.ino</Tab>
+          <Tab>config.h</Tab>
         </TabList>
 
         <TabPanel>
           <SyntaxHighlighter>
-            {securityPersonalizer({network, nodeId}, JSON.parse(window.localStorage.getItem('sp-ino')).text).trim()}
+            {files.find(f => f.name !== 'config.h').contents.trim()}
           </SyntaxHighlighter>
         </TabPanel>
         <TabPanel>
           <SyntaxHighlighter>
             {files.find(f => f.name === 'config.h').contents.trim()}
-          </SyntaxHighlighter>
-        </TabPanel>
-        <TabPanel>
-          <SyntaxHighlighter>
-            {files.find(f => f.name !== 'config.h').contents.trim()}
           </SyntaxHighlighter>
         </TabPanel>
       </Tabs>

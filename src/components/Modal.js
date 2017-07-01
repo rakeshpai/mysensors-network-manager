@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 
 import { dangerButton, buttonLink } from '../styles/forms';
-import { brandBackground } from '../styles/colors';
 import { css } from 'glamor';
 
 css.global('.ReactModal__Body--open', { overflow: 'hidden' });
@@ -16,10 +15,10 @@ const styles = {
     left: '50%',
     transform: center,
     background: '#fff',
-    boxShadow: '0 0 10px rgba(0,0,0,0.5)'
-  }),
-
-  contentAfterOpen: css({
+    boxShadow: '0 0 10px rgba(0,0,0,0.4)',
+    border: '1px solid #aaa',
+    borderRadius: 5,
+    outline: 0,
     animation: `${css.keyframes({
       '0%': { transform: `${center} scale(0.1)`, opacity: 0 },
       '60%': { transform: `${center} scale(1.1)`, opacity: 1 },
@@ -27,12 +26,25 @@ const styles = {
     })} .3s`
   }),
 
+  overlay: css({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.3)'
+  }),
+
   modalHeading: css({
     margin: 0,
     fontSize: 20,
     fontWeight: 300,
-    background: brandBackground,
-    padding: 10
+    borderBottom: '1px solid #ddd',
+    background: '#fafafa',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    marginRight: 1,
+    padding: 10,
   }),
 
   confirmFooter: css({
@@ -73,7 +85,9 @@ class ModalContainer extends Component {
         isOpen={this.state.isOpen}
         className={{
           base: css(styles.contentBase, { maxWidth: this.state.suppliedProps.maxWidth }),
-          afterOpen: styles.contentAfterOpen
+        }}
+        overlayClassName={{
+          base: styles.overlay
         }}>
 
         <h1 className={styles.modalHeading}>

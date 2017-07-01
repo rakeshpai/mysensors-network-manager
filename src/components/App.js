@@ -3,6 +3,7 @@ import React from 'react';
 import '../index.css';
 import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
+import { headerBackground, headerColor } from '../styles/colors';
 
 import Notification from './Notification';
 import CreateNetwork from '../containers/CreateNetwork';
@@ -22,8 +23,7 @@ import { Route, Switch } from 'react-router-dom';
 
 const styles = {
   header: css({
-    background: '#000',
-    //boxShadow: '0 0 10px rgba(0,0,0,0.8)',
+    background: headerBackground,
     display: 'flex',
     alignItems: 'center',
     padding: '0 10px'
@@ -35,7 +35,7 @@ const styles = {
     padding: '15px 10px',
     fontWeight: 300,
     fontSize: 20,
-    color: '#ccc',
+    color: headerColor,
     display: 'inline-block'
   })
 };

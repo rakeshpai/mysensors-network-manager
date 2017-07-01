@@ -109,6 +109,8 @@ export default ({ networks, router, match, dispatch, ...props }) => {
   if(!networks.length) return <div>No networks found</div>
 
   const currentNetwork = networks.find(n => router.location.pathname.indexOf(`/networks/${n.id}`) === 0);
+
+
   const addNode = props.addNode ? props.addNode : props.createHandlers(currentNetwork.id).addNode;
 
   const onNetworkChange = networkId => {

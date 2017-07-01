@@ -22,7 +22,7 @@ const styles = {
       display: 'none',
       position: 'absolute',
       right: '0',
-      top: 33,
+      top: 36,
       minWidth: 250,
       background: 'white',
       border: '1px solid #eee',
@@ -100,11 +100,13 @@ const styles = {
     borderRadius: 5,
     marginLeft: 10,
 
+    /*
     ':after': {
       content: '"▾"',
       margin: '5px 0 0 10px',
       verticalAlign: 'top'
     }
+    */
   })
 }
 
@@ -148,20 +150,22 @@ export default ({ network, node, view, handlers }) => {
                     Download this node's sketch
                   </button>
                 </li>
-                <li>
-                  <button
-                    className={css(styles.dropdownButton, { '&:hover': { color: 'red' }})}
-                    onClick={() => {
-                      closeDropdown();
-                      confirm({
-                        title: 'Delete this node?',
-                        text: 'Are you sure you want to delete this node and all its sensors? You can\'t undo this!',
-                        dangerButtonText: 'Yes, delete this node'
-                      }).then(handlers.deleteNode)
-                    }}>
-                    Delete this node
-                  </button>
-                </li>
+                {node.type !== 'gateway' && (
+                  <li>
+                    <button
+                      className={css(styles.dropdownButton, { '&:hover': { color: 'red' }})}
+                      onClick={() => {
+                        closeDropdown();
+                        confirm({
+                          title: 'Delete this node?',
+                          text: 'Are you sure you want to delete this node and all its sensors? You can\'t undo this!',
+                          dangerButtonText: 'Yes, delete this node'
+                        }).then(handlers.deleteNode)
+                      }}>
+                      Delete this node
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           )}
