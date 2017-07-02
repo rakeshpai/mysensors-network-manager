@@ -8,6 +8,7 @@ import persistState from 'redux-localstorage';
 import reducer from './reducers';
 
 import createHistory from 'history/createBrowserHistory';
+import ScrollToTop from './components/ScrollToTop';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import registerServiceWorker from './registerServiceWorker';
@@ -43,6 +44,7 @@ if(process.env.NODE_ENV === 'production') {
   });
 }
 
+
 class Root extends Component {
   componentWillMount() {
     store.dispatch({ type: 'MIGRATE' });
@@ -54,7 +56,9 @@ class Root extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <App network={store.getState().network} />
+          <ScrollToTop>
+            <App network={store.getState().network} />
+          </ScrollToTop>
         </ConnectedRouter>
       </Provider>
     )
