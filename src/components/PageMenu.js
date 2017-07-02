@@ -8,13 +8,10 @@ import { buttonLink } from '../styles/forms';
 
 import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus } from './Icons';
 
-const breakpoint = '@media(max-width: 500px)';
-
 const styles = {
   menu: css({
     float: 'right',
     paddingTop: 15,
-    marginRight: 10,
 
     '& .dropdown': {
       display: 'inline-block',

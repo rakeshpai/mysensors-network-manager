@@ -11,7 +11,6 @@ import tabs from '../styles/tabs';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
 import Checkbox from './Checkbox';
-import Collapsible from './Collapsible';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
 import { Form as NodeForm } from './Node';
@@ -126,7 +125,7 @@ export default props => {
 
 
               {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
-                <div className={css({marginTop: 30})}>
+                <div>
                   How should the gateway connect to the controller?
 
                   <div className={css({marginTop: 10})}>
@@ -223,78 +222,78 @@ export default props => {
             </LeftColumn>
             <RightColumn>
               {gateway.gatewayType === 'esp8266' && (
-                <div>
-                  <Collapsible trigger='WiFi settings' withBg={true} open={true}>
-                    <TopAlignedLabel label={'Your WiFi\'s SSID'}>
-                      <input type='text' value={gateway.wifi.ssid} required
-                        placeholder="Enter your WiFi's SSID"
-                        onChange={e => handlers.setSsid(e.target.value)} />
-                    </TopAlignedLabel>
+                <fieldset>
+                  <legend>WiFi settings</legend>
 
-                    <TopAlignedLabel label={'Your WiFi\'s password'}>
-                      <input type='password' value={gateway.wifi.password}
-                        placeholder='Enter your WiFi password'
-                        onChange={e => handlers.setPassword(e.target.value)} />
-                    </TopAlignedLabel>
-                  </Collapsible>
-                </div>
+                  <TopAlignedLabel label={'Your WiFi\'s SSID'}>
+                    <input type='text' value={gateway.wifi.ssid} required
+                      placeholder="Enter your WiFi's SSID"
+                      onChange={e => handlers.setSsid(e.target.value)} />
+                  </TopAlignedLabel>
+
+                  <TopAlignedLabel label={'Your WiFi\'s password'}>
+                    <input type='password' value={gateway.wifi.password}
+                      placeholder='Enter your WiFi password'
+                      onChange={e => handlers.setPassword(e.target.value)} />
+                  </TopAlignedLabel>
+                </fieldset>
               )}
 
               {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (
-                <div>
-                  <Collapsible trigger='Ethernet settings' withBg={true} open={true}>
-                    {gateway.gatewayType === 'ethernet' && (
-                      <TopAlignedLabel label='Ethernet module'>
-                        <select value={gateway.ethernet.module}
-                          onChange={e => handlers.setEthernetModule(e.target.value)}>
-                          <option value='w5100'>WizNET (W5100)</option>
-                          <option value='enc28j60'>ENC28J60</option>
-                        </select>
+                <fieldset>
+                  <legend>Ethernet settings</legend>
+
+                  {gateway.gatewayType === 'ethernet' && (
+                    <TopAlignedLabel label='Ethernet module'>
+                      <select value={gateway.ethernet.module}
+                        onChange={e => handlers.setEthernetModule(e.target.value)}>
+                        <option value='w5100'>WizNET (W5100)</option>
+                        <option value='enc28j60'>ENC28J60</option>
+                      </select>
+                    </TopAlignedLabel>
+                  )}
+
+                  Network configuration
+                  <InlineLabel label='Use DHCP'
+                    info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
+                    inlineInfo={true}>
+                    <input type='radio' name='dhcp' value='yes'
+                      checked={gateway.ethernet.dhcp}
+                      onChange={e => handlers.setDhcp(true)} />
+                  </InlineLabel>
+
+                  <InlineLabel label={'Configure the network manually'}
+                    info={gateway.conn.type === 'server' ? 'Recommended' : null}
+                    inlineInfo={true}>
+                    <input type='radio' name='dhcp' value='no'
+                      checked={!gateway.ethernet.dhcp}
+                      onChange={e => handlers.setDhcp(false)} />
+                  </InlineLabel>
+
+                  {!gateway.ethernet.dhcp && (
+                    <fieldset>
+                      <legend>Manual network configuration</legend>
+
+                      <TopAlignedLabel label='Static IP'>
+                        <input type='text' value={gateway.ethernet.ip}
+                          pattern={ipPattern} required
+                          onChange={e => handlers.setIp(e.target.value)} />
                       </TopAlignedLabel>
-                    )}
 
-                    Network configuration
-                    <InlineLabel label='Use DHCP'
-                      info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
-                      inlineInfo={true}>
-                      <input type='radio' name='dhcp' value='yes'
-                        checked={gateway.ethernet.dhcp}
-                        onChange={e => handlers.setDhcp(true)} />
-                    </InlineLabel>
+                      <TopAlignedLabel label='Gateway IP'>
+                        <input type='text' value={gateway.ethernet.gateway}
+                          pattern={ipPattern} required
+                          onChange={e => handlers.setGateway(e.target.value)} />
+                      </TopAlignedLabel>
 
-                    <InlineLabel label={'Configure the network manually'}
-                      info={gateway.conn.type === 'server' ? 'Recommended' : null}
-                      inlineInfo={true}>
-                      <input type='radio' name='dhcp' value='no'
-                        checked={!gateway.ethernet.dhcp}
-                        onChange={e => handlers.setDhcp(false)} />
-                    </InlineLabel>
-
-                    {!gateway.ethernet.dhcp && (
-                      <fieldset>
-                        <legend>Manual network configuration</legend>
-
-                        <TopAlignedLabel label='Static IP'>
-                          <input type='text' value={gateway.ethernet.ip}
-                            pattern={ipPattern} required
-                            onChange={e => handlers.setIp(e.target.value)} />
-                        </TopAlignedLabel>
-
-                        <TopAlignedLabel label='Gateway IP'>
-                          <input type='text' value={gateway.ethernet.gateway}
-                            pattern={ipPattern} required
-                            onChange={e => handlers.setGateway(e.target.value)} />
-                        </TopAlignedLabel>
-
-                        <TopAlignedLabel label='Subnet mask'>
-                          <input type='text' value={gateway.ethernet.subnet}
-                            pattern={ipPattern} required
-                            onChange={e => handlers.setSubnet(e.target.value)} />
-                        </TopAlignedLabel>
-                      </fieldset>
-                    )}
-                  </Collapsible>
-                </div>
+                      <TopAlignedLabel label='Subnet mask'>
+                        <input type='text' value={gateway.ethernet.subnet}
+                          pattern={ipPattern} required
+                          onChange={e => handlers.setSubnet(e.target.value)} />
+                      </TopAlignedLabel>
+                    </fieldset>
+                  )}
+                </fieldset>
               )}
             </RightColumn>
           </ColumnContainer>

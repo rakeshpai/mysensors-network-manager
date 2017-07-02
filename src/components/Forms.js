@@ -89,9 +89,12 @@ const inline = css({
   display: 'block',
   position: 'relative',
   padding: '3px 0 5px 25px',
+  border: '1px solid transparent',
+  borderRadius: 5,
 
   ':hover': {
-    background: '#f6f6f6'
+    background: '#fafafa',
+    borderColor: '#e9e9e9'
   },
 
   '& input': {

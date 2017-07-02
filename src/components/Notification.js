@@ -1,5 +1,4 @@
 import React from 'react';
-import { success } from '../styles/colors';
 import { fontFamily } from '../styles/typography';
 import NotificationSystem from 'react-notification-system';
 

@@ -26,8 +26,9 @@ css.global(blockFields.map(f => `${f}:invalid`).join(), { border: '1px solid red
 css.global(blockFields.map(f => `${f}:invalid:focus`).join(), { boxShadow: '0px 0px 10px red' });
 css.global('label', { cursor: 'pointer' });
 css.global('fieldset', {
-  border: '1px solid #eee',
+  border: '1px solid #ddd',
   borderRadius: 5,
   marginTop: 20,
-  padding: 10
+  padding: 10,
+  marginBottom: 10
 });

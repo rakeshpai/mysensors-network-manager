@@ -5,6 +5,27 @@ import NavPane from './NavPane';
 import MediaQuery from 'react-responsive';
 import Collapsible from './Collapsible';
 
+import { headerBackground, headerColor } from '../styles/colors';
+
+const footerStyles = css({
+  background: headerBackground,
+  color: headerColor,
+  padding: 10,
+  fontSize: 14,
+  marginTop: 10,
+
+  '& a': {
+    color: headerColor
+  }
+});
+
+export const Footer = props => (
+  <footer className={footerStyles}>
+    Like what you see? Please let us know!
+    <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>.
+  </footer>
+)
+
 const fullPageContainer = css({
   width: '100%',
   maxWidth: 500,
@@ -12,9 +33,14 @@ const fullPageContainer = css({
   padding: '0 10px'
 });
 
-export const FullPage = props => <main className={fullPageContainer}>
-  {props.children}
-</main>;
+export const FullPage = props => (
+  <div>
+    <main className={fullPageContainer}>
+      {props.children}
+    </main>
+    <Footer />
+  </div>
+);
 
 const breakpointWidth = 700;
 const breakpoint = `@media(max-width: ${breakpointWidth}px)`;
@@ -42,38 +68,40 @@ const navPageStyles = {
     flexShrink: 6,
     flexBasis: 0,
     overflow: 'hidden',
-    padding: '10px 10px 0 40px',
+    padding: '10px 40px',
 
     [breakpoint]: {
-      paddingLeft: 10
+      padding: 10
     }
   })
 };
 
 export const NavPage = props => (
-  <div className={navPageStyles.container}>
-    <div className={navPageStyles.nav}>
-      <MediaQuery query={`(max-width: ${breakpointWidth}px)`}>
-        <Collapsible trigger='Navigation' withBg={true}>
+  <div>
+    <div className={navPageStyles.container}>
+      <div className={navPageStyles.nav}>
+        <MediaQuery query={`(max-width: ${breakpointWidth}px)`}>
+          <Collapsible trigger='Navigation' withBg={true}>
+            <NavPane {...props} />
+          </Collapsible>
+        </MediaQuery>
+        <MediaQuery query={`(min-width: ${breakpointWidth + 1}px)`}>
           <NavPane {...props} />
-        </Collapsible>
-      </MediaQuery>
-      <MediaQuery query={`(min-width: ${breakpointWidth + 1}px)`}>
-        <NavPane {...props} />
-      </MediaQuery>
+        </MediaQuery>
+      </div>
+      <main className={navPageStyles.content}>
+        {props.children}
+      </main>
     </div>
-    <main className={navPageStyles.content}>
-      {props.children}
-    </main>
+    <Footer />
   </div>
 );
 
 const colBreakpoint = `@media(max-width: 800px)`;
 const columnStyles = {
   container: css({
-    display: 'table',
-    width: '100%',
-    paddingRight: 20,
+    display: 'flex',
+    alignItems: 'flex-start',
 
     [colBreakpoint]: {
       display: 'block',
@@ -81,8 +109,7 @@ const columnStyles = {
     }
   }),
   leftColumn: css({
-    display: 'table-cell',
-    width: '55%',
+    flex: 1,
     verticalAlign: 'top',
 
     [colBreakpoint]: {
@@ -91,13 +118,13 @@ const columnStyles = {
     }
   }),
   rightColumn: css({
-    display: 'table-cell',
+    flex: 1,
     paddingLeft: 20,
     verticalAlign: 'top',
 
     [colBreakpoint]: {
       display: 'block',
-      padding: '20px 0'
+      padding: 0
     }
   })
 }

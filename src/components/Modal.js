@@ -129,12 +129,4 @@ export const confirm = ({
       </footer>
     </div>
   ));
-})
-
-/*
-setTimeout(() => {
-  confirm().then(() => {
-    console.log("Success");
-  });
-}, 1000)
-*/
+});
