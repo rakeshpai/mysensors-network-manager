@@ -42,7 +42,11 @@ const navPageStyles = {
     flexShrink: 6,
     flexBasis: 0,
     overflow: 'hidden',
-    padding: '10px 10px 0 40px'
+    padding: '10px 10px 0 40px',
+
+    [breakpoint]: {
+      paddingLeft: 10
+    }
   })
 };
 

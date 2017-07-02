@@ -29,19 +29,22 @@ const styles = {
     '&:hover, &:focus': {
       background: '#f9f9f9',
       borderColor: '#ddd',
-      ...outlineStyle,
 
       '& h3': {
-        textDecoration: 'underline',
+        textDecoration: 'none',
         color: '#666'
       }
+    },
+
+    '&:focus': {
+      ...outlineStyle
     }
   }),
   heading: css({
     fontWeight: 'normal',
     margin: 0,
     paddingBottom: 5,
-    color: '#888'
+    color: '#888',
   }),
   description: css({
     fontColor: '#ccc',

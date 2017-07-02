@@ -13,7 +13,8 @@ const styles = {
     display: 'flex',
 
     [breakpoint]: {
-      margin: '10px 0'
+      display: 'block',
+      margin: '10px 10px 10px -10px'
     }
   }),
   label: css({
@@ -55,7 +56,7 @@ const styles = {
       width: '30%',
 
       '& img': {
-        width: '70%',
+        width: '90%',
         height: 'auto'
       }
     }
@@ -65,7 +66,7 @@ const styles = {
 
     [breakpoint]: {
       textAlign: 'left',
-      marginBottom: 5
+      marginBottom: 10
     }
   }),
   radioInfo: css({
@@ -75,7 +76,11 @@ const styles = {
   radioInfoItem: css({
     display: 'flex',
     paddingBottom: 10,
-    width: '100%'
+    width: '100%',
+
+    [breakpoint]: {
+      paddingBottom: 0
+    }
   }),
   radioInfoIcon: css({
     width: 22,
@@ -93,12 +98,7 @@ const styles = {
   check: css({
     position: 'absolute',
     top: 10,
-    left: 10,
-
-    [breakpoint]: {
-      top: '50%',
-      marginTop: -20
-    }
+    left: 10
   })
 }
 

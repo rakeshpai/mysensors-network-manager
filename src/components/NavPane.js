@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { Network, Board, Plus } from './Icons';
 
+const breakpoint = '@media(max-width: 500px)';
+
 const styles = {
   networkChooser: css({
     padding: '30px 10px 10px',
@@ -44,6 +46,12 @@ const styles = {
       color: '#999'
     },
 
+    '& .section': {
+      [breakpoint]: {
+        marginRight: 10
+      }
+    },
+
     '& .section a': {
       textDecoration: 'none',
       color: '#aaa',
@@ -57,6 +65,11 @@ const styles = {
 
       '&:not(.selected):hover': {
         color: '#666'
+      },
+
+      [breakpoint]: {
+        border: '1px solid transparent',
+        borderRadius: 5,
       }
     },
 
@@ -67,6 +80,11 @@ const styles = {
       marginRight: -1,
       color: '#111',
       boxShadow: '-5px 2px 5px #eee',
+
+      [breakpoint]: {
+        border: '1px solid #ddd',
+        boxShadow: '0 0 5px #eee'
+      }
     },
 
     '& .fakeTab': {

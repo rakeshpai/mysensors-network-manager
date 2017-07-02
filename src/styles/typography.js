@@ -3,12 +3,18 @@ import { css } from 'glamor';
 export const headingFontFamily = `'Roboto', sans-serif`;
 export const fontFamily = `'Roboto', sans-serif`;
 
+const breakpoint = '@media(max-width: 500px)';
+
 export const pageHeading = css({
   fontFamily: headingFontFamily,
   fontWeight: 300,
   fontSize: 40,
   margin: '30px 0 20px',
-  color: '#888'
+  color: '#888',
+
+  [breakpoint]: {
+    marginTop: 10
+  }
 });
 
 export const pageSubheading = css({
