@@ -31,8 +31,8 @@ export default _ => {
                     title: 'An update has been downloaded',
                     message: 'Click this message to apply the new update',
                     level: 'success',
-                    dismissable: 0,
-                    position: 'bc',
+                    autoDismiss: 0,
+                    position: 'tr',
                     onRemove: _ => window.location.reload()
                   });
                 } else {
@@ -44,7 +44,7 @@ export default _ => {
                     title: 'Offline ready!',
                     message: 'This site can be used without an Internet connection!',
                     level: 'success',
-                    position: 'bc'
+                    position: 'tr'
                   });
                 }
               }
