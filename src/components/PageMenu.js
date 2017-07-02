@@ -6,7 +6,7 @@ import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdow
 import { css } from 'glamor';
 import { buttonLink } from '../styles/forms';
 
-import { EditIcon, CodeIcon, HamburgerIcon } from './Icons';
+import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus } from './Icons';
 
 const styles = {
   menu: css({
@@ -86,11 +86,26 @@ const styles = {
   dropdownButton: css(buttonLink, {
     textAlign: 'left',
     fontSize: 16,
-    padding: 3,
+    padding: '5px 10px 5px 5px',
+    marginBottom: 3,
     width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    border: '1px solid transparent',
+    borderRadius: 3,
+    boxShadow: 'none',
+
+    '& svg': {
+      display: 'inline-block',
+      marginRight: 5
+    },
 
     '&:hover': {
-      background: '#f1f1f1'
+      background: '#fafafa',
+      borderColor: '#ddd',
+      textDecoration: 'none'
     }
   }),
   dropdownTrigger: css({
@@ -147,6 +162,7 @@ export default ({ network, node, view, handlers }) => {
                       import('../sketch-generator')
                         .then(gen => gen.default({ network, nodeId: node.id }, 'arduino'))
                     }}>
+                    <Download />
                     Download this node's sketch
                   </button>
                 </li>
@@ -162,6 +178,7 @@ export default ({ network, node, view, handlers }) => {
                           dangerButtonText: 'Yes, delete this node'
                         }).then(handlers.deleteNode)
                       }}>
+                      <Trash />
                       Delete this node
                     </button>
                   </li>
@@ -171,7 +188,7 @@ export default ({ network, node, view, handlers }) => {
           )}
 
           <strong>Network options</strong>
-          <ul>
+          <ul className={css({marginBottom: 0})}>
             <li>
               <button
                 className={styles.dropdownButton}
@@ -179,6 +196,7 @@ export default ({ network, node, view, handlers }) => {
                   closeDropdown();
                   handlers.addNode(network.id);
                 }}>
+                <Plus />
                 Add a new node to this network
               </button>
             </li>
@@ -193,6 +211,7 @@ export default ({ network, node, view, handlers }) => {
                     dangerButtonText: 'Yes, delete this network'
                   }).then(() => handlers.deleteNetwork(network.id))
                 }}>
+                <Trash />
                 Delete this network
               </button>
             </li>

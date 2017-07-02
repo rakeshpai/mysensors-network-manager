@@ -1,3 +1,5 @@
+// Icons from https://feather.netlify.com/
+
 import React from 'react';
 
 const defaultProps = ({size, strokeWidth, color}) => ({
@@ -114,3 +116,11 @@ export const ThumbsDown = ({size = defaultSize, strokeWidth = defaultStroke, col
     <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
   </svg>
 );
+
+export const Download = ({size = defaultSize, strokeWidth = defaultStroke, color = defaultColor}) => (
+  <svg {...defaultProps({size, strokeWidth, color})}>
+      <path d="M3 17v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/>
+      <polyline points="8 12 12 16 16 12"/>
+      <line x1="12" y1="2" x2="12" y2="16"/>
+  </svg>
+)
