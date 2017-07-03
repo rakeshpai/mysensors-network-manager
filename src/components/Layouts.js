@@ -22,6 +22,7 @@ const footerStyles = css({
 export const Footer = props => (
   <footer className={footerStyles}>
     Like what you see? Please let us know!
+    {' '}
     <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>.
   </footer>
 )

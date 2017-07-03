@@ -182,7 +182,7 @@ export default ({ networks, router, match, dispatch, ...props }) => {
         <div className='section'>
           <div className='heading'>Nodes</div>
 
-          <Link to={`/networks/${currentNetwork.id}/gateway`} className={router.location.pathname === `/networks/${currentNetwork.id}/gateway` ? 'selected': ''}>
+          <Link to={`/networks/${currentNetwork.id}/gateway`} className={router.location.pathname.indexOf(`/networks/${currentNetwork.id}/gateway`) === 0 ? 'selected': ''}>
             <div className='fakeTab'>
               <div className='icon'>
                 <Board size={16} />
@@ -202,7 +202,7 @@ export default ({ networks, router, match, dispatch, ...props }) => {
               .filter(n => n.type !== 'gateway')
               .sort((a, b) => b.name - a.name)
               .map(node => (
-                <Link key={node.id} to={`/networks/${currentNetwork.id}/${node.id}`} className={router.location.pathname === `/networks/${currentNetwork.id}/${node.id}` ? 'selected': ''}>
+                <Link key={node.id} to={`/networks/${currentNetwork.id}/${node.id}`} className={router.location.pathname.indexOf(`/networks/${currentNetwork.id}/${node.id}`) === 0 ? 'selected': ''}>
                   <div className='fakeTab'>
                     <div className='icon'>
                       <Board size={16} />

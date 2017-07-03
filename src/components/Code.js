@@ -13,11 +13,12 @@ import nodeSketchFiles from '../sketch-generator/node-sketch-files';
 
 export default props => {
   const { networks, match } = props;
+  const { networkId, nodeId : nodeIdMoniker } = match.params;
 
-  const { networkId, nodeId } = match.params;
   const network = networks.find(n => n.id === networkId);
   if(!network) return <NotFound />;
 
+  const nodeId = nodeIdMoniker === 'gateway' ? network.nodes.find(n => n.type === 'gateway').id : nodeIdMoniker;
   const node = network.nodes.find(n => n.id === nodeId);
   if(!node) return <NotFound />;
 

@@ -137,7 +137,7 @@ export default ({ network, node, view, handlers }) => {
             {view === 'edit'?<span><EditIcon /></span>:<Link to={`/networks/${network.id}/${node.type === 'gateway'?'gateway':node.id}`}><EditIcon /></Link>}
           </li>
           <li>
-            {view === 'edit'?<Link to={`/networks/${network.id}/${node.id}/code`}><CodeIcon /></Link>:<span><CodeIcon /></span>}
+            {view === 'edit'?<Link to={`/networks/${network.id}/${node.type === 'gateway' ? 'gateway' : node.id}/code`}><CodeIcon /></Link>:<span><CodeIcon /></span>}
           </li>
         </ul>
       )}

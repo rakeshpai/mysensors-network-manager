@@ -5,18 +5,17 @@
   "homepage": "https://rakeshpai.github.io/mysensors-network-manager",
   "devDependencies": {
     "gh-pages": "^1.0.0",
-    "react-scripts": "1.0.7",
-    "redux-logger": "^3.0.6"
+    "react-scripts": "1.0.7"
   },
   "dependencies": {
-    "feather-icons": "^2.4.0",
+    "redux-logger": "^3.0.6",
     "file-saver": "^1.3.3",
     "glamor": "^2.20.25",
     "history": "^4.6.3",
     "jszip": "^3.1.3",
-    "react": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-collapsible": "^1.4.0",
-    "react-dom": "^15.5.4",
     "react-ga": "^2.2.0",
     "react-modal": "^2.2.1",
     "react-notification-system": "^0.2.14",
