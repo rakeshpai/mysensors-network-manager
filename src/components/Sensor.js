@@ -13,19 +13,17 @@ import { sensors, sensorsByType } from '../lib/constants';
 const styles = {
   container: css({
     position: 'relative',
-    padding: 20,
-    marginTop: 20,
-    borderTop: '1px solid #eee',
-    borderBottom: '1px solid #eee',
+    padding: '20px 10px',
+    margin: '20px 0',
 
     '&:hover': {
-      background: '#f6f6f6'
+      background: '#fcfcfc'
     }
   }),
 
   delButton: css({
     position: 'absolute',
-    top: 5,
+    top: 15,
     right: 5
   }),
 
@@ -42,7 +40,9 @@ export default ({ sensor, sensorIndex, handlers }) => {
   const pinProps = { value: sensor.pin, onChange: e => sensorHandlers.setPin(e.target.value) };
 
   return (
-    <div className={styles.container}>
+    <fieldset className={styles.container}>
+      <legend>{sensors.find(s => s.type === sensor.type).label}</legend>
+
       <div className={styles.delButton}>
         <DeleteButton title='Delete this sensor' width={16} onClick={e => confirm({
             title: 'Delete this sensor?',
@@ -50,7 +50,6 @@ export default ({ sensor, sensorIndex, handlers }) => {
             dangerButtonText: 'Yes, delete this sensor'
         }).then(() => handlers.deleteSensor(sensorIndex))} />
       </div>
-      <h5 className={styles.sensorHeading}>{sensors.find(s => s.type === sensor.type).label}</h5>
 
       {(sensorsByType[sensor.type].pinType === 'analog') && (
         <RightAlignedLabel label='Sense pin'>
@@ -233,6 +232,6 @@ export default ({ sensor, sensorIndex, handlers }) => {
           </p>
         </RightAlignedLabel>
       )}
-    </div>
+    </fieldset>
   );
 }

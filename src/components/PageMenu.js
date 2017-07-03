@@ -114,6 +114,10 @@ const styles = {
     borderRadius: 5,
     marginLeft: 10,
 
+    '.dropdown--active &': {
+      boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)'
+    },
+
     /*
     ':after': {
       content: '"▾"',

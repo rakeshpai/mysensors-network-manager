@@ -99,7 +99,9 @@ export const Form = ({ network, node, handlers }) => {
       </LeftColumn>
       <RightColumn>
         {node.battery.powered && (
-          <Collapsible trigger='Battery measurement' withBg={true} open={true}>
+          <fieldset>
+            <legend>Battery measurement</legend>
+
             <RightAlignedLabel label='Battery voltage range'>
               <div className={css({display: 'table'})}>
                 <div className={css({display: 'table-cell', paddingRight: 10})}>
@@ -138,7 +140,7 @@ export const Form = ({ network, node, handlers }) => {
                 </p>
               </RightAlignedLabel>
             )}
-          </Collapsible>
+          </fieldset>
         )}
 
         <Collapsible trigger='Security settings' withBg={true}>
