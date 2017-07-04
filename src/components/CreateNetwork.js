@@ -4,11 +4,18 @@ import { generateId } from '../lib/utils';
 
 import { FullPage } from './Layouts';
 import { pageHeading, heading, pageSubheading } from '../styles/typography';
-import { info, successButton, footer } from '../styles/forms';
+import { info } from '../styles/forms';
+import { css } from 'glamor';
 
-import { RightAlignedLabel } from './Forms';
+import { RightAlignedLabel } from './FormLabels';
 import RadioPicker from './RadioPicker';
 import FrequencyPicker from './FrequencyPicker';
+import { PrimaryButton } from './Buttons';
+
+export const footer = css({
+  padding: '20px 0 30px',
+  margin: '20px 0 30px'
+});
 
 const Greeting = props => (
   <div>
@@ -68,8 +75,9 @@ export default class extends Component {
           </RightAlignedLabel>
 
           <div className={footer}>
-            <input type='submit' value='Create a network'
-              className={successButton} />
+            <PrimaryButton>
+              Create the network
+            </PrimaryButton>
           </div>
         </form>
       </FullPage>

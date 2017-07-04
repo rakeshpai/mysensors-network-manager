@@ -4,7 +4,9 @@ import { confirm } from './Modal';
 import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 
 import { css } from 'glamor';
-import { buttonLink } from '../styles/forms';
+import { linkColor } from '../styles/colors';
+import { button } from '../styles/forms';
+import { transition } from '../styles/animations';
 
 import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus } from './Icons';
 
@@ -82,29 +84,40 @@ const styles = {
       }
     }
   }),
-  dropdownButton: css(buttonLink, {
+  dropdownButton: css(button, {
     textAlign: 'left',
     fontSize: 16,
     padding: '5px 10px 5px 5px',
     marginBottom: 3,
     width: '100%',
+
     display: 'flex',
     alignItems: 'center',
+
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+
     border: '1px solid transparent',
-    borderRadius: 3,
-    boxShadow: 'none',
 
     '& svg': {
       display: 'inline-block',
-      marginRight: 5
+      marginRight: 5,
+      transition
     },
 
-    '&:hover': {
+    '&:hover, &:focus': {
       background: '#fafafa',
       borderColor: '#ddd',
-      textDecoration: 'none'
+      textDecoration: 'none',
+      color: linkColor,
+
+      '& svg': { stroke: linkColor }
+    }
+  }),
+  dropdownDeleteButton: css({
+    '&:hover, &:focus': {
+      color: 'red',
+      '& svg': { stroke: 'red' }
     }
   }),
   dropdownTrigger: css({
@@ -117,14 +130,17 @@ const styles = {
     '.dropdown--active &': {
       boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)'
     },
+  }),
+  dropdownGroup: css({
+    marginBottom: 10,
 
-    /*
-    ':after': {
-      content: '"▾"',
-      margin: '5px 0 0 10px',
-      verticalAlign: 'top'
+    '&:nth-child(1)': { marginTop: 5 },
+
+    '&:nth-last-child(1)': { marginBottom: 3 },
+
+    '& ul': {
+      margin: 0
     }
-    */
   })
 }
 
@@ -154,8 +170,8 @@ export default ({ network, node, view, handlers }) => {
         </DropdownTrigger>
         <DropdownContent>
           {node && (
-            <div>
-              <strong>Node options</strong>
+            <fieldset className={styles.dropdownGroup}>
+              <legend>Node options</legend>
               <ul>
                 <li>
                   <button
@@ -172,7 +188,7 @@ export default ({ network, node, view, handlers }) => {
                 {node.type !== 'gateway' && (
                   <li>
                     <button
-                      className={css(styles.dropdownButton, { '&:hover': { color: 'red' }})}
+                      className={css(styles.dropdownButton, styles.dropdownDeleteButton)}
                       onClick={() => {
                         closeDropdown();
                         confirm({
@@ -187,38 +203,41 @@ export default ({ network, node, view, handlers }) => {
                   </li>
                 )}
               </ul>
-            </div>
+            </fieldset>
           )}
 
-          <strong>Network options</strong>
-          <ul className={css({marginBottom: 0})}>
-            <li>
-              <button
-                className={styles.dropdownButton}
-                onClick={e => {
-                  closeDropdown();
-                  handlers.addNode(network.id);
-                }}>
-                <Plus />
-                Add a new node to this network
-              </button>
-            </li>
-            <li>
-              <button
-                className={css(styles.dropdownButton, { '&:hover': { color: 'red' }})}
-                onClick={() => {
-                  closeDropdown();
-                  confirm({
-                    title: 'Delete this network?',
-                    text: 'Are you sure you want to delete this network and all its nodes and sensors? You can\'t undo this!',
-                    dangerButtonText: 'Yes, delete this network'
-                  }).then(() => handlers.deleteNetwork(network.id))
-                }}>
-                <Trash />
-                Delete this network
-              </button>
-            </li>
-          </ul>
+          <fieldset className={styles.dropdownGroup}>
+            <legend>Network options</legend>
+
+            <ul className={css({marginBottom: 0})}>
+              <li>
+                <button
+                  className={styles.dropdownButton}
+                  onClick={e => {
+                    closeDropdown();
+                    handlers.addNode(network.id);
+                  }}>
+                  <Plus />
+                  Add a new node to this network
+                </button>
+              </li>
+              <li>
+                <button
+                  className={css(styles.dropdownButton, styles.dropdownDeleteButton)}
+                  onClick={() => {
+                    closeDropdown();
+                    confirm({
+                      title: 'Delete this network?',
+                      text: 'Are you sure you want to delete this network and all its nodes and sensors? You can\'t undo this!',
+                      dangerButtonText: 'Yes, delete this network'
+                    }).then(() => handlers.deleteNetwork(network.id))
+                  }}>
+                  <Trash />
+                  Delete this network
+                </button>
+              </li>
+            </ul>
+          </fieldset>
         </DropdownContent>
       </Dropdown>
     </div>

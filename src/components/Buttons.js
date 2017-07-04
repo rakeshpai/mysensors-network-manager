@@ -1,36 +1,79 @@
 import React from 'react';
+
 import { css } from 'glamor';
+import { button } from '../styles/forms';
+import { linkColor } from '../styles/colors';
+import { transition } from '../styles/animations';
 
 import { Trash } from './Icons';
 
-const button = css({
-  cursor: 'pointer',
-  textDecoration: 'underline',
-  background: 'none',
-  marginLeft: 5,
+export const Button = ({children, ...props}) => (
+  <button className={button} {...props}>{children}</button>
+)
 
-  border: '1px solid #eee',
-  borderRadius: 5,
-  padding: '1px 3px',
+const bigButton = css(button, {
+  fontSize: 18,
+  padding: '10px 25px'
+});
+
+export const PrimaryButton = ({type = 'submit', big = true, children, ...props}) => (
+  <button type={type} className={ big ? bigButton : button } {...props}>
+    {children}
+  </button>
+)
+
+const deleteButton = css(button, {
+  padding: '3px 3px 1px 3px',
+
+  '& svg': { transition },
 
   '&:hover': {
-    color: '#666',
-    borderColor: '#666',
+    color: 'red',
+    backgroundImage: 'linear-gradient(to bottom, #fff, pink)',
+    borderColor: 'red',
 
     '& svg': { stroke: 'red' }
   }
 });
 
-const deleteButton = css({
-  '&:hover': {
+export const DeleteButton = ({ width = 22, ...props }) => (
+  <button className={deleteButton} {...props}>
+    <Trash />
+  </button>
+);
+
+const dangerButton = css(button, {
+  borderColor: 'red',
+  color: 'red',
+  fontSize: 16,
+  backgroundImage: 'linear-gradient(to bottom, #fff, #fff6f6)',
+
+  '&:hover, &:focus': {
     color: 'red',
-    background: 'pink',
     borderColor: 'red',
+    background: '#fdd'
   }
 });
 
-export const DeleteButton = ({ width = 22, onClick, title }) => (
-  <button className={css(button, deleteButton)} onClick={onClick} title={title}>
-    <Trash />
+export const DangerButton = ({children, ...props}) => (
+  <button type='submit' className={dangerButton} {...props}>
+    {children}
+  </button>
+);
+
+const linkButton = css({
+  background: 'none',
+  border: 'none',
+  color: linkColor,
+  cursor: 'pointer',
+
+  ':hover': {
+    textDecoration: 'underline'
+  }
+});
+
+export const LinkButton = ({className, children, ...props}) => (
+  <button className={css(linkButton, className)} {...props}>
+    {children}
   </button>
 );

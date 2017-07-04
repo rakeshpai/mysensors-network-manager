@@ -3,9 +3,10 @@ import React from 'react';
 import { css } from 'glamor';
 import { info } from '../styles/forms';
 
-import { RightAlignedLabel, InlineLabel } from './Forms';
+import { RightAlignedLabel, InlineLabel } from './FormLabels';
 import { DeleteButton } from './Buttons';
 import { AnalogPins, DigitalPins, InterruptPins } from './Pins';
+import Checkbox from './Checkbox';
 import { confirm } from './Modal';
 
 import { sensors, sensorsByType } from '../lib/constants';
@@ -92,7 +93,7 @@ export default ({ sensor, sensorIndex, handlers }) => {
       {('reverse' in sensor) && (
         <InlineLabel label='Reverse the reading from the sensor'
           info='Reverses the reading for the sensor value and its percentage. Eg. 70% becomes 30%.'>
-          <input type='checkbox' checked={sensor.reverse}
+          <Checkbox checked={sensor.reverse}
             onChange={e => sensorHandlers.setReverse(e.target.checked)} />
         </InlineLabel>
       )}
@@ -101,7 +102,7 @@ export default ({ sensor, sensorIndex, handlers }) => {
         <div>
           <InlineLabel label='Provide power using an external pin'
             info='Recommended. Only powers the sensor on when a reading is needed.'>
-            <input type='checkbox' checked={sensor.usePowerPin}
+            <Checkbox checked={sensor.usePowerPin}
               onChange={e => sensorHandlers.usePowerPin(e.target.checked)} />
           </InlineLabel>
 
@@ -116,7 +117,7 @@ export default ({ sensor, sensorIndex, handlers }) => {
       {('reportPercentage' in sensor) && (
         <div>
           <InlineLabel label='Report values as a percentage'>
-            <input type='checkbox' checked={sensor.reportPercentage}
+            <Checkbox checked={sensor.reportPercentage}
               onChange={e => sensorHandlers.setReportPercentage(e.target.checked)} />
           </InlineLabel>
 
@@ -180,7 +181,7 @@ export default ({ sensor, sensorIndex, handlers }) => {
       {('autoTurnOff' in sensor) && (
         <div>
           <InlineLabel label='Auto turn-off' info='When enabled, the output turns off automatically some time after turning on.'>
-            <input type='checkbox' checked={sensor.autoTurnOff}
+            <Checkbox checked={sensor.autoTurnOff}
               onChange={e => sensorHandlers.setAutoTurnOff(e.target.checked)} />
           </InlineLabel>
 

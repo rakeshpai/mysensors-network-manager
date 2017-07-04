@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { brandBackground } from '../styles/colors';
 import Collapsible from 'react-collapsible';
+
 import { css } from 'glamor';
+import { brandBackground } from '../styles/colors';
 
 const styles = {
   trigger: css({

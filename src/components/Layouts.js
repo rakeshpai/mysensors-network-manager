@@ -5,17 +5,15 @@ import NavPane from './NavPane';
 import MediaQuery from 'react-responsive';
 import Collapsible from './Collapsible';
 
-import { headerBackground, headerColor } from '../styles/colors';
-
 const footerStyles = css({
-  background: headerBackground,
-  color: headerColor,
+  background: '#fafbfc',
+  borderTop: '1px solid #e1e4e8',
+  color: '#666',
   padding: 10,
-  fontSize: 14,
-  marginTop: 10,
+  fontSize: 12,
 
   '& a': {
-    color: headerColor
+    color: '#666'
   }
 });
 

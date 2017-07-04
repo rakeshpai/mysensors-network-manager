@@ -9,7 +9,7 @@ import { success } from '../styles/colors';
 import tabs from '../styles/tabs';
 
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './Forms';
+import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './FormLabels';
 import Checkbox from './Checkbox';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
@@ -128,7 +128,7 @@ export default props => {
                 <div>
                   How should the gateway connect to the controller?
 
-                  <div className={css({marginTop: 10})}>
+                  <div className={css({margin: '10px 0 20px 0'})}>
                     <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
                       <input type='radio' name='mode' value='server'
                         checked={gateway.conn.type === 'server'}

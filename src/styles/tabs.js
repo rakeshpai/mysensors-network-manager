@@ -1,4 +1,5 @@
 import { css } from 'glamor';
+import { transition } from './animations';
 
 export default css({
   '& .react-tabs__tab-list': {
@@ -20,7 +21,7 @@ export default css({
     border: '1px solid #ddd',
     borderRight: 0,
 
-    transition: 'all 0.3s ease-in-out',
+    transition,
 
     '&:nth-child(1)': {
       borderTopLeftRadius: 5,

@@ -3,6 +3,7 @@ import { css } from 'glamor';
 import { linkColor } from './colors';
 import { fontFamily } from './typography';
 import { outlineStyle } from './forms';
+import { transition } from './animations';
 
 css.global('*', { boxSizing: 'border-box' });
 css.global('html, body', { margin: 0, padding: 0, fontFamily })
@@ -16,7 +17,7 @@ css.global(blockFields.join(), {
   fontSize: 16,
   padding: 5,
   border: '1px solid #ddd',
-  transition: 'all 0.3s ease-in',
+  transition,
   background: '#fff',
   borderRadius: 5
 });
@@ -28,7 +29,6 @@ css.global('label', { cursor: 'pointer' });
 css.global('fieldset', {
   border: '1px solid #ddd',
   borderRadius: 5,
-  marginTop: 20,
   padding: 10,
-  marginBottom: 10
+  marginBottom: 20
 });

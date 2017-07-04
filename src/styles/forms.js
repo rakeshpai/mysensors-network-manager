@@ -1,7 +1,9 @@
 import { css } from 'glamor';
-import { outline, buttonColor, linkColor } from './colors';
+import { outline } from './colors';
+import { transition } from './animations';
 
 export const outlineStyle = { boxShadow: `0px 0px 10px ${outline}` }
+export const outlineStyleThin = { boxShadow: `0px 0px 5px ${outline}` }
 
 export const info = css({
   color: '#666',
@@ -11,40 +13,22 @@ export const info = css({
 });
 
 export const button = css({
-  border: 0,
-  fontSize: 16,
-  padding: '5px 10px',
-  appearance: 'none',
-  borderRadius: 5,
   cursor: 'pointer',
-  background: buttonColor,
-  color: 'white',
+  background: 'none',
+
+  border: '1px solid #ccc',
+  borderRadius: 5,
+  padding: '5px 10px',
+  fontSize: 14,
+  textShadow: '0px 1px 1px #fff',
+  backgroundImage: 'linear-gradient(to bottom, #fff, #eee)',
+  transition,
+
+  '&:hover, &:focus': {
+    color: '#666',
+    borderColor: '#999',
+    backgroundImage: 'linear-gradient(to bottom, #fff, #ddd)'
+  },
 
   '&:focus': { ...outlineStyle }
-});
-
-export const successButton = css(button, {
-  background: buttonColor,
-  color: '#fff',
-  fontSize: 20,
-  padding: '10px 25px',
-});
-
-export const dangerButton = css(button, { background: '#d9534f', color: '#fff' });
-
-export const buttonLink = css({
-  background: 'none',
-  border: 'none',
-  color: linkColor,
-  cursor: 'pointer',
-
-  ':hover': {
-    textDecoration: 'underline'
-  }
-});
-
-export const footer = css({
-  padding: '20px 0 30px',
-  margin: '20px 0 30px',
-  borderTop: '1px solid #ddd'
 });

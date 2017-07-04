@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { css } from 'glamor';
+import { transition } from '../styles/animations';
 
 import { radios } from '../lib/constants';
 
@@ -15,7 +16,7 @@ const styles = {
     padding: '30px 10px 10px',
     fontSize: 14,
     color: '#999',
-    transition: 'all 0.3s ease-in-out',
+    transition,
 
     '& select': {
       display: 'block',
@@ -59,7 +60,7 @@ const styles = {
       border: '1px solid transparent',
       borderRight: 0,
       display: 'block',
-      transition: 'all 0.3s ease-in-out',
+      transition,
       borderTopLeftRadius: 5,
       borderBottomLeftRadius: 5,
 

@@ -87,8 +87,7 @@ export const TopAlignedLabel = ({ label, children }) => (
 
 const inline = css({
   display: 'block',
-  position: 'relative',
-  padding: '3px 0 5px 25px',
+  padding: '3px 0 5px 28px',
   border: '1px solid transparent',
   borderRadius: 5,
 
@@ -98,9 +97,12 @@ const inline = css({
   },
 
   '& input': {
-    position: 'absolute',
-    top: 3,
-    left: 0
+    marginLeft: -15
+  },
+
+  '& svg': {
+    marginLeft: -23,
+    marginBottom: -3
   }
 });
 export const InlineLabel = ({ label, children, info, inlineInfo }) => (

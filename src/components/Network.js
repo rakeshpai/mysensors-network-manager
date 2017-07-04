@@ -7,7 +7,7 @@ import { info } from '../styles/forms';
 import { NavPage } from './Layouts';
 import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
-import { RightAlignedLabel, TopAlignedLabel } from './Forms';
+import { RightAlignedLabel, TopAlignedLabel } from './FormLabels';
 import RadioPicker from './RadioPicker';
 import FrequencyPicker from './FrequencyPicker';
 import Collapsible from './Collapsible';

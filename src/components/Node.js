@@ -4,15 +4,17 @@ import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import Collapsible from './Collapsible';
 import NotFound from './NotFound';
 import { NavPage } from './Layouts';
-import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './Forms';
+import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './FormLabels';
+import Checkbox from './Checkbox';
 import { AnalogPins } from './Pins';
 import PageMenu from './PageMenu';
 import Sensor from './Sensor';
 import SensorPicker from './SensorPicker';
+import { Button } from './Buttons';
 
 import { css } from 'glamor';
 import { pageHeading, pageSubheading, subheading } from '../styles/typography';
-import { info, button } from '../styles/forms';
+import { info } from '../styles/forms';
 
 export const Form = ({ network, node, handlers }) => {
   let addSensorDropdown;
@@ -34,23 +36,21 @@ export const Form = ({ network, node, handlers }) => {
             <InlineLabel
               label={'This node uses the NRF24L01+ PA+LNA module with a good power supply.'}
               info='The power supply should be able to supply 100 mA bursts.'>
-              <input type='checkbox' checked={node.pa}
-                onChange={e => handlers.setPA(e.target.checked)} />
+              <Checkbox checked={node.pa} onChange={e => handlers.setPA(e.target.checked)} />
             </InlineLabel>
           )}
 
           {network.radio === 'RFM69' && (
             <InlineLabel label={'This node uses the RFM69HW module with a good power supply.'}
               info='The power supply should be able to supply 130mA bursts.'>
-              <input type='checkbox' checked={node.hw}
-                onChange={e => handlers.setHW(e.target.checked)} />
+              <Checkbox checked={node.hw} onChange={e => handlers.setHW(e.target.checked)} />
             </InlineLabel>
           )}
 
           {node.type !== 'gateway' && (
             <div>
               <InlineLabel label='This node is battery-powered'>
-                <input type='checkbox' checked={node.battery.powered}
+                <Checkbox checked={node.battery.powered}
                   onChange={e => handlers.setBatteryPowered(e.target.checked)} />
               </InlineLabel>
             </div>
@@ -72,11 +72,6 @@ export const Form = ({ network, node, handlers }) => {
           <h3 className={subheading}>Sensors</h3>
 
           {
-            node.sensors.length === 0 &&
-            <p>There are no sensors on this node yet.</p>
-          }
-
-          {
             node.sensors.length > 0 && (
               <ul className={css({marginBottom: 10, listStyle: 'none', padding: 0})}>
                 {node.sensors.map((sensor, sensorIndex) => (
@@ -90,11 +85,16 @@ export const Form = ({ network, node, handlers }) => {
           }
 
 
-          <RightAlignedLabel label={`Add ${node.sensors.length ? 'another' : 'a'} sensor`}>
+          <form onSubmit={e => {
+              e.preventDefault();
+              handlers.addSensor(addSensorDropdown.value);
+            }}>
+            Add {node.sensors.length ? 'another' : 'a'} sensor
+            {' '}
             <SensorPicker dropdownRef={r => addSensorDropdown = r}
               className={css({ display: 'inline-block', marginRight: 10 })} />
-            <button className={button} onClick={e => handlers.addSensor(addSensorDropdown.value)}>Add</button>
-          </RightAlignedLabel>
+            <Button type='submit'>Add</Button>
+          </form>
         </div>
       </LeftColumn>
       <RightColumn>

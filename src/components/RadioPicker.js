@@ -127,7 +127,7 @@ export default class extends Component {
                 (focussed === radio.name) && styles.focussedLabel
               )}>
               <Checkbox type='radio' name='radio' value={radio.name}
-                checked={checked} className={styles.check}
+                checked={checked} className={styles.check} size={24}
                 onChange={e => onRadioChange(e.target.value)}
                 onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} />
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 
-import { dangerButton, buttonLink } from '../styles/forms';
+import { DangerButton, LinkButton } from './Buttons';
 import { css } from 'glamor';
 
 css.global('.ReactModal__Body--open', { overflow: 'hidden' });
@@ -15,7 +15,7 @@ const styles = {
     left: '50%',
     transform: center,
     background: '#fff',
-    boxShadow: '0 0 10px rgba(0,0,0,0.4)',
+    boxShadow: '0 0 15px rgba(0,0,0,0.3)',
     border: '1px solid #aaa',
     borderRadius: 5,
     outline: 0,
@@ -90,9 +90,6 @@ class ModalContainer extends Component {
           base: styles.overlay
         }}>
 
-        <h1 className={styles.modalHeading}>
-          {this.state.suppliedProps.heading}
-        </h1>
         <div className={css({padding: 10})}>
           {this.state.contents}
         </div>
@@ -123,9 +120,11 @@ export const confirm = ({
         {text}
       </p>
       <footer className={styles.confirmFooter}>
-        <input type='button' className={buttonLink} onClick={hide} value={cancelButtonText} />
+        <LinkButton onClick={hide}>{cancelButtonText}</LinkButton>
         {' '}
-        <input type='submit' className={dangerButton} onClick={() => { hide(); resolve(); }} value={dangerButtonText} />
+        <DangerButton onClick={() => { hide(); resolve(); }}>
+          {dangerButtonText}
+        </DangerButton>
       </footer>
     </div>
   ));
