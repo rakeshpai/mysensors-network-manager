@@ -4,11 +4,11 @@ import { confirm } from './Modal';
 import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 
 import { css } from 'glamor';
-import { linkColor } from '../styles/colors';
+import { success } from '../styles/colors';
 import { button } from '../styles/forms';
 import { transition } from '../styles/animations';
 
-import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus } from './Icons';
+import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus, Network } from './Icons';
 
 const styles = {
   menu: css({
@@ -53,7 +53,7 @@ const styles = {
 
       '& span, & a': {
         display: 'inline-block',
-        padding: '5px 10px',
+        padding: '5px 10px 3px',
         border: '1px solid #ddd',
         borderRight: 0
       },
@@ -65,7 +65,12 @@ const styles = {
 
       '& a': {
         cursor: 'pointer',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        backgroundImage: 'linear-gradient(to bottom, #fff, #eee)',
+
+        '&:hover, &:focus': {
+          backgroundImage: 'linear-gradient(to bottom, #fff, #ddd)',
+        }
       },
 
       '&:nth-child(1)': {
@@ -98,6 +103,9 @@ const styles = {
     overflow: 'hidden',
 
     border: '1px solid transparent',
+    color: 'inherit',
+    textDecoration: 'none',
+    backgroundImage: 'none',
 
     '& svg': {
       display: 'inline-block',
@@ -109,9 +117,9 @@ const styles = {
       background: '#fafafa',
       borderColor: '#ddd',
       textDecoration: 'none',
-      color: linkColor,
+      color: success,
 
-      '& svg': { stroke: linkColor }
+      '& svg': { stroke: success }
     }
   }),
   dropdownDeleteButton: css({
@@ -121,15 +129,26 @@ const styles = {
     }
   }),
   dropdownTrigger: css({
-    padding: '5px 10px',
+    padding: '5px 7px 3px',
     display: 'inline-block',
-    border: '1px solid #eee',
+    border: '1px solid #ddd',
     borderRadius: 5,
     marginLeft: 10,
+    cursor: 'pointer',
+    backgroundImage: 'linear-gradient(to bottom, #fff, #eee)',
 
     '.dropdown--active &': {
-      boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)'
+      boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)',
+      backgroundImage: 'none',
+
+      '&:hover, &:focus': {
+        backgroundImage: 'none'
+      }
     },
+
+    '&:hover, &:focus': {
+      backgroundImage: 'linear-gradient(to bottom, #fff, #ddd)',
+    }
   }),
   dropdownGroup: css({
     marginBottom: 10,
@@ -182,7 +201,7 @@ export default ({ network, node, view, handlers }) => {
                         .then(gen => gen.default({ network, nodeId: node.id }, 'arduino'))
                     }}>
                     <Download />
-                    Download this node's sketch
+                    Download this node's code
                   </button>
                 </li>
                 {node.type !== 'gateway' && (
@@ -220,6 +239,12 @@ export default ({ network, node, view, handlers }) => {
                   <Plus />
                   Add a new node to this network
                 </button>
+              </li>
+              <li>
+                <Link className={styles.dropdownButton} to='/networks/create'>
+                  <Network />
+                  Create a new network
+                </Link>
               </li>
               <li>
                 <button

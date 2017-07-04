@@ -9,7 +9,7 @@ import { success } from '../styles/colors';
 import tabs from '../styles/tabs';
 
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import { RightAlignedLabel, TopAlignedLabel, InlineLabel } from './FormLabels';
+import { RightAlignedLabel, InlineLabel } from './FormLabels';
 import Checkbox from './Checkbox';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
@@ -225,17 +225,21 @@ export default props => {
                 <fieldset>
                   <legend>WiFi settings</legend>
 
-                  <TopAlignedLabel label={'Your WiFi\'s SSID'}>
+                  <RightAlignedLabel label={'Your WiFi\'s SSID'}>
                     <input type='text' value={gateway.wifi.ssid} required
                       placeholder="Enter your WiFi's SSID"
                       onChange={e => handlers.setSsid(e.target.value)} />
-                  </TopAlignedLabel>
+                  </RightAlignedLabel>
 
-                  <TopAlignedLabel label={'Your WiFi\'s password'}>
+                  <RightAlignedLabel label={'Your WiFi\'s password'}>
                     <input type='password' value={gateway.wifi.password}
                       placeholder='Enter your WiFi password'
                       onChange={e => handlers.setPassword(e.target.value)} />
-                  </TopAlignedLabel>
+                    <p className={info}>
+                      Leave this blank if your WiFi doesn't require a password.
+                      But seriously, don't run an insecure WiFi!
+                    </p>
+                  </RightAlignedLabel>
                 </fieldset>
               )}
 
@@ -244,13 +248,13 @@ export default props => {
                   <legend>Ethernet settings</legend>
 
                   {gateway.gatewayType === 'ethernet' && (
-                    <TopAlignedLabel label='Ethernet module'>
+                    <RightAlignedLabel label='Ethernet module'>
                       <select value={gateway.ethernet.module}
                         onChange={e => handlers.setEthernetModule(e.target.value)}>
                         <option value='w5100'>WizNET (W5100)</option>
                         <option value='enc28j60'>ENC28J60</option>
                       </select>
-                    </TopAlignedLabel>
+                    </RightAlignedLabel>
                   )}
 
                   Network configuration
@@ -271,26 +275,26 @@ export default props => {
                   </InlineLabel>
 
                   {!gateway.ethernet.dhcp && (
-                    <fieldset>
+                    <fieldset className={css({margin: '10px 0 0'})}>
                       <legend>Manual network configuration</legend>
 
-                      <TopAlignedLabel label='Static IP'>
+                      <RightAlignedLabel label='Static IP'>
                         <input type='text' value={gateway.ethernet.ip}
                           pattern={ipPattern} required
                           onChange={e => handlers.setIp(e.target.value)} />
-                      </TopAlignedLabel>
+                      </RightAlignedLabel>
 
-                      <TopAlignedLabel label='Gateway IP'>
+                      <RightAlignedLabel label='Gateway IP'>
                         <input type='text' value={gateway.ethernet.gateway}
                           pattern={ipPattern} required
                           onChange={e => handlers.setGateway(e.target.value)} />
-                      </TopAlignedLabel>
+                      </RightAlignedLabel>
 
-                      <TopAlignedLabel label='Subnet mask'>
+                      <RightAlignedLabel label='Subnet mask'>
                         <input type='text' value={gateway.ethernet.subnet}
                           pattern={ipPattern} required
                           onChange={e => handlers.setSubnet(e.target.value)} />
-                      </TopAlignedLabel>
+                      </RightAlignedLabel>
                     </fieldset>
                   )}
                 </fieldset>

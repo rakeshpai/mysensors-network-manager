@@ -4,7 +4,7 @@ import { ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import Collapsible from './Collapsible';
 import NotFound from './NotFound';
 import { NavPage } from './Layouts';
-import { InlineLabel, TopAlignedLabel, RightAlignedLabel } from './FormLabels';
+import { InlineLabel, RightAlignedLabel } from './FormLabels';
 import Checkbox from './Checkbox';
 import { AnalogPins } from './Pins';
 import PageMenu from './PageMenu';
@@ -144,37 +144,37 @@ export const Form = ({ network, node, handlers }) => {
         )}
 
         <Collapsible trigger='Security settings' withBg={true}>
-          <TopAlignedLabel label='Sign messages using'>
+          <RightAlignedLabel label='Sign messages using'>
             <select value={node.signing} onChange={e => handlers.setSigning(e.target.value)}>
               <option value='software'>software signing</option>
               <option value='atsha204'>an ATSHA204A chip</option>
             </select>
-          </TopAlignedLabel>
+          </RightAlignedLabel>
 
           {node.signing === 'software' && (
-            <TopAlignedLabel label='Random seed pin'>
+            <RightAlignedLabel label='Random seed pin'>
               <AnalogPins value={node.softSigningPin}
                 onChange={e => handlers.setSoftSigningPin(e.target.value)} />
               <p className={info}>
                 It is important to keep this pin floating. Do not connect it to anything.
               </p>
-            </TopAlignedLabel>
+            </RightAlignedLabel>
           )}
 
           {node.signing !== 'software' && (
-            <TopAlignedLabel label='ATSHA204A pin'>
+            <RightAlignedLabel label='ATSHA204A pin'>
               <AnalogPins value={node.atshaSigningPin}
                 onChange={e => handlers.setAtshaSigningPin(e.target.value)} />
-            </TopAlignedLabel>
+            </RightAlignedLabel>
           )}
 
           {node.signing === 'software' && (
-            <TopAlignedLabel label='Device key'>
+            <RightAlignedLabel label='Device key'>
               <input type='text' value={node.key} required
                 pattern='[0-9a-fA-F]{18}|(0x[0-9a-fA-F]{2}\s*,\s*){9}'
                 onChange={e => handlers.setDeviceKey(e.target.value)} />
               <p className={info}>A 9 byte device ID, used for whitelisting</p>
-            </TopAlignedLabel>
+            </RightAlignedLabel>
           )}
         </Collapsible>
       </RightColumn>

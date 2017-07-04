@@ -5,26 +5,6 @@ import NavPane from './NavPane';
 import MediaQuery from 'react-responsive';
 import Collapsible from './Collapsible';
 
-const footerStyles = css({
-  background: '#fafbfc',
-  borderTop: '1px solid #e1e4e8',
-  color: '#666',
-  padding: 10,
-  fontSize: 12,
-
-  '& a': {
-    color: '#666'
-  }
-});
-
-export const Footer = props => (
-  <footer className={footerStyles}>
-    Like what you see? Please let us know!
-    {' '}
-    <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>.
-  </footer>
-)
-
 const fullPageContainer = css({
   width: '100%',
   maxWidth: 500,
@@ -33,12 +13,9 @@ const fullPageContainer = css({
 });
 
 export const FullPage = props => (
-  <div>
-    <main className={fullPageContainer}>
-      {props.children}
-    </main>
-    <Footer />
-  </div>
+  <main className={fullPageContainer}>
+    {props.children}
+  </main>
 );
 
 const breakpointWidth = 700;
@@ -48,7 +25,7 @@ const navPageStyles = {
   container: css({
     display: 'flex',
     width: '100%',
-    minHeight: '100vh',
+    minHeight: '90vh',
 
     [breakpoint]: {
       display: 'block'
@@ -67,7 +44,7 @@ const navPageStyles = {
     flexShrink: 6,
     flexBasis: 0,
     overflow: 'hidden',
-    padding: '10px 40px',
+    padding: '10px 40px 40px',
 
     [breakpoint]: {
       padding: 10
@@ -76,23 +53,20 @@ const navPageStyles = {
 };
 
 export const NavPage = props => (
-  <div>
-    <div className={navPageStyles.container}>
-      <div className={navPageStyles.nav}>
-        <MediaQuery query={`(max-width: ${breakpointWidth}px)`}>
-          <Collapsible trigger='Navigation' withBg={true}>
-            <NavPane {...props} />
-          </Collapsible>
-        </MediaQuery>
-        <MediaQuery query={`(min-width: ${breakpointWidth + 1}px)`}>
+  <div className={navPageStyles.container}>
+    <div className={navPageStyles.nav}>
+      <MediaQuery query={`(max-width: ${breakpointWidth}px)`}>
+        <Collapsible trigger='Navigation' withBg={true}>
           <NavPane {...props} />
-        </MediaQuery>
-      </div>
-      <main className={navPageStyles.content}>
-        {props.children}
-      </main>
+        </Collapsible>
+      </MediaQuery>
+      <MediaQuery query={`(min-width: ${breakpointWidth + 1}px)`}>
+        <NavPane {...props} />
+      </MediaQuery>
     </div>
-    <Footer />
+    <main className={navPageStyles.content}>
+      {props.children}
+    </main>
   </div>
 );
 

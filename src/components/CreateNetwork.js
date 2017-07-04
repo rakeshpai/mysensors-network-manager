@@ -14,7 +14,7 @@ import { PrimaryButton } from './Buttons';
 
 export const footer = css({
   padding: '20px 0 30px',
-  margin: '20px 0 30px'
+  margin: '20px 0 30px',
 });
 
 const Greeting = props => (
