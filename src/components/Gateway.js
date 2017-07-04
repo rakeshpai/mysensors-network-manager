@@ -128,7 +128,7 @@ export default props => {
                 <div>
                   How should the gateway connect to the controller?
 
-                  <div className={css({margin: '10px 0 20px 0'})}>
+                  <div className={css({margin: '10px 0 20px -5px'})}>
                     <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
                       <RadioButton name='mode' value='server'
                         checked={gateway.conn.type === 'server'}
@@ -258,45 +258,47 @@ export default props => {
                   )}
 
                   Network configuration
-                  <InlineLabel label='Use DHCP'
-                    info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
-                    inlineInfo={true}>
-                    <RadioButton name='dhcp' value='yes'
-                      checked={gateway.ethernet.dhcp}
-                      onChange={e => handlers.setDhcp(true)} />
-                  </InlineLabel>
+                  <div className={css({margin: '5px 0 0'})}>
+                    <InlineLabel label='Use DHCP'
+                      info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
+                      inlineInfo={true}>
+                      <RadioButton name='dhcp' value='yes'
+                        checked={gateway.ethernet.dhcp}
+                        onChange={e => handlers.setDhcp(true)} />
+                    </InlineLabel>
 
-                  <InlineLabel label={'Configure the network manually'}
-                    info={gateway.conn.type === 'server' ? 'Recommended' : null}
-                    inlineInfo={true}>
-                    <RadioButton name='dhcp' value='no'
-                      checked={!gateway.ethernet.dhcp}
-                      onChange={e => handlers.setDhcp(false)} />
-                  </InlineLabel>
+                    <InlineLabel label={'Configure the network manually'}
+                      info={gateway.conn.type === 'server' ? 'Recommended' : null}
+                      inlineInfo={true}>
+                      <RadioButton name='dhcp' value='no'
+                        checked={!gateway.ethernet.dhcp}
+                        onChange={e => handlers.setDhcp(false)} />
+                    </InlineLabel>
 
-                  {!gateway.ethernet.dhcp && (
-                    <fieldset className={css({margin: '10px 0 0'})}>
-                      <legend>Manual network configuration</legend>
+                    {!gateway.ethernet.dhcp && (
+                      <fieldset className={css({margin: '10px 0 0'})}>
+                        <legend>Manual network configuration</legend>
 
-                      <RightAlignedLabel label='Static IP'>
-                        <input type='text' value={gateway.ethernet.ip}
-                          pattern={ipPattern} required
-                          onChange={e => handlers.setIp(e.target.value)} />
-                      </RightAlignedLabel>
+                        <RightAlignedLabel label='Static IP'>
+                          <input type='text' value={gateway.ethernet.ip}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setIp(e.target.value)} />
+                        </RightAlignedLabel>
 
-                      <RightAlignedLabel label='Gateway IP'>
-                        <input type='text' value={gateway.ethernet.gateway}
-                          pattern={ipPattern} required
-                          onChange={e => handlers.setGateway(e.target.value)} />
-                      </RightAlignedLabel>
+                        <RightAlignedLabel label='Gateway IP'>
+                          <input type='text' value={gateway.ethernet.gateway}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setGateway(e.target.value)} />
+                        </RightAlignedLabel>
 
-                      <RightAlignedLabel label='Subnet mask'>
-                        <input type='text' value={gateway.ethernet.subnet}
-                          pattern={ipPattern} required
-                          onChange={e => handlers.setSubnet(e.target.value)} />
-                      </RightAlignedLabel>
-                    </fieldset>
-                  )}
+                        <RightAlignedLabel label='Subnet mask'>
+                          <input type='text' value={gateway.ethernet.subnet}
+                            pattern={ipPattern} required
+                            onChange={e => handlers.setSubnet(e.target.value)} />
+                        </RightAlignedLabel>
+                      </fieldset>
+                    )}
+                  </div>
                 </fieldset>
               )}
             </RightColumn>
