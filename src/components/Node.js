@@ -5,7 +5,7 @@ import Collapsible from './Collapsible';
 import NotFound from './NotFound';
 import { NavPage } from './Layouts';
 import { InlineLabel, RightAlignedLabel } from './FormLabels';
-import Checkbox from './Checkbox';
+import { Checkbox } from './FormControls';
 import { AnalogPins } from './Pins';
 import PageMenu from './PageMenu';
 import Sensor from './Sensor';

@@ -3,7 +3,7 @@ import { radios } from '../lib/constants';
 import { css } from 'glamor';
 import { outlineStyle } from '../styles/forms';
 import { success } from '../styles/colors';
-import Checkbox from './Checkbox';
+import { Checkbox } from './FormControls';
 import { ThumbsUp, ThumbsDown } from './Icons';
 
 const breakpoint = '@media(max-width: 500px)';

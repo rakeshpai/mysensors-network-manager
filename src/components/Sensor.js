@@ -6,7 +6,7 @@ import { info } from '../styles/forms';
 import { RightAlignedLabel, InlineLabel } from './FormLabels';
 import { DeleteButton } from './Buttons';
 import { AnalogPins, DigitalPins, InterruptPins } from './Pins';
-import Checkbox from './Checkbox';
+import { Checkbox } from './FormControls';
 import { confirm } from './Modal';
 
 import { sensors, sensorsByType } from '../lib/constants';

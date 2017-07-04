@@ -10,7 +10,7 @@ import tabs from '../styles/tabs';
 
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { RightAlignedLabel, InlineLabel } from './FormLabels';
-import Checkbox from './Checkbox';
+import { Checkbox, RadioButton } from './FormControls';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
 import { Form as NodeForm } from './Node';
@@ -130,19 +130,19 @@ export default props => {
 
                   <div className={css({margin: '10px 0 20px 0'})}>
                     <InlineLabel label='As a server, listenting to incoming connections from the controller.'>
-                      <input type='radio' name='mode' value='server'
+                      <RadioButton name='mode' value='server'
                         checked={gateway.conn.type === 'server'}
                         onChange={e => handlers.setMode('server')} />
                     </InlineLabel>
 
                     <InlineLabel label={'As a client, connecting to the controller\'s server.'}>
-                      <input type='radio' name='mode' value='client'
+                      <RadioButton name='mode' value='client'
                         checked={gateway.conn.type === 'client'}
                         onChange={e => handlers.setMode('client')} />
                     </InlineLabel>
 
                     <InlineLabel label='Connect to a MQTT broker.'>
-                      <input type='radio' name='mode' value='mqtt'
+                      <RadioButton name='mode' value='mqtt'
                         checked={gateway.conn.type === 'mqtt'}
                         onChange={e => handlers.setMode('mqtt')} />
                     </InlineLabel>
@@ -261,7 +261,7 @@ export default props => {
                   <InlineLabel label='Use DHCP'
                     info={['client', 'mqtt'].includes(gateway.conn.type) ? 'Recommended' : null}
                     inlineInfo={true}>
-                    <input type='radio' name='dhcp' value='yes'
+                    <RadioButton name='dhcp' value='yes'
                       checked={gateway.ethernet.dhcp}
                       onChange={e => handlers.setDhcp(true)} />
                   </InlineLabel>
@@ -269,7 +269,7 @@ export default props => {
                   <InlineLabel label={'Configure the network manually'}
                     info={gateway.conn.type === 'server' ? 'Recommended' : null}
                     inlineInfo={true}>
-                    <input type='radio' name='dhcp' value='no'
+                    <RadioButton name='dhcp' value='no'
                       checked={!gateway.ethernet.dhcp}
                       onChange={e => handlers.setDhcp(false)} />
                   </InlineLabel>

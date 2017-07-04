@@ -5,7 +5,7 @@ import { success } from '../styles/colors';
 import { outlineStyleThin } from '../styles/forms';
 import { pop } from '../styles/animations';
 
-import { Check, Square } from './Icons';
+import { Check, Square, Circle, CheckCircle } from './Icons';
 
 const styles = {
   container: css({
@@ -17,7 +17,7 @@ const styles = {
     }
   }),
 
-  hiddenRadio: css({
+  hiddenInput: css({
     display: 'inline-block',
     opacity: 0,
     position: 'absolute',
@@ -30,8 +30,8 @@ const styles = {
   })
 };
 
-export default ({
-  type='checkbox',
+const createControl = (defaultType, Checked, Unchecked) => ({
+  type = defaultType,
   color = success,
   size = 16,
   strokeWidth = 2,
@@ -39,12 +39,15 @@ export default ({
   ...props
 }) => (
   <div className={css(styles.container, className)}>
-    <input type={type} {...props} className={styles.hiddenRadio} />
+    <input type={type} {...props} className={styles.hiddenInput} />
 
     {
       props.checked
-      ? <Check size={size} color={color} strokeWidth={strokeWidth} />
-      : <Square size={size} color={'#ddd'} strokeWidth={strokeWidth} />
+      ? <Checked size={size} color={color} strokeWidth={strokeWidth} />
+      : <Unchecked size={size} color={'#ddd'} strokeWidth={strokeWidth} />
     }
   </div>
 );
+
+export const Checkbox = createControl('checkbox', Check, Square);
+export const RadioButton = createControl('radio', CheckCircle, Circle);

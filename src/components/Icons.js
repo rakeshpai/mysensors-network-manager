@@ -1,5 +1,4 @@
 // Icons from https://feather.netlify.com/
-
 import React from 'react';
 
 const defaultProps = ({size, strokeWidth, color}) => ({
@@ -122,5 +121,18 @@ export const Download = ({size = defaultSize, strokeWidth = defaultStroke, color
       <path d="M3 17v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/>
       <polyline points="8 12 12 16 16 12"/>
       <line x1="12" y1="2" x2="12" y2="16"/>
+  </svg>
+)
+
+export const Circle = ({size = defaultSize, strokeWidth = defaultStroke, color = defaultColor}) => (
+  <svg {...defaultProps({size, strokeWidth, color})}>
+    <circle cx="12" cy="12" r="10"/>
+  </svg>
+)
+
+export const CheckCircle = ({size = defaultSize, strokeWidth = defaultStroke, color = defaultColor}) => (
+  <svg {...defaultProps({size, strokeWidth, color})}>
+    <path d="M22 11.07V12a10 10 0 1 1-5.93-9.14"/>
+    <polyline points="23 3 12 14 9 11"/>
   </svg>
 )
