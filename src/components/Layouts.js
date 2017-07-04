@@ -97,7 +97,8 @@ const columnStyles = {
 
     [colBreakpoint]: {
       display: 'block',
-      padding: 0
+      padding: 0,
+      paddingTop: 20
     }
   })
 }

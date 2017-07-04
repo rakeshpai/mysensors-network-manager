@@ -46,7 +46,6 @@ const styles = {
 
   footer: css({
     position: 'absolute',
-    textAlign: 'right',
     bottom: 0,
     width: '100%',
     background: '#fafbfc',
@@ -54,6 +53,28 @@ const styles = {
     color: '#666',
     padding: 10,
     fontSize: 12,
+    display: 'flex',
+
+    '& div': {
+      flex: 1,
+
+      '&:nth-child(2)': {
+        textAlign: 'right'
+      }
+    },
+
+    [`@media(max-width: 400px)`]: {
+      position: 'relative',
+      display: 'block',
+
+      '& div:nth-child(1)': {
+        paddingBottom: 5
+      },
+
+      '& div:nth-child(2)': {
+        textAlign: 'left'
+      }
+    },
 
     '& a': {
       color: '#666'
@@ -83,11 +104,16 @@ export default ({ network }) => (
     </Switch>
 
     <footer className={styles.footer}>
-      Like what you see? Please let us know!
-      {' '}
-      <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>,
-      {' '}
-      <a target='_blank' rel='noopener noreferrer' href='https://github.com/rakeshpai/mysensors-network-manager'>GitHub</a>.
+      <div>
+        Built with <a href='https://www.mysensors.org/'>MySensors</a>.
+      </div>
+      <div>
+        Like what you see? Please let us know!
+        {' '}
+        <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>,
+          {' '}
+          <a target='_blank' rel='noopener noreferrer' href='https://github.com/rakeshpai/mysensors-network-manager'>GitHub</a>.
+      </div>
     </footer>
   </div>
 );

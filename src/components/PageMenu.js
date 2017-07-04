@@ -28,7 +28,8 @@ const styles = {
       background: 'white',
       border: '1px solid #eee',
       padding: 5,
-      boxShadow: '0 5px 8px rgba(0, 0, 0, 0.15)',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+      zIndex: 1,
 
       '& ul': {
         padding: 0,
