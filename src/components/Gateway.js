@@ -14,6 +14,7 @@ import { Checkbox, RadioButton } from './FormControls';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
 import { Form as NodeForm } from './Node';
+import HelpFooter from './HelpFooter';
 import NotFound from './NotFound';
 
 const styles = {
@@ -309,6 +310,7 @@ export default props => {
           <NodeForm network={network} node={gateway} handlers={handlers} {...props} />
         </TabPanel>
       </Tabs>
+      <HelpFooter />
     </NavPage>
   )
 }
