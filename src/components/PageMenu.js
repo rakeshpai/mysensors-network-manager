@@ -54,14 +54,21 @@ const styles = {
 
       '& span, & a': {
         display: 'inline-block',
-        padding: '5px 10px 3px',
+        padding: '7px 10px 5px',
         border: '1px solid #ddd',
-        borderRight: 0
+        borderRight: 0,
+        display: 'flex',
+        alignItems: 'center',
+
+        '& svg': {
+          marginRight: 5
+        }
       },
 
       '& span': {
-        color: '#999',
-        boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)'
+        color: '#888',
+        boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)',
+        background: '#fafafa'
       },
 
       '& a': {
@@ -130,11 +137,12 @@ const styles = {
     }
   }),
   dropdownTrigger: css({
-    padding: '5px 7px 3px',
+    padding: '5px 7px 2px',
     display: 'inline-block',
     border: '1px solid #ddd',
     borderRadius: 5,
     marginLeft: 10,
+    marginTop: -3,
     cursor: 'pointer',
     backgroundImage: 'linear-gradient(to bottom, #fff, #eee)',
 
@@ -174,10 +182,10 @@ export default ({ network, node, view, handlers }) => {
       {node && (
         <ul className={styles.switcher}>
           <li>
-            {view === 'edit'?<span><EditIcon /></span>:<Link to={`/networks/${network.id}/${node.type === 'gateway'?'gateway':node.id}`}><EditIcon /></Link>}
+            {view === 'edit'?<span><EditIcon /> Design</span>:<Link to={`/networks/${network.id}/${node.type === 'gateway'?'gateway':node.id}`}><EditIcon /> Design</Link>}
           </li>
           <li>
-            {view === 'edit'?<Link to={`/networks/${network.id}/${node.type === 'gateway' ? 'gateway' : node.id}/code`}><CodeIcon /></Link>:<span><CodeIcon /></span>}
+            {view === 'edit'?<Link to={`/networks/${network.id}/${node.type === 'gateway' ? 'gateway' : node.id}/code`}><CodeIcon /> Code</Link>:<span><CodeIcon /> Code</span>}
           </li>
         </ul>
       )}
