@@ -53,7 +53,7 @@ const styles = {
       display: 'inline-block',
 
       '& span, & a': {
-        display: 'inline-block',
+        //display: 'inline-block',
         padding: '7px 10px 5px',
         border: '1px solid #ddd',
         borderRight: 0,
