@@ -9,6 +9,7 @@ import { button } from '../styles/forms';
 import { transition } from '../styles/animations';
 
 import { EditIcon, CodeIcon, HamburgerIcon, Download, Trash, Plus, Network } from './Icons';
+import { showLazy } from './Modal';
 
 const styles = {
   menu: css({
@@ -53,7 +54,6 @@ const styles = {
       display: 'inline-block',
 
       '& span, & a': {
-        //display: 'inline-block',
         padding: '7px 10px 5px',
         border: '1px solid #ddd',
         borderRight: 0,
@@ -172,6 +172,12 @@ const styles = {
   })
 }
 
+const showDownloadDialog = ({ network, node }) => showLazy({
+  componentPromise: import('./DownloadDialog.js'),
+  componentProps: { network, node },
+  modalProps: { contentLabel: 'Download' }
+});
+
 export default ({ network, node, view, handlers }) => {
   let dropdown;
 
@@ -206,8 +212,7 @@ export default ({ network, node, view, handlers }) => {
                     className={styles.dropdownButton}
                     onClick={e => {
                       closeDropdown();
-                      import('../sketch-generator')
-                        .then(gen => gen.default({ network, nodeId: node.id }, 'arduino'))
+                      showDownloadDialog({ network, node });
                     }}>
                     <Download />
                     Download this node's code

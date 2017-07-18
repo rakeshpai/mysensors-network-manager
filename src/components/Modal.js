@@ -35,18 +35,6 @@ const styles = {
     background: 'rgba(0,0,0,0.3)'
   }),
 
-  modalHeading: css({
-    margin: 0,
-    fontSize: 20,
-    fontWeight: 300,
-    borderBottom: '1px solid #ddd',
-    background: '#fafafa',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    marginRight: 1,
-    padding: 10,
-  }),
-
   confirmFooter: css({
     textAlign: 'right',
     padding: '15px 0 5px 0',
@@ -81,7 +69,7 @@ class ModalContainer extends Component {
         shouldCloseOnOverlayClick={true}
         onRequestClose={this.hide.bind(this)}
         {...this.state.suppliedProps}
-        contentLabel='Modal'
+        contentLabel={this.state.suppliedProps.contentLabel || 'Modal'}
         isOpen={this.state.isOpen}
         className={{
           base: css(styles.contentBase, { maxWidth: this.state.suppliedProps.maxWidth }),
@@ -112,7 +100,6 @@ export const confirm = ({
 } = {}) => new Promise((resolve, reject) => {
   show({
     contentLabel: title,
-    heading: title,
     maxWidth: 400
   }, (
     <div>
@@ -129,3 +116,15 @@ export const confirm = ({
     </div>
   ));
 });
+
+export const showLazy = ({ componentPromise, modalProps, componentProps }) => {
+  show(modalProps, (
+    <div>
+      Loading...
+    </div>
+  ));
+
+  componentPromise.then(({ default: Component}) => {
+    show(modalProps, <Component {...componentProps} />);
+  });
+}
