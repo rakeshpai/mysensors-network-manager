@@ -5,6 +5,10 @@ import { DangerButton, LinkButton } from './Buttons';
 import { css } from 'glamor';
 
 css.global('.ReactModal__Body--open', { overflow: 'hidden' });
+css.global('.ReactModal__Body--open #root', {
+  filter: 'blur(2px)',
+  opacity: 0.5
+});
 
 const center = 'translate(-50%, -50%)';
 
