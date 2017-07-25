@@ -14,4 +14,4 @@ export default (nodeParams, format) =>
       return zip
         .generateAsync({type:"blob"})
         .then(content => saveAs(content, `${nodeParams.network.nodes.find(n => n.id === nodeParams.nodeId).name.trim()}-${nodeParams.nodeId}`));
-    })
+    });

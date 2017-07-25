@@ -137,6 +137,25 @@ export const CheckCircle = ({size = defaultSize, strokeWidth = defaultStroke, co
   </svg>
 )
 
+export const CloudUpload = ({size = defaultSize, strokeWidth = defaultStroke, color = defaultColor}) => (
+  <svg {...defaultProps({size, strokeWidth, color})}>
+    <polyline points="16 16 12 12 8 16" />
+    <line x1="12" y1="12" x2="12" y2="21" />
+    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+    <polyline points="16 16 12 12 8 16" />
+  </svg>
+)
+
+export const CloudDownload = ({size = defaultSize, strokeWidth = defaultStroke, color = defaultColor}) => (
+  <svg {...defaultProps({size, strokeWidth, color})}>
+    <polyline points="8 17 12 21 16 17" />
+    <line x1="12" y1="12" x2="12" y2="21" />
+    <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29" />
+  </svg>
+)
+
+// From https://svgporn.com/
+
 export const Arduino = ({height = 50}) => (
   <svg width={256 * height / 174} height={height} viewBox="0 0 256 174" version="1.1" preserveAspectRatio="xMidYMid">
   <g fill="#00979C">

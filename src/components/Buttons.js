@@ -12,7 +12,7 @@ export const Button = ({children, ...props}) => (
 )
 
 const bigButton = css(button, {
-  fontSize: 18,
+  fontSize: 16,
   padding: '10px 25px'
 });
 

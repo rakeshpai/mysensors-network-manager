@@ -27,7 +27,20 @@ const styles = {
       '0%': { transform: `${center} scale(0.1)`, opacity: 0 },
       '60%': { transform: `${center} scale(1.1)`, opacity: 1 },
       '100%': { transform: `${center} scale(1)` }
-    })} .3s`
+    })} .3s`,
+
+    '& h1': {
+      fontWeight: 300,
+      fontSize: '1.6em',
+      textAlign: 'center',
+      margin: '10px 10px 20px',
+      borderBottom: '1px solid #eee'
+    },
+
+    '& footer': {
+      textAlign: 'right',
+      padding: '15px 0 5px 0',
+    }
   }),
 
   overlay: css({
@@ -37,11 +50,6 @@ const styles = {
     right: 0,
     bottom: 0,
     background: 'rgba(0,0,0,0.3)'
-  }),
-
-  confirmFooter: css({
-    textAlign: 'right',
-    padding: '15px 0 5px 0',
   })
 };
 
@@ -110,7 +118,7 @@ export const confirm = ({
       <p>
         {text}
       </p>
-      <footer className={styles.confirmFooter}>
+      <footer>
         <LinkButton onClick={hide}>{cancelButtonText}</LinkButton>
         {' '}
         <DangerButton onClick={() => { hide(); resolve(); }}>

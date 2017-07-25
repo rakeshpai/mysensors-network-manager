@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'glamor';
 
-import generateSketch from '../sketch-generator';
+import { backup } from '../lib/backupAndRestore';
 
 import { Button, LinkButton } from './Buttons';
 import IDEFormatPicker from './IDEFormatPicker';
@@ -9,26 +9,26 @@ import { hide } from './Modal';
 
 const styles = {
   container: css({
-    width: 300,
-    minWidth: '90%'
+    width: 350,
+    minWidth: '90%',
   })
 };
 
-export default ({ network, node, format : fmt = 'arduino' }) => {
+export default ({ network, format : fmt = 'arduino' }) => {
   let format = fmt;
 
-  const onFormatChange = fmt => { format = fmt; }
+  const onFormatChange = fmt => format = fmt;
   const onButtonClick = e => {
-    generateSketch({ network, nodeId: node.id }, format);
+    backup(network, format);
     hide();
   }
 
   return (
     <div className={styles.container}>
-      <h1>Download</h1>
+      <h1>Create a backup</h1>
 
       <div className={css({textAlign: 'center'})}>
-        <IDEFormatPicker format='arduino' onChange={onFormatChange} />
+        <IDEFormatPicker format={format} onChange={onFormatChange} />
       </div>
 
       <footer>
@@ -37,4 +37,4 @@ export default ({ network, node, format : fmt = 'arduino' }) => {
       </footer>
     </div>
   )
-}
+};
