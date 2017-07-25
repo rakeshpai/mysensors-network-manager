@@ -28,6 +28,9 @@ export default ({ network, format : fmt = 'arduino' }) => {
       <h1>Create a backup</h1>
 
       <div className={css({textAlign: 'center'})}>
+        <p>
+          Preferred IDE:
+        </p>
         <IDEFormatPicker format={format} onChange={onFormatChange} />
       </div>
 
