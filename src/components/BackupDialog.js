@@ -3,14 +3,14 @@ import { css } from 'glamor';
 
 import { backup } from '../lib/backupAndRestore';
 
-import { Button, LinkButton } from './Buttons';
+import { PrimaryButton } from './Buttons';
 import IDEFormatPicker from './IDEFormatPicker';
 import { hide } from './Modal';
 
 const styles = {
   container: css({
     width: 350,
-    minWidth: '90%',
+    minWidth: '90%'
   })
 };
 
@@ -32,8 +32,7 @@ export default ({ network, format : fmt = 'arduino' }) => {
       </div>
 
       <footer>
-        <LinkButton onClick={hide}>Cancel</LinkButton>
-        <Button onClick={onButtonClick}>Download</Button>
+        <PrimaryButton onClick={onButtonClick}>Download</PrimaryButton>
       </footer>
     </div>
   )

@@ -3,13 +3,13 @@ import { css } from 'glamor';
 
 import generateSketch from '../sketch-generator';
 
-import { Button, LinkButton } from './Buttons';
+import { PrimaryButton } from './Buttons';
 import IDEFormatPicker from './IDEFormatPicker';
 import { hide } from './Modal';
 
 const styles = {
   container: css({
-    width: 300,
+    width: 350,
     minWidth: '90%'
   })
 };
@@ -25,15 +25,17 @@ export default ({ network, node, format : fmt = 'arduino' }) => {
 
   return (
     <div className={styles.container}>
-      <h1>Download</h1>
+      <h1>Download sketch</h1>
 
       <div className={css({textAlign: 'center'})}>
+        <p>
+          Preferred IDE:
+        </p>
         <IDEFormatPicker format='arduino' onChange={onFormatChange} />
       </div>
 
       <footer>
-        <LinkButton onClick={hide}>Cancel</LinkButton>
-        <Button onClick={onButtonClick}>Download</Button>
+        <PrimaryButton onClick={onButtonClick}>Download</PrimaryButton>
       </footer>
     </div>
   )

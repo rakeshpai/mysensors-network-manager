@@ -38,8 +38,31 @@ const styles = {
     },
 
     '& footer': {
-      textAlign: 'right',
+      textAlign: 'center',
       padding: '15px 0 5px 0',
+    }
+  }),
+
+  closeBtn: css({
+    position: 'absolute',
+    top: 0,
+    right: 0,
+
+    '& button': {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      padding: 6,
+
+      fontSize: 11,
+      border: '1px solid transparent',
+      borderTopRightRadius: 5,
+
+      '&:hover': {
+        background: '#eee',
+        color: '#111',
+        textDecoration: 'none'
+      }
     }
   }),
 
@@ -90,6 +113,10 @@ class ModalContainer extends Component {
           base: styles.overlay
         }}>
 
+        <div className={styles.closeBtn}>
+          <LinkButton tabIndex='0' onClick={this.hide.bind(this)} title='Close'>✕</LinkButton>
+        </div>
+
         <div className={css({padding: 10})}>
           {this.state.contents}
         </div>
@@ -119,8 +146,6 @@ export const confirm = ({
         {text}
       </p>
       <footer>
-        <LinkButton onClick={hide}>{cancelButtonText}</LinkButton>
-        {' '}
         <DangerButton onClick={() => { hide(); resolve(); }}>
           {dangerButtonText}
         </DangerButton>
