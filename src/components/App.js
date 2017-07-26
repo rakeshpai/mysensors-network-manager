@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../index.css';
+
 import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 import { headerBackground, headerColor } from '../styles/colors';
