@@ -44,6 +44,22 @@ it('sets up the sensor\'s percentage range', () => {
   expect(output).toEqual(match(/\nldrSensor->setRangeMax\(999\);/));
 });
 
+it('sets up the sensor\'s reporting interval', () => {
+  const output = sensorLines({
+    nodes: [{
+      id: 'asdf',
+      sensors: [{
+        type: 'ldr',
+        pin: 'A0',
+        reportInterval: 42,
+        reportIntervalUnit: 'seconds'
+      }]
+    }]
+  }, 'asdf').join('\n');
+
+  expect(output).toEqual(match(/\nldrSensor->setReportIntervalSeconds\(42\);/));
+});
+
 it('sets up the extra params for the rain sensor', () => {
   const output = sensorLines({
     nodes: [{

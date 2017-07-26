@@ -92,5 +92,5 @@ it('sets up sleep', () => {
     nodeId: 'asdf'
   });
 
-  expect(output).toEqual(match(/\n\s*nm\.setSleep\(1, 42, MINUTES\);/));
+  expect(output).toEqual(match(/\n\s*nm\.setSleepMinutes\(42\);/));
 });
