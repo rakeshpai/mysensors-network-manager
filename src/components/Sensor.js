@@ -7,6 +7,7 @@ import { RightAlignedLabel, InlineLabel } from './FormLabels';
 import { DeleteButton } from './Buttons';
 import { AnalogPins, DigitalPins, InterruptPins } from './Pins';
 import { Checkbox } from './FormControls';
+import TimeInput from './TimeInput';
 import { confirm } from './Modal';
 
 import { sensors, sensorsByType } from '../lib/constants';
@@ -35,7 +36,7 @@ const styles = {
   })
 };
 
-export default ({ sensor, sensorIndex, handlers }) => {
+export default ({ sensor, sensorIndex, handlers, nodeSleeps }) => {
   const sensorHandlers = handlers.sensorHandlers(sensorIndex);
 
   const pinProps = { value: sensor.pin, onChange: e => sensorHandlers.setPin(e.target.value) };
@@ -76,6 +77,24 @@ export default ({ sensor, sensorIndex, handlers }) => {
         )
       }
 
+      {sensorsByType[sensor.type].needsPolling && (
+        <RightAlignedLabel label='Report value every'>
+          <TimeInput
+            value={sensor.reportInterval}
+            unit={sensor.reportIntervalUnit}
+            onValueChange={e => sensorHandlers.setReportInterval(parseInt(e.target.value, 10))}
+            onUnitChange={e => sensorHandlers.setReportIntervalUnit(e.target.value)}
+            />
+
+          {nodeSleeps && (
+            <p className={info}>
+              If the node is asleep at this time, the value will be reported
+              the next time the node wakes up.
+            </p>
+          )}
+        </RightAlignedLabel>
+      )}
+
       {sensor.type === 'hcsr504' && (
         <div>
           <RightAlignedLabel label='Trigger pin'>
@@ -90,33 +109,9 @@ export default ({ sensor, sensorIndex, handlers }) => {
         </div>
       )}
 
-      {('reverse' in sensor) && (
-        <InlineLabel label='Reverse the reading from the sensor'
-          info='Reverses the reading for the sensor value and its percentage. Eg. 70% becomes 30%.'>
-          <Checkbox checked={sensor.reverse}
-            onChange={e => sensorHandlers.setReverse(e.target.checked)} />
-        </InlineLabel>
-      )}
-
-      {('usePowerPin' in sensor) && (
-        <div>
-          <InlineLabel label='Provide power using an external pin'
-            info='Recommended. Only powers the sensor on when a reading is needed.'>
-            <Checkbox checked={sensor.usePowerPin}
-              onChange={e => sensorHandlers.usePowerPin(e.target.checked)} />
-          </InlineLabel>
-
-          {sensor.usePowerPin && (
-            <RightAlignedLabel label='Power pin'>
-              <DigitalPins value={sensor.powerPin} onChange={e => sensorHandlers.setPowerPin(e.target.value)} />
-            </RightAlignedLabel>
-          )}
-        </div>
-      )}
-
       {('reportPercentage' in sensor) && (
         <div>
-          <InlineLabel label='Report values as a percentage'>
+          <InlineLabel label='Report value as a percentage'>
             <Checkbox checked={sensor.reportPercentage}
               onChange={e => sensorHandlers.setReportPercentage(e.target.checked)} />
           </InlineLabel>
@@ -144,8 +139,32 @@ export default ({ sensor, sensorIndex, handlers }) => {
         </div>
       )}
 
+      {('reverse' in sensor) && (
+        <InlineLabel label='Reverse the reading from the sensor'
+          info='Reverses the reading for the sensor value and its percentage. Eg. 70% becomes 30%.'>
+          <Checkbox checked={sensor.reverse}
+            onChange={e => sensorHandlers.setReverse(e.target.checked)} />
+        </InlineLabel>
+      )}
+
+      {('usePowerPin' in sensor) && (
+        <div>
+          <InlineLabel label='Provide power using an external pin'
+            info='Recommended. Powers on the sensor only when a reading is needed.'>
+            <Checkbox checked={sensor.usePowerPin}
+              onChange={e => sensorHandlers.usePowerPin(e.target.checked)} />
+          </InlineLabel>
+
+          {sensor.usePowerPin && (
+            <RightAlignedLabel label='Power pin'>
+              <DigitalPins value={sensor.powerPin} onChange={e => sensorHandlers.setPowerPin(e.target.value)} />
+            </RightAlignedLabel>
+          )}
+        </div>
+      )}
+
       {sensor.type === 'acs712' && (
-        <RightAlignedLabel label='Current'>
+        <RightAlignedLabel label='Maximum current'>
           <select value={sensor.mvPerAmp} onChange={e => sensorHandlers.setMvPerAmp(e.target.value)}>
             <option value={185}>5 Amps</option>
             <option value={100}>20 Amps</option>

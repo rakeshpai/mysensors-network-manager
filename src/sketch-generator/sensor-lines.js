@@ -7,7 +7,7 @@ export const getVariableSuffix = (sensor, sensors) => {
   return '' + (sensorsOfThisType.findIndex(s => s === sensor) + 1);
 }
 
-const sensorLines = (node, sensor, variableSuffix) => {
+const sensorLines = (sensor, variableSuffix) => {
   const matchingSensor = sensorsByType[sensor.type];
 
   const sensorHandle = sensor.type + variableSuffix;
@@ -19,7 +19,7 @@ const sensorLines = (node, sensor, variableSuffix) => {
     `${matchingSensor.nmClass}* ${sensorVariable} = ((${matchingSensor.nmClass}*)nm.getSensor(${sensorHandle}));`,
   ];
 
-  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(-1, ${sensor.powerPin.replace(/^[D]/, '')}, 300);`);
+  if(sensor.usePowerPin) lines.push(`${sensorVariable}->setPowerPins(-1, ${sensor.powerPin.replace(/^[D]/, '')}, 100);`);
 
   if('reportPercentage' in sensor) {
     lines.push(`${sensorVariable}->setOutputPercentage(${sensor.reportPercentage?'true':'false'});`);
@@ -29,6 +29,19 @@ const sensorLines = (node, sensor, variableSuffix) => {
       lines.push(`${sensorVariable}->setRangeMax(${sensor.percentageRangeMax});`);
     }
   }
+
+  if(sensorsByType[sensor.type].needsPolling) {
+    const reportIntervalUnit = sensor.reportIntervalUnit === 'seconds' ? 'seconds' : 'minutes';
+    const reportIntervalTime = ['seconds', 'minutes'].includes(sensor.reportIntervalUnit)
+      ? sensor.reportInterval
+      : sensor.reportIntervalUnit === 'hours'
+        ? sensor.reportInterval * 60  // hours
+        : sensor.reportInterval * 60 * 24 // days
+
+    lines.push(`${sensorVariable}->${reportIntervalUnit === 'seconds' ? 'setReportIntervalSeconds' : 'setReportIntervalMinutes'}(${reportIntervalTime});`);
+  }
+
+  if(sensor.reverse) lines.push(`${sensorVariable}->setReverse(true);`);
 
   if(sensor.type === 'rain') {
     lines.push(`${sensorVariable}->setPresentation(S_RAIN);`);
@@ -55,7 +68,7 @@ export default (network, nodeId) => {
   return node.sensors.reduce((lines, sensor) => {
     return [
       ...lines,
-      ...sensorLines(node, sensor, getVariableSuffix(sensor, node.sensors))
+      ...sensorLines(sensor, getVariableSuffix(sensor, node.sensors))
     ];
   }, []);
 }

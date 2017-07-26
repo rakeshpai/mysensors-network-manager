@@ -1,7 +1,7 @@
-import { sensors, analogPins, digitalPins } from '../lib/constants';
+import { sensorsByType, analogPins, digitalPins } from '../lib/constants';
 
 const getNextAvailablePin = (type, node, ignore = []) => {
-  const pinType = sensors.find(s => s.type === type).pinType;
+  const pinType = sensorsByType[type].pinType;
   const chip = (node.type === 'gateway' && node.gatewayType === 'esp8266') ? 'esp8266' : 'atmega328';
   const usedPins = [
     ...node.sensors.map(s => s.pin),
@@ -26,13 +26,18 @@ const defaultSensorValues = (sensorType, node) => {
   const defaults = {
     type: sensorType,
     pin: getNextAvailablePin(sensorType, node),
-    ...sensors.find(s => s.type === sensorType).defaults
+    ...sensorsByType[sensorType].defaults
   };
 
   if(defaults.usePowerPin) defaults.powerPin = getPowerPin(sensorType, node);
   if('reportPercentage' in defaults) {
     defaults.percentageRangeMin = 0;
     defaults.percentageRangeMax = 1024;
+  }
+
+  if(sensorsByType[sensorType].needsPolling) {
+    defaults.reportInterval = node.battery.powered ? node.sleepTime : 10;
+    defaults.reportIntervalUnit = node.battery.powered ? node.sleepUnit : 'minutes';
   }
 
   if(sensorType === 'acs712') defaults.mvPerAmp = 185;
@@ -89,6 +94,8 @@ export default (state, action) => {
     case 'SET_SENSOR_REPORT_PERCENTAGE': return ms({ reportPercentage: action.percent });
     case 'SET_SENSOR_PERCENTAGE_MIN': return ms({ percentageRangeMin: action.min });
     case 'SET_SENSOR_PERCENTAGE_MAX': return ms({ percentageRangeMax: action.max });
+    case 'SET_SENSOR_REPORT_INTERVAL': return ms({ reportInterval: action.time });
+    case 'SET_SENSOR_REPORT_INTERVAL_UNIT': return ms({ reportIntervalUnit: action.unit });
     case 'SET_SENSOR_MV_PER_AMP': return ms({ mvPerAmp: action.mvPerAmp});
     case 'SET_SENSOR_ON_VALUE': return ms({ onValue: action.value });
     case 'SET_SENSOR_INITIAL_VALUE': return ms({ initialValue: action.value });

@@ -10,6 +10,7 @@ import { AnalogPins } from './Pins';
 import PageMenu from './PageMenu';
 import Sensor from './Sensor';
 import SensorPicker from './SensorPicker';
+import TimeInput from './TimeInput';
 import { Button } from './Buttons';
 
 import { css } from 'glamor';
@@ -59,12 +60,12 @@ export const Form = ({ network, node, handlers }) => {
           {node.type !== 'gateway' && node.battery.powered && (
             <div>
               <RightAlignedLabel label='Sleep for'>
-                <input type='number' value={node.sleepTime}
-                  min='0' max='32767' className={css({ marginRight: 5 })}
-                  onChange={e => handlers.setSleepTime(parseInt(e.target.value, 10))} />
-                <select value={node.sleepUnit} onChange={e => handlers.setSleepUnit(e.target.value)}>
-                  {['seconds', 'minutes', 'hours', 'days'].map(u => <option key={u} value={u}>{u}</option>)}
-                </select>
+                <TimeInput
+                  value={node.sleepTime}
+                  unit={node.sleepUnit}
+                  onValueChange={e => handlers.setSleepTime(parseInt(e.target.value, 10))}
+                  onUnitChange={e => handlers.setSleepUnit(e.target.value)}
+                  />
               </RightAlignedLabel>
             </div>
           )}
@@ -76,7 +77,7 @@ export const Form = ({ network, node, handlers }) => {
               <ul className={css({marginBottom: 10, listStyle: 'none', padding: 0})}>
                 {node.sensors.map((sensor, sensorIndex) => (
                   <li key={sensorIndex}>
-                    <Sensor sensorIndex={sensorIndex}
+                    <Sensor sensorIndex={sensorIndex} nodeSleeps={node.battery.powered}
                       sensor={sensor} handlers={handlers} />
                   </li>
                 ))}

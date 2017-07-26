@@ -49,6 +49,8 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
         setReportPercentage: percent => ds('SET_SENSOR_REPORT_PERCENTAGE', { percent }),
         setPercentageMin: min => ds('SET_SENSOR_PERCENTAGE_MIN', { min }),
         setPercentageMax: max => ds('SET_SENSOR_PERCENTAGE_MAX', { max }),
+        setReportInterval: time => ds('SET_SENSOR_REPORT_INTERVAL', { time }),
+        setReportIntervalUnit: unit => ds('SET_SENSOR_REPORT_INTERVAL_UNIT', { unit }),
         setMvPerAmp: mvPerAmp => ds('SET_SENSOR_MV_PER_AMP', { mvPerAmp }),
         setOnValue: value => ds('SET_SENSOR_ON_VALUE', { value }),
         setInitialValue: value => ds('SET_SENSOR_INITIAL_VALUE', { value }),

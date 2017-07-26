@@ -19,7 +19,7 @@ const initialize = ({ network, nodeId }) => {
       lines.push('');
     }
 
-    lines.push(`nm.setSleep(1, ${node.sleepTime}, ${node.sleepUnit.toUpperCase()});`);
+    lines.push(`nm.setSleep${node.sleepUnit.charAt(0).toUpperCase()}${node.sleepUnit.slice(1)}(${node.sleepTime});`);
     lines.push('');
   }
 
@@ -29,53 +29,38 @@ const initialize = ({ network, nodeId }) => {
 }
 
 export const generateSketch = nodeParams => `
-// load user settings
 #include "config.h"
-// load MySensors library
 #include <MySensors.h>
-// load NodeManager library
 #include "NodeManager.h"
 
-// create a NodeManager instance
+// NodeManager instance
 NodeManager nm;
 
-// before
 void before() {
   // setup the serial port baud rate
   Serial.begin(9600);
 
   ${initialize(nodeParams)}
-
   nm.before();
 }
 
-// presentation
 void presentation() {
-  // call NodeManager presentation routine
   nm.presentation();
 }
 
-// setup
 void setup() {
-  // call NodeManager setup routine
   nm.setup();
 }
 
-// loop
 void loop() {
-  // call NodeManager loop routine
   nm.loop();
 }
 
-// receive
 void receive(const MyMessage &message) {
-  // call NodeManager receive routine
   nm.receive(message);
 }
 
-// receiveTime
 void receiveTime(unsigned long ts) {
-  // call NodeManager receiveTime routine
   nm.receiveTime(ts);
 }
 `;

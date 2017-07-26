@@ -77,6 +77,7 @@ export const sensors = [
   {
     label: 'Light dependent resistor (LDR)',
     pinType: 'analog',
+    needsPolling: true,
     type: 'ldr',
     nmType: 'LDR',
     nmClass: 'SensorLDR',
@@ -89,6 +90,7 @@ export const sensors = [
   {
     label: 'Rain sensor',
     pinType: 'analog',
+    needsPolling: true,
     type: 'rain',
     nmType: 'RAIN',
     nmClass: 'SensorRain',
@@ -101,6 +103,7 @@ export const sensors = [
   {
     label: 'Soil Moisture sensor',
     pinType: 'analog',
+    needsPolling: true,
     type: 'soil',
     nmType: 'SOIL_MOISTURE',
     nmClass: 'SensorSoilMoisture',
@@ -113,6 +116,7 @@ export const sensors = [
   // {
   //   label: 'Thermistor',
   //   pinType: 'analog',
+  //   needsPolling: true,
   //   type: 'thermistor',
   //   nmType: 'THERMISTOR',
   //   nmClass: 'SensorThermistor',
@@ -123,6 +127,7 @@ export const sensors = [
   {
     label: 'ACS712 current sensor',
     pinType: 'analog',
+    needsPolling: true,
     type: 'acs712',
     nmType: 'ACS712',
     nmClass: 'SensorACS712',
@@ -133,6 +138,7 @@ export const sensors = [
   // {
   //   label: 'Rain Guage',
   //   pinType: 'analog',
+  //   needsPolling: true,
   //   type: 'rainGuage',
   //   nmType: 'RAIN_GUAGE',
   //   nmClass: 'SensorRainGuage',
@@ -143,6 +149,7 @@ export const sensors = [
   {
     label: 'Generic analog input',
     pinType: 'analog',
+    needsPolling: true,
     type: 'analogInput',
     nmType: 'ANALOG_INPUT',
     nmClass: 'SensorAnalogInput',
