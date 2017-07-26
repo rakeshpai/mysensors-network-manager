@@ -4,12 +4,13 @@ import { css } from 'glamor';
 import { headingFontFamily } from '../styles/typography';
 import { headerBackground, headerColor } from '../styles/colors';
 
+import asyncComponent from '../lib/asyncComponent';
+
 import Notification from './Notification';
 import CreateNetwork from '../containers/CreateNetwork';
 import Network from '../containers/Network';
 import Gateway from '../containers/Gateway';
 import Node from '../containers/Node';
-import Code from '../containers/Code';
 
 import wrapInContainer from '../containers/wrapInContainer';
 import Home from './Home';
@@ -80,6 +81,8 @@ const styles = {
     }
   })
 };
+
+const Code = asyncComponent(() => import('../containers/Code'));
 
 export default ({ network }) => (
   <div className={styles.container}>

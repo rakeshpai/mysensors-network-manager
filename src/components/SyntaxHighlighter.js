@@ -1,35 +1,12 @@
-import React, { Component } from 'react';
-import { css } from 'glamor';
+import React from 'react';
+import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/dist/light';
+import cpp from 'react-syntax-highlighter/dist/languages/cpp';
+import style from 'react-syntax-highlighter/dist/styles/gruvbox-dark';
 
-const container = css({
-  overflow: 'scroll',
-  whiteSpace: 'pre',
-  maxHeight: 500
-});
+registerLanguage('cpp', cpp);
 
-export default class extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Component: props => <pre className={container}>{props.children}</pre>
-    }
-  }
-
-  componentDidMount() {
-    import('./SyntaxHighlighterBundle').then(({default: SyntaxHighlighter}) => {
-      this.setState({
-        Component: props => (
-          <SyntaxHighlighter className={container}>
-            {this.props.children}
-          </SyntaxHighlighter>
-        )
-      })
-    });
-  }
-
-  render() {
-    const Component = this.state.Component;
-
-    return <Component>{this.props.children}</Component>;
-  }
-}
+export default ({children, ...props}) => (
+  <SyntaxHighlighter language='cpp' style={style} {...props}>
+    {children}
+  </SyntaxHighlighter>
+)

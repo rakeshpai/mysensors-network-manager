@@ -7,6 +7,8 @@ import { switcherContainer, switcherItem, switcherItemSelected } from '../styles
 
 import { EditIcon, CodeIcon, HamburgerIcon } from './Icons';
 
+import asyncComponent from '../lib/asyncComponent';
+
 const styles = {
   menu: css({
     float: 'right',
@@ -86,26 +88,7 @@ const styles = {
   })
 }
 
-class AsyncHamburgerMenu extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { HamburgerMenu: null };
-  }
-
-  componentDidMount() {
-    import('./HamburgerMenu').then(({default: HamburgerMenu}) => {
-      this.setState({ HamburgerMenu });
-    });
-  }
-
-  render() {
-    const { HamburgerMenu } = this.state;
-    if(HamburgerMenu) return <HamburgerMenu {...this.props} />;
-
-    return <div>Loading...</div>
-  }
-}
+const AsyncHamburgerMenu = asyncComponent(() => import('./HamburgerMenu'));
 
 export default ({ network, node, view, handlers }) => {
   let dropdown;
