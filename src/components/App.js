@@ -21,6 +21,8 @@ import { modalStub } from './Modal';
 
 import { Route, Switch } from 'react-router-dom';
 
+const Code = asyncComponent(() => import('../containers/Code'));
+
 const styles = {
   container: css({
     minHeight: '100vh',
@@ -81,8 +83,6 @@ const styles = {
     }
   })
 };
-
-const Code = asyncComponent(() => import('../containers/Code'));
 
 export default ({ network }) => (
   <div className={styles.container}>

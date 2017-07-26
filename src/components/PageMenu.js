@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 
@@ -8,6 +8,8 @@ import { switcherContainer, switcherItem, switcherItemSelected } from '../styles
 import { EditIcon, CodeIcon, HamburgerIcon } from './Icons';
 
 import asyncComponent from '../lib/asyncComponent';
+
+const HamburgerMenu = asyncComponent(() => import('./HamburgerMenu'));
 
 const styles = {
   menu: css({
@@ -88,8 +90,6 @@ const styles = {
   })
 }
 
-const AsyncHamburgerMenu = asyncComponent(() => import('./HamburgerMenu'));
-
 export default ({ network, node, view, handlers }) => {
   let dropdown;
 
@@ -115,7 +115,7 @@ export default ({ network, node, view, handlers }) => {
           </span>
         </DropdownTrigger>
         <DropdownContent>
-          <AsyncHamburgerMenu {...{ network, node, handlers, closeDropdown }} />
+          <HamburgerMenu {...{ network, node, handlers, closeDropdown }} />
         </DropdownContent>
       </Dropdown>
     </div>
