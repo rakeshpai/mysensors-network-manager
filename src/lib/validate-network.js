@@ -1,4 +1,4 @@
-import { radios, sensors, analogPins, digitalPins } from './constants';
+import { radios, sensors, chips, digitalPins } from './constants';
 
 const createExpect = record => (value, path) => {
   const chainable = {
@@ -108,13 +108,13 @@ export default network => {
       ex(sensor.type, 'type').toBeOfSet(sensors.map(s => s.type));
 
       if(sensors.find(s => s.type === sensor.type).pinType === 'analog') {
-        ex(sensor.pin, 'pin').toBeOfSet(analogPins[chip]);
+        ex(sensor.pin, 'pin').toBeOfSet(chips[chip].pins.analog);
 
         if('reverse' in sensor) ex(sensor.reverse, 'reverse').toBeA('boolean');
         if('usePowerPin' in sensor) {
           ex(sensor.usePowerPin, 'usePowerPin').toBeA('boolean');
 
-          if(sensor.usePowerPin) ex(sensor.powerPin, 'powerPin').toBeOfSet(digitalPins[chip]);
+          if(sensor.usePowerPin) ex(sensor.powerPin, 'powerPin').toBeOfSet(chips[chip].pins.digital);
         }
 
         if('reportPercentage' in sensor) {

@@ -1,6 +1,7 @@
 import { spFiles, nmFiles } from '../lib/constants';
-import securityPersonalizer, { platformini as spPlatformini } from './security-personalizer';
-import nodeSketchFiles, { platformini as nodePlatformini } from './node-sketch-files';
+import securityPersonalizer from './security-personalizer';
+import nodeSketchFiles from './node-sketch-files';
+import platformioIni from './platformioini';
 
 const fileContents = ({ key }) => JSON.parse(window.localStorage.getItem(key)).text;
 
@@ -64,7 +65,7 @@ export const platformio = nodeParams => {
     })),
     {
       path: `${sketchName}/SecurityPersonalizer/platformio.ini`,
-      contents: spPlatformini()
+      contents: platformioIni(nodeParams)
     },
     ...nmFiles.map(file => ({
       path: `${sketchName}/${sketchName}/src/${file.name}`,
@@ -76,7 +77,7 @@ export const platformio = nodeParams => {
     })),
     {
       path: `${sketchName}/${sketchName}/platformio.ini`,
-      contents: nodePlatformini(nodeParams)
+      contents: platformioIni(nodeParams)
     }
   ]
 };

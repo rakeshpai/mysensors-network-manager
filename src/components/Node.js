@@ -12,6 +12,7 @@ import Sensor from './Sensor';
 import SensorPicker from './SensorPicker';
 import TimeInput from './TimeInput';
 import { Button } from './Buttons';
+import BoardPicker from './BoardPicker';
 
 import { css } from 'glamor';
 import { pageHeading, pageSubheading, subheading } from '../styles/typography';
@@ -19,20 +20,34 @@ import { info } from '../styles/forms';
 
 export const Form = ({ network, node, handlers }) => {
   let addSensorDropdown;
+  const chip = (node.type === 'gateway' && node.gatewayType === 'esp8266') ? 'esp8266' : 'atmega328';
 
   return (
     <ColumnContainer>
       <LeftColumn>
         <div>
           {node.type !== 'gateway' && (
-            <RightAlignedLabel label='Name this node'>
-              <input type='text' value={node.name}
-                onChange={e => handlers.setName(e.target.value)} />
-              <p className={info}>
-                Example: 'MotionSensor', or 'GardenLights'
-              </p>
-            </RightAlignedLabel>
+            <div>
+              <RightAlignedLabel label='Name this node'>
+                <input type='text' value={node.name}
+                  onChange={e => handlers.setName(e.target.value)} />
+                <p className={info}>
+                  Example: 'MotionSensor', or 'GardenLights'
+                </p>
+              </RightAlignedLabel>
+
+              <RightAlignedLabel label='Board'>
+                <BoardPicker filter={b => b.chip === chip}
+                  value={node.board}
+                  recommended='pro8MHzatmega328'
+                  onChange={e => handlers.setBoard(e.target.value)} />
+                <p className={info}>
+                  Pick the board that you are basing the node on.
+                </p>
+              </RightAlignedLabel>
+            </div>
           )}
+
           {network.radio === 'NRF24L01+' && (
             <InlineLabel
               label={'This node uses the NRF24L01+ PA+LNA module with a good power supply.'}
@@ -77,8 +92,7 @@ export const Form = ({ network, node, handlers }) => {
               <ul className={css({marginBottom: 10, listStyle: 'none', padding: 0})}>
                 {node.sensors.map((sensor, sensorIndex) => (
                   <li key={sensorIndex}>
-                    <Sensor sensorIndex={sensorIndex} nodeSleeps={node.battery.powered}
-                      sensor={sensor} handlers={handlers} />
+                    <Sensor {...{ node, sensorIndex, sensor, handlers }} />
                   </li>
                 ))}
               </ul>

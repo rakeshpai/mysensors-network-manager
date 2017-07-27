@@ -1,5 +1,5 @@
 import React from 'react';
-import { analogPins, digitalPins, pwmPins, interruptPins } from '../lib/constants';
+import { chips } from '../lib/constants';
 
 const Dropdown = ({pinList, ...props}) => (
   <select {...props}>
@@ -7,7 +7,7 @@ const Dropdown = ({pinList, ...props}) => (
   </select>
 );
 
-export const AnalogPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={analogPins[chip]} {...props} />;
-export const DigitalPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={digitalPins[chip]} {...props} />;
-export const PWMPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={pwmPins[chip]} {...props} />;
-export const InterruptPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={interruptPins[chip]} {...props} />;
+export const AnalogPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={chips[chip].pins.analog} {...props} />;
+export const DigitalPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={chips[chip].pins.digital} {...props} />;
+export const PWMPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={chips[chip].pins.pwm} {...props} />;
+export const InterruptPins = ({ chip = 'atmega328', ...props }) => <Dropdown pinList={chips[chip].pins.interrupt} {...props} />;

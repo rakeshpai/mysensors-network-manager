@@ -13,6 +13,7 @@ import { RightAlignedLabel, InlineLabel } from './FormLabels';
 import { Checkbox, RadioButton } from './FormControls';
 import { NavPage, ColumnContainer, LeftColumn, RightColumn } from './Layouts';
 import PageMenu from './PageMenu';
+import BoardPicker from './BoardPicker';
 import { Form as NodeForm } from './Node';
 import HelpFooter from './HelpFooter';
 import NotFound from './NotFound';
@@ -123,6 +124,16 @@ export default props => {
               Which type of gateway are you using?
               <GatewayTypePicker selectedGatewayType={gateway.gatewayType}
                 onGatewayTypeChange={e => handlers.setType(e.target.value)} />
+
+              <RightAlignedLabel label='Board'>
+                <BoardPicker filter={b => b.chip === (gateway.gatewayType === 'esp8266' ? 'esp8266' : 'atmega328')}
+                  value={gateway.board}
+                  recommended={gateway.gatewayType === 'esp8266' ? 'd1_mini' : 'pro8MHzatmega328'}
+                  onChange={e => handlers.setBoard(e.target.value)} />
+                <p className={info}>
+                  Pick the board that you are basing the node on.
+                </p>
+              </RightAlignedLabel>
 
 
               {['esp8266', 'ethernet'].includes(gateway.gatewayType) && (

@@ -1,9 +1,17 @@
+import { boardsById } from '../lib/constants';
+
 export default (state, action) => {
   // 'dm' is for deepModify, modifies a key under the state object.
   const dm = (key, modified) => ({ ...state, [key]: { ...state[key], ...modified}});
 
   switch(action.type.slice(('GATEWAY/').length)) {
-    case 'SET_TYPE': return { ...state, gatewayType: action.gatewayType };
+    case 'SET_TYPE': return {
+      ...state,
+      gatewayType: action.gatewayType,
+      board: (state.board && action.gatewayType === 'esp8266' && boardsById[state.board].chip === 'esp8266')
+        ? state.board
+        : (state.board && boardsById[state.board].chip === 'atmega328') ? state.board : null
+    };
 
     case 'SET_DHCP': return dm('ethernet', { dhcp: action.dhcp });
     case 'SET_IP': return dm('ethernet', { ip: action.ip });

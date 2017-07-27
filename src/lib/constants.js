@@ -53,25 +53,64 @@ export const nmFiles = ([
   { key: 'nm-h', name: 'NodeManager.h' }
 ]).map(f => ({ ...f, path: 'https://raw.githubusercontent.com/mysensors/NodeManager/master/' }));
 
-export const analogPins = {
-  atmega328: Array(8).fill(0).map((_, i) => `A${i}`),
-  esp8266: [ 'A0' ]
-};
+export const chips = {
+  atmega328: {
+    platform: 'atmelavr',
+    pins: {
+      analog: Array(8).fill(0).map((_, i) => `A${i}`),
+      digital: [
+        ...Array(14).fill(0).map((_, i) => `D${i}`),
+        ...Array(8).fill(0).map((_, i) => `A${i}`)  // all analog pins
+      ],
+      pwm: [ 3,5,6,10,11 ].map(i => `D${i}`),
+      interrupt: [ 'D2', 'D3' ]
+    }
+  },
+  esp8266: {
+    platform: 'espressif8266',
+    pins: {
+      analog: [ 'A0' ],
+      digital: [ 0,1,2,3,4,5,12,13,14,15,16 ].map(i => `D${i}`),
+      pwm: [ 0,1,2,3,4,5,12,13,14,15,16 ].map(i => `D${i}`),  // all digital pins
+      interrupt: [ 0,1,2,3,4,5,12,13,14,15 ].map(i => `D${i}`) // all except D16
+    }
+  }
+}
 
-export const digitalPins = {
-  atmega328: [ ...Array(14).fill(0).map((_, i) => `D${i}`), ...analogPins.atmega328 ],
-  esp8266: [ 0,1,2,3,4,5,12,13,14,15,16 ].map(i => `D${i}`)
-};
+export const boards = [
+  {
+    id: 'pro8MHzatmega328',
+    name: 'Arduino Pro Mini 3.3v',
+    chip: 'atmega328'
+  },
+  {
+    id: 'pro16MHzatmega328',
+    name: 'Arduino Pro Mini 5v',
+    chip: 'atmega328'
+  },
+  {
+    id: 'nanoatmega328',
+    name: 'Arduino Nano',
+    chip: 'atmega328'
+  },
+  {
+    id: 'uno',
+    name: 'Arduino Uno',
+    chip: 'atmega328'
+  },
+  {
+    id: 'nodemcuv2',
+    name: 'NodeMCU 1.0 (ESP-12E Module)',
+    chip: 'esp8266'
+  },
+  {
+    id: 'd1_mini',
+    name: 'Wemos D1 mini',
+    chip: 'esp8266'
+  }
+];
 
-export const pwmPins = {
-  atmega328: [ 3,5,6,10,11 ].map(i => `D${i}`),
-  esp8266: [ ...digitalPins.esp8266 ]
-};
-
-export const interruptPins = {
-  atmega328: [ 'D2', 'D3' ],
-  esp8266: [ ...digitalPins.esp8266.filter(p => p !== 'D16') ]
-};
+export const boardsById = boards.reduce((acc, board) => ({ ...acc, [board.id]: board }), {});
 
 export const sensors = [
   {

@@ -1,4 +1,4 @@
-import { sensorsByType, analogPins, digitalPins } from '../lib/constants';
+import { sensorsByType, chips } from '../lib/constants';
 
 const getNextAvailablePin = (type, node, ignore = []) => {
   const pinType = sensorsByType[type].pinType;
@@ -10,7 +10,7 @@ const getNextAvailablePin = (type, node, ignore = []) => {
     ...ignore
   ];
 
-  return (pinType === 'analog' ? analogPins : digitalPins)[chip].find(p => !usedPins.includes(p));
+  return chips[chip].pins[pinType].find(p => !usedPins.includes(p));
 }
 
 const getPowerPin = (type, node) => {
@@ -19,7 +19,7 @@ const getPowerPin = (type, node) => {
   if(usedPowerPins.length) return usedPowerPins[0];
 
   const usedPins = node.sensors.map(s => s.pin);
-  return digitalPins[chip].find(p => !usedPins.includes(p));
+  return chips[chip].pins.digital.find(p => !usedPins.includes(p));
 }
 
 const defaultSensorValues = (sensorType, node) => {
@@ -63,6 +63,7 @@ export default (state, action) => {
 
   switch(action.type.slice(('NODE/').length)) {
     case 'SET_NAME': return m({ name: action.name });
+    case 'SET_BOARD': return m({ board: action.board });
     case 'SET_DEVICE_KEY': return m({ key: action.key });
     case 'SET_PA': return m({ pa: action.pa });
     case 'SET_HW': return m({ hw: action.hw });

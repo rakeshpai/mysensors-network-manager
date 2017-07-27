@@ -18,6 +18,7 @@ export const createHandlers = dispatch => (networkId, nodeId) => {
     deleteNode: _ => { d('DELETE'); dispatch(push(`/networks/${networkId}`)); },
 
     setName: name => d('SET_NAME', { name }),
+    setBoard: board => d('SET_BOARD', { board }),
     setDeviceKey: key => d('SET_DEVICE_KEY', { key }),
     setPA: pa => d('SET_PA', { pa }),
     setHW: hw => d('SET_HW', { hw }),

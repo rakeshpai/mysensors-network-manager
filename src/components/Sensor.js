@@ -10,7 +10,7 @@ import { Checkbox } from './FormControls';
 import TimeInput from './TimeInput';
 import { confirm } from './Modal';
 
-import { sensors, sensorsByType } from '../lib/constants';
+import { sensors, sensorsByType, boardsById } from '../lib/constants';
 
 const styles = {
   container: css({
@@ -36,7 +36,7 @@ const styles = {
   })
 };
 
-export default ({ sensor, sensorIndex, handlers, nodeSleeps }) => {
+export default ({ node, sensor, sensorIndex, handlers }) => {
   const sensorHandlers = handlers.sensorHandlers(sensorIndex);
 
   const pinProps = { value: sensor.pin, onChange: e => sensorHandlers.setPin(e.target.value) };
@@ -55,13 +55,13 @@ export default ({ sensor, sensorIndex, handlers, nodeSleeps }) => {
 
       {(sensorsByType[sensor.type].pinType === 'analog') && (
         <RightAlignedLabel label='Sense pin'>
-          <AnalogPins {...pinProps} />
+          <AnalogPins {...pinProps} chip={boardsById[node.board || 'pro8MHzatmega328'].chip} />
         </RightAlignedLabel>
       )}
 
       {(['relay', 'latchingRelay', 'digitalOutput'].includes(sensor.type)) && (
         <RightAlignedLabel label='Output pin'>
-          <DigitalPins {...pinProps} />
+          <DigitalPins {...pinProps} chip={boardsById[node.board || 'pro8MHzatmega328'].chip} />
         </RightAlignedLabel>
       )}
 
@@ -72,7 +72,7 @@ export default ({ sensor, sensorIndex, handlers, nodeSleeps }) => {
           .includes(sensor.type)
         && (
           <RightAlignedLabel label='Sense pin'>
-            <InterruptPins {...pinProps} />
+            <InterruptPins {...pinProps} chip={boardsById[node.board || 'pro8MHzatmega328'].chip} />
           </RightAlignedLabel>
         )
       }
@@ -86,7 +86,7 @@ export default ({ sensor, sensorIndex, handlers, nodeSleeps }) => {
             onUnitChange={e => sensorHandlers.setReportIntervalUnit(e.target.value)}
             />
 
-          {nodeSleeps && (
+          {node.battery.powered && (
             <p className={info}>
               If the node is asleep at this time, the value will be reported
               the next time the node wakes up.

@@ -6,6 +6,7 @@ import nodeReducer from './node';
 
 const defaultNode = _ => ({
   name: 'MyNode',
+  board: 'pro8MHzatmega328',
   type: 'node',
   key: generateHexNumber(18),
   pa: false,
