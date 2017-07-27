@@ -2,16 +2,20 @@ const migrations = [
   network => network, // Need this for seeding
 ];
 
-export const currentVersion = migrations.length;
-
 export default (state, action) => {
   if(action.type !== 'MIGRATE') return state;
 
   return {
     ...state,
-    networks: migrations.slice(state.version ? state.version - 1 : 0).reduce((acc, migrate) => {
-      return acc.map(migrate);
-    }, state.networks),
-    version: migrations.length
+    networks: state.networks.map(network => {
+      const migrationsToApply = migrations.slice(network.version || 0);
+
+      if(migrationsToApply.length) console.log(`Migrating network ${network.id}...`);
+
+      return {
+        ...migrationsToApply.reduce((network, migrate) => migrate(network), network),
+        version: migrations.length
+      }
+    })
   }
 }

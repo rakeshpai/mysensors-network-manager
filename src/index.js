@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 
 import './index.css';
@@ -16,7 +16,6 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import registerServiceWorker from './registerServiceWorker';
 import cacheFiles from './lib/cache-files';
-import { currentVersion } from './reducers/migrations';
 import { createLogger } from 'redux-logger';
 
 import ga from 'react-ga';
@@ -34,9 +33,11 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(...middleware),
-    persistState(['networks', 'version'], {key: 'app-data'})
+    persistState(['networks'], {key: 'app-data'})
   )
 );
+
+store.dispatch({ type: 'MIGRATE' });
 
 if(process.env.NODE_ENV === 'production') {
   ga.initialize('UA-100686637-1');
@@ -47,28 +48,15 @@ if(process.env.NODE_ENV === 'production') {
   });
 }
 
-
-class Root extends Component {
-  componentWillMount() {
-    store.dispatch({ type: 'MIGRATE' });
-  }
-
-  render() {
-    if(store.getState().version !== currentVersion) return <div></div>;
-
-    return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <ScrollToTop>
-            <App network={store.getState().network} />
-          </ScrollToTop>
-        </ConnectedRouter>
-      </Provider>
-    )
-  }
-}
-
-render(<Root />, document.getElementById('root'));
+render((
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
+    </ConnectedRouter>
+  </Provider>
+), document.getElementById('root'));
 
 registerServiceWorker();
 cacheFiles()

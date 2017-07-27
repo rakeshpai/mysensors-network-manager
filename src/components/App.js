@@ -84,7 +84,7 @@ const styles = {
   })
 };
 
-export default ({ network }) => (
+export default () => (
   <div className={styles.container}>
     <Notification />
     {modalStub}
@@ -113,8 +113,8 @@ export default ({ network }) => (
         Like what you see? Please let us know!
         {' '}
         <a target='_blank' rel='noopener noreferrer' href='https://forum.mysensors.org/topic/6980/browser-based-firmware-generator/'>Forum thread</a>,
-          {' '}
-          <a target='_blank' rel='noopener noreferrer' href='https://github.com/rakeshpai/mysensors-network-manager'>GitHub</a>.
+        {' '}
+        <a target='_blank' rel='noopener noreferrer' href='https://github.com/rakeshpai/mysensors-network-manager'>GitHub</a>.
       </div>
     </footer>
   </div>
