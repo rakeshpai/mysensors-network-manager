@@ -1,7 +1,13 @@
 import { boardsById, chips } from '../lib/constants';
 
-export default ({ network, nodeId }) => {
+export default ({ network, nodeId, isSecurityPersonalizer }) => {
   const board = network.nodes.find(n => n.id === nodeId).board;
+
+  const dependencies = ['https://github.com/mysensors/MySensors#development'];
+
+  if(!isSecurityPersonalizer) {
+    dependencies.push('https://github.com/mysensors/NodeManager#development');
+  }
 
   return `
 ; PlatformIO Project Configuration File
@@ -17,5 +23,5 @@ export default ({ network, nodeId }) => {
 platform = ${chips[boardsById[board].chip].platform}
 framework = arduino
 board = ${board}
-lib_deps = https://github.com/mysensors/MySensors#development
+lib_deps = ${dependencies.join(', ')}
 `};

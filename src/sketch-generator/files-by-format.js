@@ -65,19 +65,15 @@ export const platformio = nodeParams => {
     })),
     {
       path: `${sketchName}/SecurityPersonalizer/platformio.ini`,
-      contents: platformioIni(nodeParams)
+      contents: platformioIni({ ...nodeParams, isSecurityPersonalizer: true })
     },
-    ...nmFiles.map(file => ({
-      path: `${sketchName}/${sketchName}/src/${file.name}`,
-      contents: fileContents(file)
-    })),
     ...nodeSketchFiles(nodeParams, sketchName).map(file => ({
       path: `${sketchName}/${sketchName}/src/${file.name}`,
       contents: file.contents
     })),
     {
       path: `${sketchName}/${sketchName}/platformio.ini`,
-      contents: platformioIni(nodeParams)
+      contents: platformioIni({ ...nodeParams, isSecurityPersonalizer: false })
     }
   ]
 };
