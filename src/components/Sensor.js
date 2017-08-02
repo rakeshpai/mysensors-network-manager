@@ -67,7 +67,7 @@ export default ({ node, sensor, sensorIndex, handlers }) => {
 
       {
         sensors
-          .filter(s => s.defaults && 'interruptMode' in s.defaults)
+          .filter(s => s.pinType === 'interrupt')
           .map(s => s.type)
           .includes(sensor.type)
         && (

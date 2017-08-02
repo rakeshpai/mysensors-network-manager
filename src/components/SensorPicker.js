@@ -15,7 +15,7 @@ export default ({dropdownRef, ...props}) => (
     <optgroup label='Digital sensors'>
       {
         sensors
-        .filter(({ pinType }) => pinType === 'digital')
+        .filter(({ pinType }) => pinType === 'digital' || pinType === 'interrupt')
         .map(Option)
       }
     </optgroup>

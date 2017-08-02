@@ -228,7 +228,7 @@ export const sensors = [
   },
   {
     label: 'Switch',
-    pinType: 'digital',
+    pinType: 'interrupt',
     type: 'inputSwitch',
     nmType: 'SWITCH',
     nmClass: 'SensorSwitch',
@@ -240,7 +240,7 @@ export const sensors = [
   },
   {
     label: 'Door',
-    pinType: 'digital',
+    pinType: 'interrupt',
     type: 'door',
     nmType: 'DOOR',
     nmClass: 'SensorDoor',
@@ -252,7 +252,7 @@ export const sensors = [
   },
   {
     label: 'PIR Motion sensor',
-    pinType: 'digital',
+    pinType: 'interrupt',
     type: 'motion',
     nmType: 'MOTION',
     nmClass: 'SensorMotion',
