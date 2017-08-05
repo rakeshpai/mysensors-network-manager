@@ -1,3 +1,5 @@
+import { boardsById } from '../lib/constants';
+
 export const sketchConfiguration = (network, node) => `
 /**********************************
  * Sketch configuration
@@ -26,9 +28,11 @@ export const radioConfiguration = (network, node) => {
 ${node.hw ? '' : '//'}#define MY_IS_RFM69HW
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ENABLE_ENCRYPTION
+${boardsById[node.board].chip === 'esp8266' ? `
 #define MY_RF69_IRQ_PIN D1
 #define MY_RF69_IRQ_NUM MY_RF69_IRQ_PIN
-#define MY_RF69_SPI_CS D2
+#define MY_RFM69_CS_PIN D8
+`:''}
 //#define MY_DEBUG_VERBOSE_RFM69
 `
   }
