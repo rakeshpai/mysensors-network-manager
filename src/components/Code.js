@@ -7,7 +7,7 @@ import SyntaxHighlighter from './SyntaxHighlighter';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 
 import tabs from '../styles/tabs';
-import { pageHeading } from '../styles/typography';
+import { PageHeading } from '../styles/blocks';
 
 import nodeSketchFiles from '../sketch-generator/node-sketch-files';
 
@@ -30,9 +30,9 @@ export default props => {
     <NavPage {...props}>
       <PageMenu network={network} node={node} handlers={handlers} view='code' />
 
-      <h2 className={pageHeading}>
+      <PageHeading>
         {node.name} Code
-      </h2>
+      </PageHeading>
 
       <Tabs className={tabs.toString()} defaultIndex={0}>
         <TabList>

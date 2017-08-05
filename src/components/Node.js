@@ -15,7 +15,8 @@ import { Button } from './Buttons';
 import BoardPicker from './BoardPicker';
 
 import { css } from 'glamor';
-import { pageHeading, pageSubheading, subheading } from '../styles/typography';
+import { PageHeading } from '../styles/blocks';
+import { pageSubheading, subheading } from '../styles/typography';
 import { info } from '../styles/forms';
 
 export const Form = ({ network, node, handlers }) => {
@@ -213,9 +214,10 @@ export default props => {
     <NavPage {...props}>
       <PageMenu network={network} node={node} handlers={handlers} view='edit' />
 
-      <h2 className={pageHeading}>
+      <PageHeading>
         {node.name || 'Unnamed node'}
-      </h2>
+      </PageHeading>
+
       <p className={pageSubheading}>
         Describe how this node is built
       </p>

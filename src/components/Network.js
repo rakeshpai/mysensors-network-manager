@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { css } from 'glamor';
-import { pageHeading, pageSubheading } from '../styles/typography';
+import { PageHeading } from '../styles/blocks';
+import { pageSubheading } from '../styles/typography';
 import { info } from '../styles/forms';
 
 import { NavPage } from './Layouts';
@@ -35,9 +36,9 @@ export default props => {
     <PageMenu network={network}
       handlers={({ addNode: props.addNode, deleteNetwork: props.deleteNetwork })} />
 
-    <h2 className={pageHeading}>
+    <PageHeading>
       {network.radio} based network
-    </h2>
+    </PageHeading>
     <p className={pageSubheading}>
       Operating at {frequencyString}.
     </p>

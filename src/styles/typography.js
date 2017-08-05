@@ -11,6 +11,7 @@ export const pageHeading = css({
   fontSize: 40,
   margin: '30px 0 20px',
   color: '#888',
+  outline: 'none',
 
   [breakpoint]: {
     marginTop: 10

@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { gatewayTypes } from '../lib/constants';
 
 import { css } from 'glamor';
-import { pageHeading, pageSubheading, subheading } from '../styles/typography';
+import { PageHeading } from '../styles/blocks';
+import { pageSubheading, subheading } from '../styles/typography';
 import { info, outlineStyle } from '../styles/forms';
 import { success } from '../styles/colors';
 import tabs from '../styles/tabs';
@@ -104,9 +105,9 @@ export default props => {
     <NavPage {...props}>
       <PageMenu network={network} node={gateway} handlers={handlers} view='edit' />
 
-      <h2 className={pageHeading}>
+      <PageHeading>
         Gateway
-      </h2>
+      </PageHeading>
       <p className={pageSubheading}>
         The gateway acts as the bridge between the {network.radio} network, and the controller running on a computer.
       </p>

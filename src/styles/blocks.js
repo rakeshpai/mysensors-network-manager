@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from 'glamor';
+import { pageHeading } from './typography';
 
 const info = css({
   padding: '10px 15px',
@@ -13,3 +14,13 @@ const info = css({
   }
 });
 export const Info = ({ children }) => <div className={info}>{children}</div>
+
+const focus = e => {
+  e && e.focus();
+}
+
+export const PageHeading = ({ children }) => (
+  <h2 className={pageHeading} tabIndex={-1} ref={focus}>
+    {children}
+  </h2>
+);
