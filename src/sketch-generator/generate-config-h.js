@@ -21,6 +21,8 @@ export const radioConfiguration = (network, node) => {
 //#define MY_DEBUG_VERBOSE_RF24
 `
   } else {
+    const isEsp8266 = boardsById[node.board] && boardsById[node.board].chip === 'esp8266';
+
     return `
 // RFM69 radio settings
 #define MY_RADIO_RFM69
@@ -28,7 +30,9 @@ export const radioConfiguration = (network, node) => {
 ${node.hw ? '' : '//'}#define MY_IS_RFM69HW
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ENABLE_ENCRYPTION
-${boardsById[node.board].chip === 'esp8266' ? `
+//#define MY_RFM69_NETWORKID 100
+${isEsp8266 ? `
+// Settings for ESP8266
 #define MY_RF69_IRQ_PIN D1
 #define MY_RF69_IRQ_NUM MY_RF69_IRQ_PIN
 #define MY_RFM69_CS_PIN D8
@@ -148,6 +152,8 @@ export const nodeManagerConfiguration = (network, node) => `
 #define PERSIST 0
 // if enabled, a battery sensor will be created at BATTERY_CHILD_ID and will report vcc voltage together with the battery level percentage
 #define BATTERY_SENSOR ${node.battery.powered ? '1' : '0'}
+// if enabled, a signal sensor will be created at RSSI_CHILD_ID (202 by default) and will report the signal quality of the transport layer
+#define SIGNAL_SENSOR 1
 // if enabled, send a SLEEPING and AWAKE service messages just before entering and just after leaving a sleep cycle and STARTED when starting/rebooting
 #define SERVICE_MESSAGES 0
 
